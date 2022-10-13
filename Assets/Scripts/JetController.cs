@@ -24,10 +24,21 @@ namespace Phoenix
         #endregion
 
 
+        #region [Vars: Properties]
+
+        [SerializeField, Range(0,360)]
+        float angleLimit = 360;
+
+        public enum FaceMode { Right, Left, Up, Down }
+        [SerializeField]
+        FaceMode faceMode = FaceMode.Right;
+
+        #endregion
+
+
         #region [Vars: Data Handlers]
 
         Vector2 moveDirection;
-        Vector2 cursorWorldPos;
         [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!"+nameof(jet))]
         JetComponents jet;
         float fireCooldown;
@@ -77,10 +88,43 @@ namespace Phoenix
 
         void RotateToCursor()
         {
-            cursorWorldPos = brain.GetCursorWorldPosition();
-            var margin = (Vector2)transform.position - cursorWorldPos;
-            var angle = Mathf.Atan2(margin.y, margin.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, angle));
+            var positionToCursor = (Vector2)transform.position - brain.GetCursorWorldPosition();
+            var newAngle = Mathf.Atan2(positionToCursor.y, positionToCursor.x) * Mathf.Rad2Deg;
+            var validatedAngle = ValidateAngle(newAngle);
+            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, validatedAngle));
+
+            float ValidateAngle(float newAngle)
+            {
+                switch (faceMode)
+                {
+                    case FaceMode.Right:
+                        if (newAngle > 0 && newAngle < 180 - angleLimit / 2)
+                            return 180 - angleLimit / 2;
+                        else if (newAngle < 0 && newAngle > -180 + angleLimit / 2)
+                            return -180 + angleLimit / 2;
+                        else break;
+                    case FaceMode.Left:
+                        if (newAngle > angleLimit / 2)
+                            return angleLimit / 2;
+                        else if (newAngle < -angleLimit / 2)
+                            return -angleLimit / 2;
+                        else break;
+                    case FaceMode.Up:
+                        if (newAngle > -90 + angleLimit / 2)
+                            return -90 + angleLimit / 2;
+                        else if (newAngle < -90 - angleLimit / 2)
+                            return -90 - angleLimit / 2;
+                        else break;
+                    case FaceMode.Down:
+                        if (newAngle < 90 - angleLimit / 2)
+                            return 90 - angleLimit / 2;
+                        else if (newAngle > 90 + angleLimit / 2)
+                            return 90 + angleLimit / 2;
+                        else break;
+                }
+
+                return newAngle;
+            }
         }
 
         void Move()

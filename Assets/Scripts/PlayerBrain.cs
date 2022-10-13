@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Phoenix.PhoenixControls;
+using Cinemachine;
 
 namespace Phoenix
 {
@@ -15,6 +16,9 @@ namespace Phoenix
 
         [SerializeField]
         CursorDisplayer cursorDisplayerPrefab;
+
+        [SerializeField]
+        CinemachineVirtualCamera vCamPrefab;
 
         #endregion
 
@@ -42,6 +46,10 @@ namespace Phoenix
             controls.Enable();
 
             var jet = GetComponent<JetController>();
+
+            var vCam = Instantiate(vCamPrefab);
+            vCam.Follow = transform;
+            Camera.main.gameObject.AddComponent<CinemachineBrain>();
 
             Cursor.visible = false;
             cursorDisplayer = Instantiate(cursorDisplayerPrefab);
