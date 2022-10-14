@@ -78,6 +78,11 @@
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
     <Compile Include="Assets\Scripts\Utility\CoroutineUtility.cs" />
     <Compile Include="Assets\Scripts\Brains\Brain.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovement.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefault.cs" />
+    <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
+    <Compile Include="Assets\Scripts\Environments\WindManager.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementWind.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

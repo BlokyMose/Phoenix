@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e48b788bab1d1d43a7b1a1f6b433ce3, type: 3}
+  m_Name: BP_Default
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 4973843392305255096, guid: 77f09c10223b93c4da568bf937c5f6df, type: 3}
+  bulletMovement: {fileID: 11400000, guid: 99288b97c05646a4a9de62b4597766ff, type: 2}
+  destroyedVFX: {fileID: 0}
+  damage: 10
+  lifeDuration: 4
+  speed: 3.33
+  pushForce: 33
+  matchBulletPrefabCollider: 1
+  colliderSize: {x: 1, y: 1}
+  colliderOffset: {x: 0, y: 0.5}

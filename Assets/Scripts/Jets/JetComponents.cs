@@ -14,7 +14,7 @@ namespace Phoenix
         {
             public string name;
             public List<Transform> origins = new List<Transform>();
-            public enum FirePattern { Sequence, ConcurrentInstant, ConcurrentCooldown }
+            public enum FirePattern { Sequence, ConcurrentInstant, ConcurrentCooldown, SequenceRandom }
             public FirePattern pattern = FirePattern.Sequence;
         }
 

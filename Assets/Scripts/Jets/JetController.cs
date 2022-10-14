@@ -195,7 +195,8 @@ namespace Phoenix
 
             switch (currentFireMode.pattern)
             {
-                case FireMode.FirePattern.Sequence: currentFireOrigin %= currentFireMode.origins.Count;
+                case FireMode.FirePattern.Sequence: 
+                    currentFireOrigin %= currentFireMode.origins.Count;
                     break;
                 case FireMode.FirePattern.ConcurrentInstant:
                     if (currentFireOrigin / currentFireMode.origins.Count != 1)
@@ -211,6 +212,9 @@ namespace Phoenix
                         Fire();
                     else
                         currentFireOrigin = 0;
+                    break;
+                case FireMode.FirePattern.SequenceRandom:
+                    currentFireOrigin = UnityEngine.Random.Range(0, currentFireMode.origins.Count);
                     break;
 
             }

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9084e799bd88b734b86ef02ac0aeb8b0, type: 3}
-  m_Name: Kaze
+  m_Name: JP_Default
   m_EditorClassIdentifier: 
-  jetPrefab: {fileID: 2100370564644136921, guid: a8dc63f11decee8428a1ad1eaaecd7bd, type: 3}
+  jetPrefab: {fileID: 0}
   moveSpeed: 0.33
   maxVelocity: 10
   cursorSpeed: 0.2
   linearDrag: 1
-  rps: 5
-  cursor: {fileID: 5380371159089511090, guid: 20471ba2825c25f42b2648ebb688720e, type: 3}
+  rps: 2
+  cursor: {fileID: 0}

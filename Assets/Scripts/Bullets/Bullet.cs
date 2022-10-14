@@ -11,26 +11,35 @@ namespace Phoenix
         #region [Vars: Data Handlers]
 
         BulletProperties bulletProperties;
+        public BulletProperties BulletProperties => bulletProperties;
         bool isActive = false;
-        Vector2 destination;
         GameObject bulletSprite;
 
         #endregion
+
+
+        #region [Vars: Components]
+
+        Rigidbody2D rb;
+        public Rigidbody2D RigidBody => rb;
+
+        #endregion
+
 
         Coroutine corDestroyingSelf;
 
         public void Init(BulletProperties bulletProperties)
         {
-            this.bulletProperties = bulletProperties;
-            destination = transform.up * 1000;
-
             #region [Setup RB2D]
 
-            var rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
             rb.gravityScale = 0;
-            rb.mass = 0;
 
             #endregion
+
+            this.bulletProperties = bulletProperties;
+            bulletProperties.bulletMovement.ModifyBullet(this);
+
 
             #region [Setup Collider]
 
@@ -60,7 +69,7 @@ namespace Phoenix
 
         void FixedUpdate()
         {
-            transform.position = Vector2.MoveTowards(transform.position, destination, bulletProperties.speed/10f);
+            bulletProperties.bulletMovement.Move(this);
         }
 
         /// <summary>
