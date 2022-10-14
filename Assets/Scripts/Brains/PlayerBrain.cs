@@ -9,9 +9,8 @@ using Cinemachine;
 namespace Phoenix
 {
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerBrain : MonoBehaviour, IPlayerActions
+    public class PlayerBrain : Brain, IPlayerActions
     {
-
         #region [Vars: Components]
 
         [SerializeField]
@@ -20,8 +19,12 @@ namespace Phoenix
         [SerializeField]
         CinemachineVirtualCamera vCamPrefab;
 
-        #endregion
+        [SerializeField]
+        bool instantiateVCam = true;
 
+        public bool InstatiateVCam { get { return instantiateVCam; }  set { instantiateVCam = value; } }
+
+        #endregion
 
         #region [Vars: Data Handlers]
 
@@ -29,31 +32,39 @@ namespace Phoenix
 
         #endregion
 
-        #region [Delegates]
-
-        public Action<Vector2> OnPointerPosInput;
-        public Action<Vector2> OnMoveInput;
-        public Action<bool> OnFireInput;
-
-        #endregion
-
         #region [Methods: Initializations]
 
-        private void Awake()
+        public override void Init()
         {
+            base.Init();
+
             var controls = new PhoenixControls();
             controls.Player.SetCallbacks(this);
             controls.Enable();
 
-            var jet = GetComponent<JetController>();
 
-            var vCam = Instantiate(vCamPrefab);
-            vCam.Follow = transform;
-            Camera.main.gameObject.AddComponent<CinemachineBrain>();
+            if (instantiateVCam)
+            {
+                var vCam = Instantiate(vCamPrefab);
+                vCam.Follow = transform;
+                Camera.main.gameObject.AddComponent<CinemachineBrain>();
+            }
+
+            var jet = GetComponent<JetController>();
 
             Cursor.visible = false;
             cursorDisplayer = Instantiate(cursorDisplayerPrefab);
-            cursorDisplayer.Init(ref OnPointerPosInput, jet.JetProperties.cursorSpeed, jet.JetProperties.cursor);
+            if (jet != null)
+                cursorDisplayer.Init(ref OnPointerPosInput, jet.JetProperties);
+        }
+
+        #endregion
+
+        #region [Methods: Getters]
+
+        public override Vector2 GetCursorWorldPosition()
+        {
+            return Camera.main.ScreenToWorldPoint(cursorDisplayer.GetCursorPosition());
         }
 
         #endregion
@@ -78,16 +89,13 @@ namespace Phoenix
             OnPointerPosInput(context.ReadValue<Vector2>());
         }
 
-        #endregion
-
-        #region [Methods: Getters]
-
-        public Vector2 GetCursorWorldPosition()
+        public void OnFireMode(InputAction.CallbackContext context)
         {
-            return Camera.main.ScreenToWorldPoint(cursorDisplayer.GetCursorPosition());
+            OnFireModeInput();
         }
 
-
         #endregion
+
+
     }
 }

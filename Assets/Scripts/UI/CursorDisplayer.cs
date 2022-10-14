@@ -25,6 +25,11 @@ namespace Phoenix
 
         #region [Methods: Initialization]
 
+        public void Init(ref Action<Vector2> onPointerPos, JetProperties jetProperties)
+        {
+            Init(ref onPointerPos, jetProperties.cursorSpeed, jetProperties.cursor);
+        }
+
         public void Init(ref Action<Vector2> onPointerPos, float speed, GameObject cursorPrefab)
         {
             onPointerPos += (pos) => { pointerPos = pos; };
