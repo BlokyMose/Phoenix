@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Hiroto/Enemy - Hiroto")]
 public class Enemy : Movement
 {
     public bool Test;

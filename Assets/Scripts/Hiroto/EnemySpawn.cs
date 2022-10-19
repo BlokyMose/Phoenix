@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Hiroto/EnemySpawn - Hiroto")]
 public class EnemySpawn : MonoBehaviour
 {
 	//@oŒ»‚³‚¹‚é“G‚ğ“ü‚ê‚Ä‚¨‚­

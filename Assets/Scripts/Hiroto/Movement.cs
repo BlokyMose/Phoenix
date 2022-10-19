@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Hiroto/Movement - Hiroto")]
 public class Movement : MonoBehaviour
 {
     [SerializeField]

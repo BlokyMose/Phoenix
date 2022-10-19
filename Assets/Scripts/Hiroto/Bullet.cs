@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Hiroto/Bullet - Hiroto")]
 public class Bullet : MonoBehaviour
 {
 

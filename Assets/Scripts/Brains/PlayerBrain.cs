@@ -47,7 +47,8 @@ namespace Phoenix
             {
                 var vCam = Instantiate(vCamPrefab);
                 vCam.Follow = transform;
-                Camera.main.gameObject.AddComponent<CinemachineBrain>();
+                if (Camera.main.GetComponent<CinemachineBrain>() == null)
+                    Camera.main.gameObject.AddComponent<CinemachineBrain>();
             }
 
             var jet = GetComponent<JetController>();
