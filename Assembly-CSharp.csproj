@@ -95,6 +95,12 @@
     <Compile Include="Assets\Scripts\Bullets\BulletMovement.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Movement.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\AsOneInput.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_TileMouseButton.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_CharacterController.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
