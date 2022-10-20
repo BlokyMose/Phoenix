@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,11 +6,12 @@ using UnityEngine;
 
 namespace AsOne
 {
+    [RequireComponent(typeof(SpriteRenderer))]
     public class AsOne_CharacterController : MonoBehaviour
     {
         #region [Classes]
 
-        [System.Serializable]
+        [Serializable]
         public class BoxInput
         {
             [SerializeField]
@@ -20,13 +22,34 @@ namespace AsOne
             SpriteRenderer sr;
             public SpriteRenderer SR => sr;
 
-            Color originalColor;
+            public enum MoveDirection { Up, Down, Right, Left }
 
             [SerializeField]
-            Vector2 direction;
-            public Vector2 Direction => direction;
+            MoveDirection direction;
+            public Vector2 Direction
+            {
+                get
+                {
+                    switch (direction)
+                    {
+                        case MoveDirection.Up: 
+                            return Vector2.up;
+                        case MoveDirection.Down:
+                            return Vector2.down;
+                        case MoveDirection.Right:
+                            return Vector2.right;
+                        case MoveDirection.Left:
+                            return Vector2.left;
+                        default:
+                            return Vector2.zero;
+                    }
+                }
+            }
 
-            public BoxInput(BoxCollider2D boxCollider, SpriteRenderer sr, Vector2 direction)
+            Color originalColor;
+            bool isActivated = true;
+
+            public BoxInput(BoxCollider2D boxCollider, SpriteRenderer sr, MoveDirection direction)
             {
                 this.boxCollider = boxCollider;
                 this.sr = sr;
@@ -47,28 +70,36 @@ namespace AsOne
 
             public void Hovered()
             {
-                if (sr == null) return;
+                if (sr == null || !isActivated) return;
                 ReturnToOriginalColor();
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
             }
 
             public void Unhovered()
             {
-                if (sr == null) return;
+                if (sr == null || !isActivated) return;
                 ReturnToOriginalColor();
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.33f);
+            }
+
+            public void Activate()
+            {
+                if (sr == null) return;
+                isActivated = true;
+                ReturnToOriginalColor();
             }
 
             public void Deactivate()
             {
                 if (sr == null) return;
+                isActivated = false;
                 ReturnToOriginalColor();
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0f);
             }
 
             public void Attack()
             {
-                if (sr == null) return;
+                if (sr == null || !isActivated) return;
                 sr.color = new Color(0.8f, 0.2f, 0.2f, 0.8f);
             }
 
@@ -83,17 +114,25 @@ namespace AsOne
 
         #region [Vars: Properties]
 
+        [SerializeField]
+        int maxHealth = 100;
 
         [SerializeField]
+        int attackDamage = 10;
+
+        [SerializeField]
+        int maxActionCount = 1;
+        public int ActionCount => maxActionCount;
+
+        [SerializeField, ReadOnly]
         int moveDistance = 1;
 
-        [SerializeField]
+        [SerializeField, ReadOnly]
         float border = 4.5f;
 
         [SerializeField]
-        List<BoxInput> allBoxInputs = new List<BoxInput>();
-        public List<BoxInput> AllBoxInputs => allBoxInputs;
-
+        List<BoxInput> boxInputs = new List<BoxInput>();
+        public List<BoxInput> AllBoxInputs => boxInputs;
 
         #endregion
 
@@ -103,65 +142,118 @@ namespace AsOne
 
         Vector2 pointerPos;
 
-        bool canAction = false;
+        int currentActionCount;
+
+        int currentHealth;
+
+        Color originalColor;
+
+        SpriteRenderer sr;
 
         #endregion
 
         public Action OnActionDone;
+        public Action<int> OnAction;
+        public Func<List<AsOne_CharacterController>> GetCharacters;
 
         private void Awake()
         {
-            foreach (var box in allBoxInputs)
+            sr = GetComponent<SpriteRenderer>();
+            originalColor = sr.color;
+
+            foreach (var box in boxInputs)
             {
                 box.TryGetSR();
                 box.SetCurrentColorToOriginalColor();
+                box.Deactivate();
+            }
+
+            currentHealth = maxHealth;
+        }
+
+        public void Move(Vector2 direction)
+        {
+            foreach (var box in boxInputs)
+            {
+                if(box.Direction == direction)
+                {
+                    OnPointerWorldPos(box.BoxCollider.transform.position);
+                    Move();
+                    break;
+                }
             }
         }
 
-        public void SetCanAction(bool canAction) { this.canAction = canAction;  }
-
         public void Move()
         {
-            if (!canAction) return;
+            if (currentActionCount <= 0) return;
             if (currentBoxInput == null) return;
 
             var previousPositon = transform.position;
             transform.position = (Vector2)transform.position + currentBoxInput.Direction * moveDistance;
-            if (IsPositionOutsideBorder())
+            if (IsPositionInvalid())
             {
                 transform.position = previousPositon;
             }
             else
             {
-                OnActionDone?.Invoke();
-                canAction = false;
+                DecreaseCurrentActionCount();
             }
 
-            bool IsPositionOutsideBorder()
+            bool IsPositionInvalid()
             {
-                return (transform.position.x <= -border || transform.position.x >= border ||
-                    transform.position.y <= -border || transform.position.y >= border);
+                if (transform.position.x <= -border || transform.position.x >= border ||
+                    transform.position.y <= -border || transform.position.y >= border)
+                    return true;
+
+                if (GetCharacters != null)
+                    foreach (var character in GetCharacters())
+                    {
+                        if (character != this && transform.position == character.transform.position)
+                            return true;
+                    }
+                return false;
             }
         }
 
         public void Attack()
         {
-            if (!canAction) return;
+            if (currentActionCount <= 0) return;
 
             if (currentBoxInput == null) return;
 
-            StartCoroutine(Delay(0.5f));
+            if(GetCharacters != null)
+                foreach (var character in GetCharacters())
+                {
+                    if (character.transform.position == currentBoxInput.BoxCollider.transform.position)
+                    {
+                        character.ReceiveAttack(attackDamage);
+                        break;
+                    }
+                }
+            currentBoxInput.Attack();
+            DecreaseCurrentActionCount();
+        }
 
-            OnActionDone?.Invoke();
-            canAction = false;
+        public void ReceiveAttack(int damage)
+        {
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+                Die();
 
-            IEnumerator Delay(float delay)
+
+            StartCoroutine(TurnRed(0.33f));
+            IEnumerator TurnRed(float delay)
             {
-                currentBoxInput.Attack();
+                sr.color = new Color(0.85f, 0.15f, 0.15f, 1f);
                 yield return new WaitForSeconds(delay);
-                if (currentBoxInput != null)
-                    currentBoxInput.ReturnToOriginalColor();
+                sr.color = originalColor;
             }
+        }
+
+        public void Die()
+        {
+            currentHealth = 0;
         }
 
         public void OnPointerWorldPos(Vector2 pointerPos)
@@ -174,7 +266,7 @@ namespace AsOne
 
             void UnhoverAllBoxInputs()
             {
-                foreach (var box in allBoxInputs)
+                foreach (var box in boxInputs)
                 {
                     box.Unhovered();
                 }
@@ -182,7 +274,7 @@ namespace AsOne
 
             BoxInput CheckMouseInsideAnyBoxInputs()
             {
-                foreach (var box in allBoxInputs)
+                foreach (var box in boxInputs)
                 {
                     if (IsMouseInsideBox(pointerPos, box))
                     {
@@ -195,7 +287,24 @@ namespace AsOne
             }
         }
 
+        public void SetFullActionCount()
+        {
+            currentActionCount = maxActionCount;
+            foreach (var box in boxInputs)
+                box.Activate();
+        }
 
+        void DecreaseCurrentActionCount()
+        {
+            currentActionCount--;
+            if (currentActionCount <= 0)
+            {
+                foreach (var box in boxInputs)
+                    box.Deactivate();
+
+                OnActionDone?.Invoke();
+            }
+        }
 
         bool IsMouseInsideBox(Vector2 pointerPos, BoxInput box)
         {

@@ -62,9 +62,11 @@
     <Compile Include="Assets\Scripts\Hiroto\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletProperties.cs" />
     <Compile Include="Assets\Scripts\Utility\ListUtility.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
     <Compile Include="Assets\Scripts\Brains\PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Jets\JetProperties.cs" />
     <Compile Include="Assets\Scripts\Hiroto\BuletPointManager.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_CharacterController.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerShoot.cs" />
     <Compile Include="Assets\Scripts\Utility\ColorUtility.cs" />
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
@@ -82,25 +84,23 @@
     <Compile Include="Assets\Scripts\IHealth.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Bullet.cs" />
     <Compile Include="Assets\Settings\InputActions\PhoenixInput.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Bullets\Bullet.cs" />
     <Compile Include="Assets\Scripts\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Utility\StructUtility.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelManager.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_TileMouseButton.cs" />
     <Compile Include="Assets\Scripts\Jets\JetComponents.cs" />
     <Compile Include="Assets\Scripts\Utility\CoroutineUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Utils.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayer.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelPhoenix.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
     <Compile Include="Assets\Scripts\Brains\Brain.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovement.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Movement.cs" />
-    <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
-    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\AsOneInput.cs" />
-    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_TileMouseButton.cs" />
-    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_CharacterController.cs" />
-    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
-    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
+    <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

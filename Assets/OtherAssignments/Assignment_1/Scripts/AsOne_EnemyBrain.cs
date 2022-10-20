@@ -36,38 +36,14 @@ namespace AsOne
                 while (true)
                 {
                     var rand = Random.Range(0, 4);
-                    if(rand==0) Move(Vector2.up);
-                    else if(rand==1) Move(Vector2.down);
-                    else if(rand==2) Move(Vector2.right);
-                    else if(rand==3) Move(Vector2.left);
+                    if(rand==0) characterController.Move(Vector2.up);
+                    else if(rand==1) characterController.Move(Vector2.down);
+                    else if(rand==2) characterController.Move(Vector2.right);
+                    else if(rand==3) characterController.Move(Vector2.left);
 
                     yield return new WaitForSeconds(0.5f);
                 }
             }
         }
-
-        void Move(Vector2 direction)
-        {
-            if(direction == Vector2.up)
-            {
-                characterController.OnPointerWorldPos(boxInputUp.BoxCollider.transform.position);
-            }
-            else if (direction == Vector2.down)
-            {
-                characterController.OnPointerWorldPos(boxInputDown.BoxCollider.transform.position);
-            }
-            else if (direction == Vector2.right)
-            {
-                characterController.OnPointerWorldPos(boxInputRight.BoxCollider.transform.position);
-            }
-            else if (direction == Vector2.left)
-            {
-                characterController.OnPointerWorldPos(boxInputLeft.BoxCollider.transform.position);
-            }
-
-            characterController.Move();
-        }
-
-
     }
 }

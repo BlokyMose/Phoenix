@@ -1562,21 +1562,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80409ee257c26946b5c39540d0c7413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  attackDamage: 10
+  maxActionCount: 1
   moveDistance: 1
   border: 4.5
-  allBoxInputs:
+  boxInputs:
   - boxCollider: {fileID: 1010727103}
-    sr: {fileID: 1010727104}
-    direction: {x: 0, y: 1}
+    sr: {fileID: 0}
+    direction: 0
   - boxCollider: {fileID: 604469135}
-    sr: {fileID: 604469136}
-    direction: {x: 0, y: -1}
+    sr: {fileID: 0}
+    direction: 1
   - boxCollider: {fileID: 2021470478}
-    sr: {fileID: 2021470479}
-    direction: {x: 1, y: 0}
+    sr: {fileID: 0}
+    direction: 2
   - boxCollider: {fileID: 1354959208}
-    sr: {fileID: 1354959209}
-    direction: {x: -1, y: 0}
+    sr: {fileID: 0}
+    direction: 3
 --- !u!1 &488448243
 GameObject:
   m_ObjectHideFlags: 0
@@ -2517,8 +2520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 171d28b25d2c15342a568bd71d809366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 449851558}
-  enemy: {fileID: 2029110686}
+  characters:
+  - {fileID: 449851558}
+  - {fileID: 2029110686}
 --- !u!1 &728896400
 GameObject:
   m_ObjectHideFlags: 0
@@ -7113,21 +7117,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80409ee257c26946b5c39540d0c7413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  attackDamage: 10
+  maxActionCount: 2
   moveDistance: 1
   border: 4.5
-  allBoxInputs:
+  boxInputs:
   - boxCollider: {fileID: 312608071}
-    sr: {fileID: 312608069}
-    direction: {x: 0, y: 1}
+    sr: {fileID: 0}
+    direction: 0
   - boxCollider: {fileID: 1678373247}
-    sr: {fileID: 1678373245}
-    direction: {x: 0, y: -1}
+    sr: {fileID: 0}
+    direction: 1
   - boxCollider: {fileID: 1735586860}
-    sr: {fileID: 1735586858}
-    direction: {x: 1, y: 0}
+    sr: {fileID: 0}
+    direction: 2
   - boxCollider: {fileID: 526289296}
-    sr: {fileID: 526289294}
-    direction: {x: -1, y: 0}
+    sr: {fileID: 0}
+    direction: 3
 --- !u!210 &2029110687
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -7181,7 +7188,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -6223046019891202211, guid: 0bbb4973cb6e355408c55e6857cbc224, type: 3}
-  m_Color: {r: 1, g: 0.33490568, b: 0.33490568, a: 1}
+  m_Color: {r: 1, g: 0.5235849, b: 0.5235849, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

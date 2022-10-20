@@ -8,28 +8,34 @@ namespace AsOne
     public class AsOne_GameManager : MonoBehaviour
     {
         [SerializeField]
-        AsOne_CharacterController player;
+        List<AsOne_CharacterController> characters = new List<AsOne_CharacterController> ();
 
-        [SerializeField]
-        AsOne_CharacterController enemy;
-
-        int currentTurn = 0;
+        int currentCharacterIndex = 0;
+        int currentCharacterActionCountLeft = 0;
 
         private void Start()
         {
-            player.OnActionDone += NextTurn;
-            enemy.OnActionDone += NextTurn;
+            foreach (var character in characters)
+            {
+                character.OnAction += SetCurrentCountLeft;
+                character.OnActionDone += NextTurn;
+                character.GetCharacters += () => { return characters; };
+            }
 
             NextTurn();
         }
 
         public void NextTurn()
         {
-            if (currentTurn % 2 == 0)
-                player.SetCanAction(true);
-            else
-                enemy.SetCanAction(true);
-            currentTurn++;
+            characters[currentCharacterIndex].SetFullActionCount();
+            currentCharacterActionCountLeft = characters[currentCharacterIndex].ActionCount;
+
+            currentCharacterIndex = (currentCharacterIndex + 1) % characters.Count;
+        }
+
+        void SetCurrentCountLeft(int count)
+        {
+            currentCharacterActionCountLeft = count;
         }
     }
 }
