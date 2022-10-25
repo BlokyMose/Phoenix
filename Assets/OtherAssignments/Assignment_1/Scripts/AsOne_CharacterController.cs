@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace AsOne
 {
-    [RequireComponent(typeof(SpriteRenderer))]
     public class AsOne_CharacterController : MonoBehaviour
     {
         #region [Classes]
@@ -148,7 +147,6 @@ namespace AsOne
 
         Color originalColor;
 
-        SpriteRenderer sr;
 
         #endregion
 
@@ -158,9 +156,6 @@ namespace AsOne
 
         private void Awake()
         {
-            sr = GetComponent<SpriteRenderer>();
-            originalColor = sr.color;
-
             foreach (var box in boxInputs)
             {
                 box.TryGetSR();
@@ -245,9 +240,9 @@ namespace AsOne
             StartCoroutine(TurnRed(0.33f));
             IEnumerator TurnRed(float delay)
             {
-                sr.color = new Color(0.85f, 0.15f, 0.15f, 1f);
+                //sr.color = new Color(0.85f, 0.15f, 0.15f, 1f);
                 yield return new WaitForSeconds(delay);
-                sr.color = originalColor;
+                //sr.color = originalColor;
             }
         }
 
