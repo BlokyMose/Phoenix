@@ -3,114 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using static AsOne.AsOne_GameManager;
+using Grid = AsOne.AsOne_GameManager.Grid;
 
 namespace AsOne
 {
     public class AsOne_CharacterController : MonoBehaviour
     {
-        #region [Classes]
-
-        [Serializable]
-        public class BoxInput
-        {
-            [SerializeField]
-            BoxCollider2D boxCollider;
-            public BoxCollider2D BoxCollider => boxCollider;
-
-            [SerializeField]
-            SpriteRenderer sr;
-            public SpriteRenderer SR => sr;
-
-            public enum MoveDirection { Up, Down, Right, Left }
-
-            [SerializeField]
-            MoveDirection direction;
-            public Vector2 Direction
-            {
-                get
-                {
-                    switch (direction)
-                    {
-                        case MoveDirection.Up: 
-                            return Vector2.up;
-                        case MoveDirection.Down:
-                            return Vector2.down;
-                        case MoveDirection.Right:
-                            return Vector2.right;
-                        case MoveDirection.Left:
-                            return Vector2.left;
-                        default:
-                            return Vector2.zero;
-                    }
-                }
-            }
-
-            Color originalColor;
-            bool isActivated = true;
-
-            public BoxInput(BoxCollider2D boxCollider, SpriteRenderer sr, MoveDirection direction)
-            {
-                this.boxCollider = boxCollider;
-                this.sr = sr;
-                this.direction = direction;
-                originalColor = sr.color;
-            }
-
-            public void TryGetSR()
-            {
-                sr = boxCollider.GetComponent<SpriteRenderer>();
-            }
-
-            public void SetCurrentColorToOriginalColor()
-            {
-                if (sr == null) return;
-                originalColor = sr.color;
-            }
-
-            public void Hovered()
-            {
-                if (sr == null || !isActivated) return;
-                ReturnToOriginalColor();
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
-            }
-
-            public void Unhovered()
-            {
-                if (sr == null || !isActivated) return;
-                ReturnToOriginalColor();
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.33f);
-            }
-
-            public void Activate()
-            {
-                if (sr == null) return;
-                isActivated = true;
-                ReturnToOriginalColor();
-            }
-
-            public void Deactivate()
-            {
-                if (sr == null) return;
-                isActivated = false;
-                ReturnToOriginalColor();
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0f);
-            }
-
-            public void Attack()
-            {
-                if (sr == null || !isActivated) return;
-                sr.color = new Color(0.8f, 0.2f, 0.2f, 0.8f);
-            }
-
-            public void ReturnToOriginalColor()
-            {
-                if (sr == null) return;
-                sr.color = originalColor;
-            }
-        }
-
-        #endregion
-
         #region [Vars: Properties]
 
         [SerializeField]
@@ -123,21 +23,24 @@ namespace AsOne
         int maxActionCount = 1;
         public int ActionCount => maxActionCount;
 
-        [SerializeField, ReadOnly]
-        int moveDistance = 1;
-
-        [SerializeField, ReadOnly]
-        float border = 4.5f;
+        [SerializeField]
+        Vector2Int cellsSize = new Vector2Int(1, 1);
 
         [SerializeField]
-        List<BoxInput> boxInputs = new List<BoxInput>();
-        public List<BoxInput> AllBoxInputs => boxInputs;
+        Color moveTileColor = new Color(0.4f, 0.8f, 0.4f, 1f);        
+        
+        [SerializeField]
+        Color hoverTileColor = new Color(0.25f, 0.95f, 0.25f, 1f);
+
+        [SerializeField]
+        Color attackTileColor = new Color(0.9f, 0.2f, 0.2f, 0.75f);
+
+        [SerializeField]
+        Animator animator;
 
         #endregion
 
         #region [Vars: Data Handlers]
-
-        BoxInput currentBoxInput;
 
         Vector2 pointerPos;
 
@@ -147,60 +50,100 @@ namespace AsOne
 
         Color originalColor;
 
+        const int moveDistance = 1;
+
+        List<Cell> actionableCells;
+        List<Cell> currentCells;
+        Cell currentHoveredCell;
 
         #endregion
 
-        public Action OnActionDone;
-        public Action<int> OnAction;
-        public Func<List<AsOne_CharacterController>> GetCharacters;
+        Action OnActionDone;
+        Action<int> OnAction;
+        Func<List<AsOne_CharacterController>> GetCharacters;
+        Func<Grid> GetGrid;
 
-        private void Awake()
+        public void Init(Cell startingCell, 
+            Action<int> onAction,
+            Action onActionDone,
+            Func<List<AsOne_CharacterController>> getCharacters,
+            Func<Grid> getGrid
+            )
         {
-            foreach (var box in boxInputs)
-            {
-                box.TryGetSR();
-                box.SetCurrentColorToOriginalColor();
-                box.Deactivate();
-            }
+            this.OnAction = onAction;
+            this.OnActionDone = onActionDone;
+            this.GetCharacters = getCharacters;
+            this.GetGrid = getGrid;
 
             currentHealth = maxHealth;
+            transform.position = startingCell.Position;
+            currentCells = GetGrid().GetCells(startingCell, cellsSize);
+            actionableCells = GetActionableCells(startingCell, currentCells, GetGrid());
         }
 
-        public void Move(Vector2 direction)
+        List<Cell> GetActionableCells(Cell startingCell, List<Cell> currentCells, Grid grid)
         {
-            foreach (var box in boxInputs)
+            var targetLocations = new List<Vector2Int>()
             {
-                if(box.Direction == direction)
+                new Vector2Int(startingCell.GridLocation.x, startingCell.GridLocation.y+1),
+                new Vector2Int(startingCell.GridLocation.x, startingCell.GridLocation.y-1),
+                new Vector2Int(startingCell.GridLocation.x+1, startingCell.GridLocation.y),
+                new Vector2Int(startingCell.GridLocation.x-1, startingCell.GridLocation.y),
+            };
+
+            // Prevent having actionable cells in current cells
+            foreach (var cell in currentCells)
+            {
+                for (int locIndex = targetLocations.Count - 1; locIndex >= 0; locIndex--)
                 {
-                    OnPointerWorldPos(box.BoxCollider.transform.position);
-                    Move();
-                    break;
+                    if (cell.GridLocation == targetLocations[locIndex])
+                    {
+                        targetLocations.RemoveAt(locIndex);
+                    }
                 }
             }
+
+            return grid.GetCells(targetLocations);
         }
+
+        // Current system doesn't support simple directions for WASD
+        //public void Move(Vector2 direction)
+        //{
+        //    foreach (var cell in actionableCells)
+        //    {
+        //        if (cell.Direction == direction)
+        //        {
+        //            OnPointerWorldPos(cell.BoxCollider.transform.position);
+        //            Move();
+        //            break;
+        //        }
+        //    }
+        //}
 
         public void Move()
         {
             if (currentActionCount <= 0) return;
-            if (currentBoxInput == null) return;
+            if (currentHoveredCell == null) return;
 
             var previousPositon = transform.position;
-            transform.position = (Vector2)transform.position + currentBoxInput.Direction * moveDistance;
+            // TODO: transition
+            transform.position = currentHoveredCell.Position;
             if (IsPositionInvalid())
             {
                 transform.position = previousPositon;
             }
             else
             {
+                foreach (var cell in actionableCells)
+                    cell.ResetColor();
+
+                currentCells = GetGrid().GetCells(currentHoveredCell, cellsSize);
+                actionableCells = GetActionableCells(currentHoveredCell, currentCells, GetGrid());
                 DecreaseCurrentActionCount();
             }
 
             bool IsPositionInvalid()
             {
-                if (transform.position.x <= -border || transform.position.x >= border ||
-                    transform.position.y <= -border || transform.position.y >= border)
-                    return true;
-
                 if (GetCharacters != null)
                     foreach (var character in GetCharacters())
                     {
@@ -215,18 +158,18 @@ namespace AsOne
         {
             if (currentActionCount <= 0) return;
 
-            if (currentBoxInput == null) return;
+            if (currentHoveredCell == null) return;
 
-            if(GetCharacters != null)
+            if (GetCharacters != null)
                 foreach (var character in GetCharacters())
                 {
-                    if (character.transform.position == currentBoxInput.BoxCollider.transform.position)
-                    {
-                        character.ReceiveAttack(attackDamage);
-                        break;
-                    }
+                    //if (character.transform.position == currentBoxInput.BoxCollider.transform.position)
+                    //{
+                    //    character.ReceiveAttack(attackDamage);
+                    //    break;
+                    //}
                 }
-            currentBoxInput.Attack();
+            //currentBoxInput.Attack();
             DecreaseCurrentActionCount();
         }
 
@@ -256,25 +199,25 @@ namespace AsOne
             this.pointerPos = pointerPos;
 
             UnhoverAllBoxInputs();
-            currentBoxInput = CheckMouseInsideAnyBoxInputs();
-
+            currentHoveredCell = CheckMouseInsideAnyActionalCells();
+            // TODO: prevent move to enemy's current cells; allow attack only
 
             void UnhoverAllBoxInputs()
             {
-                foreach (var box in boxInputs)
+                foreach (var cell in actionableCells)
                 {
-                    box.Unhovered();
+                    cell.SetColor(moveTileColor);
                 }
             }
 
-            BoxInput CheckMouseInsideAnyBoxInputs()
+            Cell CheckMouseInsideAnyActionalCells()
             {
-                foreach (var box in boxInputs)
+                foreach (var cell in actionableCells)
                 {
-                    if (IsMouseInsideBox(pointerPos, box))
+                    if (IsMouseInsideBox(pointerPos, cell))
                     {
-                        box.Hovered();
-                        return box;
+                        cell.SetColor(hoverTileColor);
+                        return cell;
                     }
                 }
 
@@ -284,9 +227,10 @@ namespace AsOne
 
         public void SetFullActionCount()
         {
+            actionableCells = GetActionableCells(currentCells[0], currentCells, GetGrid());
             currentActionCount = maxActionCount;
-            foreach (var box in boxInputs)
-                box.Activate();
+            foreach (var cell in actionableCells)
+                cell.SetColor(moveTileColor);
         }
 
         void DecreaseCurrentActionCount()
@@ -294,19 +238,20 @@ namespace AsOne
             currentActionCount--;
             if (currentActionCount <= 0)
             {
-                foreach (var box in boxInputs)
-                    box.Deactivate();
+                foreach (var cell in actionableCells)
+                    cell.ResetColor();
 
+                actionableCells.Clear();
                 OnActionDone?.Invoke();
             }
         }
 
-        bool IsMouseInsideBox(Vector2 pointerPos, BoxInput box)
+        bool IsMouseInsideBox(Vector2 pointerPos, Cell cell)
         {
-            return (pointerPos.x < box.BoxCollider.transform.position.x + box.BoxCollider.size.x / 2 &&
-                    pointerPos.x > box.BoxCollider.transform.position.x - box.BoxCollider.size.x / 2 &&
-                    pointerPos.y < box.BoxCollider.transform.position.y + box.BoxCollider.size.x / 2 &&
-                    pointerPos.y > box.BoxCollider.transform.position.y - box.BoxCollider.size.x / 2);
+            return (pointerPos.x < cell.Position.x + cell.Size.x / 2 &&
+                    pointerPos.x > cell.Position.x - cell.Size.x / 2 &&
+                    pointerPos.y < cell.Position.y + cell.Size.x / 2 &&
+                    pointerPos.y > cell.Position.y - cell.Size.x / 2);
 
         }
     }
