@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static AsOne.AsOne_GameManager.Grid;
 
@@ -30,6 +31,11 @@ namespace AsOne
                 this.sr = sr;
                 this.size = size;
                 this.originalColor = sr.color;
+            }
+
+            public Cell()
+            {
+
             }
 
             public void SetColor(Color color)
@@ -215,26 +221,29 @@ namespace AsOne
         [SerializeField]
         Grid grid;
 
+        [SerializeField]
+        TextMeshProUGUI hpText;
+
         private void Start()
         {
             grid = new Grid(grid);
 
-
             // Testing
             characters[0].Init(
-                grid.GetCell(new Vector2Int(0, 0)), 
+                grid.GetCell(new Vector2Int(3, 2)), 
                 SetCurrentCountLeft,
                 NextTurn,
                 () => { return characters; },
                 () => { return grid;  }
                 );
-            //characters[1].Init(
-            //    grid.GetCell(new Vector2Int(4, 4)), 
-            //    SetCurrentCountLeft,
-            //    NextTurn,
-            //    () => { return characters; },
-            //    () => { return grid; }
-            //    );
+
+            characters[1].Init(
+                grid.GetCell(new Vector2Int(4, 4)),
+                SetCurrentCountLeft,
+                NextTurn,
+                () => { return characters; },
+                () => { return grid; }
+                );
 
             NextTurn();
         }
@@ -242,6 +251,13 @@ namespace AsOne
 
         public void NextTurn()
         {
+            // test
+            hpText.text = "";
+            foreach (var character in characters)
+            {
+                hpText.text+= character.gameObject.name+" : " + character.CurrentHealth + "\n";
+            }
+
             characters[currentCharacterIndex].SetFullActionCount();
             currentCharacterActionCountLeft = characters[currentCharacterIndex].ActionCount;
 

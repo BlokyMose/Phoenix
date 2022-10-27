@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Brains\PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Jets\JetProperties.cs" />
     <Compile Include="Assets\Scripts\Hiroto\BuletPointManager.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Default.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_CharacterController.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerShoot.cs" />
     <Compile Include="Assets\Scripts\Utility\ColorUtility.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Assets\Scripts\Jets\JetComponents.cs" />
     <Compile Include="Assets\Scripts\Utility\CoroutineUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Utils.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Rat.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AttackModule.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayer.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelPhoenix.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
@@ -101,6 +104,9 @@
     <Compile Include="Assets\Scripts\Hiroto\Movement.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\AsOneInput.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
+    <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Rat.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -23,13 +23,13 @@ namespace AsOne
         public void OnLeftClick(InputAction.CallbackContext context)
         {
             if (context.started)
-                characterController.Move();
+                characterController.AutoAction();
         }
 
         public void OnRightClick(InputAction.CallbackContext context)
         {
-            if (context.started)
-                characterController.Attack();
+            //if (context.started)
+            //    characterController.Attack();
         }
 
         public void OnPointerPos(InputAction.CallbackContext context)

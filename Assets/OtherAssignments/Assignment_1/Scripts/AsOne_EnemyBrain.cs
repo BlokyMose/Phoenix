@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AsOne.AsOne_CharacterController;
 
 namespace AsOne
 {
@@ -19,11 +20,21 @@ namespace AsOne
             {
                 while (true)
                 {
-                    //var rand = Random.Range(0, 4);
-                    //if(rand==0) characterController.Move(Vector2.up);
-                    //else if(rand==1) characterController.Move(Vector2.down);
-                    //else if(rand==2) characterController.Move(Vector2.right);
-                    //else if(rand==3) characterController.Move(Vector2.left);
+                    var attackableCells = characterController.GetAttackableCells();
+                    if (attackableCells.Count > 0)
+                    {
+                        Debug.Log("NPC Attack");
+                        characterController.Attack(attackableCells[0]);
+                    }
+                    else
+                    {
+                        var rand = Random.Range(0, 4);
+                        if (rand == 0) characterController.Move(MoveDirection.Up);
+                        else if (rand == 1) characterController.Move(MoveDirection.Down);
+                        else if (rand == 2) characterController.Move(MoveDirection.Right);
+                        else if (rand == 3) characterController.Move(MoveDirection.Left);
+                    }
+
 
                     yield return new WaitForSeconds(0.5f);
                 }
