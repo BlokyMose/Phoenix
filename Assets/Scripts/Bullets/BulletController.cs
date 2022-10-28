@@ -1,19 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace Phoenix
 {
     [RequireComponent(typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Bullet : MonoBehaviour
+    public class BulletController : MonoBehaviour
     {
         #region [Vars: Data Handlers]
 
         BulletProperties bulletProperties;
         public BulletProperties BulletProperties => bulletProperties;
         bool isActive = false;
-        GameObject bulletSprite;
+        BulletComponents bulletComponents;
 
         #endregion
 
@@ -23,6 +24,9 @@ namespace Phoenix
         Rigidbody2D rb;
         public Rigidbody2D RigidBody => rb;
 
+        CapsuleCollider2D col;
+        public CapsuleCollider2D Col => col;
+
         #endregion
 
 
@@ -30,39 +34,40 @@ namespace Phoenix
 
         public void Init(BulletProperties bulletProperties)
         {
+            this.bulletProperties = bulletProperties;
+
+            bulletComponents = Instantiate(bulletProperties.bulletPrefab, transform);
+            bulletComponents.Init(bulletProperties);
+
             #region [Setup RB2D]
 
             rb = GetComponent<Rigidbody2D>();
             rb.gravityScale = 0;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
             #endregion
 
-            this.bulletProperties = bulletProperties;
-            bulletProperties.bulletMovement.ModifyBullet(this);
-
-
             #region [Setup Collider]
 
-            var col = GetComponent<CapsuleCollider2D>();
+            col = GetComponent<CapsuleCollider2D>();
             col.isTrigger = false;
 
             // Match bulet sprite's collider with this collider
-            bulletSprite = Instantiate(bulletProperties.bulletPrefab, transform);
-            var bulletSpriteCol = bulletSprite.GetComponent<CapsuleCollider2D>();
-            if (bulletProperties.matchBulletPrefabCollider && bulletSpriteCol != null)
+            if (bulletProperties.matchBulletPrefabCollider && bulletComponents.Col != null)
             {
-                col.size = bulletSpriteCol.size * bulletSprite.transform.localScale;
-                col.offset = bulletSpriteCol.offset * bulletSprite.transform.localScale;
+                col.size = bulletComponents.Col.size * bulletComponents.GO.transform.localScale;
+                col.offset = bulletComponents.Col.offset * bulletComponents.GO.transform.localScale;
+                bulletComponents.Col.enabled = false; // Extra collider on the bullet sprite is not needed
             }
             else
             {
                 col.size = bulletProperties.colliderSize;
                 col.offset = bulletProperties.colliderOffset;
             }
-            Destroy(bulletSpriteCol); // Extra collider on the bullet sprite is not needed
 
             #endregion
 
+            bulletProperties.bulletMovement.ModifyBullet(this);
             DelayActivation();
             CountingLifeDuration();
         }
@@ -106,9 +111,8 @@ namespace Phoenix
             IEnumerator Delay()
             {
                 isActive = false;
-                Destroy(bulletSprite);
-                // TODO: VFX
-                yield return new WaitForSeconds(2f);
+                col.enabled = false;
+                yield return new WaitForSeconds(bulletComponents.Die());
                 StopAllCoroutines();
                 Destroy(gameObject);
             }
@@ -117,6 +121,8 @@ namespace Phoenix
         void OnCollisionEnter2D(Collision2D collision)
         {
             if (!isActive) return;
+
+            // TODO: prevent damaging self
 
             #region [Apply Damage to IHealth]
 

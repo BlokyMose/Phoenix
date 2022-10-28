@@ -23,7 +23,6 @@ namespace AsOne
                     var attackableCells = characterController.GetAttackableCells();
                     if (attackableCells.Count > 0)
                     {
-                        Debug.Log("NPC Attack");
                         characterController.Attack(attackableCells[0]);
                     }
                     else

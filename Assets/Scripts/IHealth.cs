@@ -7,7 +7,8 @@ namespace Phoenix
     public interface IHealth
     {
         public void ReceiveDamage(float damage);
-
-        public float GetHealth();
+        public void Die();
+        public float Health { get; }
+        public float MaxHealth { get; }
     }
 }

@@ -1,4 +1,4 @@
-﻿#define MODULARMOTION
+﻿//#define MODULARMOTION
 
 using System;
 using System.Collections;
@@ -37,7 +37,7 @@ public class Damage : MonoBehaviour
             TextSpawnPosition.position.y + UnityEngine.Random.Range(-RandomRange, RandomRange), 0);
 
         GameObject Text = Instantiate(TextPrefab, RNDPosition, Quaternion.identity, TextSpawnPosition.parent);
-        Text.GetComponentInChildren<UIMotion>().OnEnd.AddListener(() => DestoryAfterPlaying(Text));
+        Text.GetComponentInChildren<UIMotion>().OnEnd.AddListener(() => DestoryAfterPlaying(Text)); 
         Text.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = Attack.ToString("0");
     }
 

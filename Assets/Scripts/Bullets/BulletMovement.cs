@@ -6,7 +6,7 @@ namespace Phoenix
 {
     public abstract class BulletMovement : ScriptableObject
     {
-        public abstract void ModifyBullet(Bullet bullet);
-        public abstract void Move(Bullet bullet);
+        public abstract void ModifyBullet(BulletController bullet);
+        public abstract void Move(BulletController bullet);
     }
 }

@@ -10,7 +10,7 @@ namespace Phoenix
     public class BulletProperties : ScriptableObject
     {
         [InlineButton(nameof(AssignDefaultBulletPrefab), "Default", ShowIf = "@!"+nameof(bulletPrefab))]
-        public GameObject bulletPrefab;
+        public BulletComponents bulletPrefab;
         [InlineButton(nameof(AssignDefaultBulletMovement), "Default", ShowIf ="@!"+nameof(bulletMovement))]
         public BulletMovement bulletMovement;
         public GameObject destroyedVFX;
@@ -33,7 +33,7 @@ namespace Phoenix
             var allBullet = UnityEditor.AssetDatabase.FindAssets("t:GameObject" + " Bullet_Default");
             var bulletDefaultPath = UnityEditor.AssetDatabase.GUIDToAssetPath(allBullet[0]);
             var bulletDefault = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(bulletDefaultPath);
-            bulletPrefab = bulletDefault;
+            bulletPrefab = bulletDefault.GetComponent<BulletComponents>();
 
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();

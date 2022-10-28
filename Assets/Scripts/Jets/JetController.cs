@@ -56,6 +56,10 @@ namespace Phoenix
         [SerializeField]
         RotationSettings rotationSettings = new RotationSettings();
 
+        [SerializeField]
+        LayerMask bulletLayer;
+        
+
         #endregion
 
         #region [Vars: Data Handlers]
@@ -186,9 +190,11 @@ namespace Phoenix
             var currentFireMode = components.FireModes[currentFireModeIndex];
 
             var bulletGO = new GameObject("Bullet");
+
+            bulletGO.gameObject.layer = (int)Mathf.Log(bulletLayer.value, 2);
             bulletGO.transform.position = currentFireMode.origins[currentFireOrigin].transform.position;
             bulletGO.transform.eulerAngles = currentFireMode.origins[currentFireOrigin].eulerAngles;
-            var bullet = bulletGO.AddComponent<Bullet>();
+            var bullet = bulletGO.AddComponent<BulletController>();
             bullet.Init(currentBulletProperties);
 
             currentFireOrigin++;

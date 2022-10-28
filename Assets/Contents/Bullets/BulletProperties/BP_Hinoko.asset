@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e48b788bab1d1d43a7b1a1f6b433ce3, type: 3}
   m_Name: BP_Hinoko
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6362634751198226329, guid: d6dfe48bebdf1b848b4ca005b5af4de9, type: 3}
+  bulletPrefab: {fileID: 6644969288151619517, guid: d6dfe48bebdf1b848b4ca005b5af4de9, type: 3}
   bulletMovement: {fileID: 11400000, guid: df01cc981f46e1442ab3862122ede9b3, type: 2}
   destroyedVFX: {fileID: 0}
   damage: 10
-  lifeDuration: 4
-  speed: 1
-  pushForce: 1
+  lifeDuration: 6
+  speed: 125
+  pushForce: 0.25
   matchBulletPrefabCollider: 1
   colliderSize: {x: 0.05, y: 0.5}
   colliderOffset: {x: 0, y: 0.5}

@@ -11,12 +11,12 @@ TagManager:
   - 
   - Water
   - UI
-  - Wind
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Post
+  - Border
+  - Player
+  - EnemyBullet
+  - PlayerBullet
   - 
   - 
   - 

@@ -7,14 +7,13 @@ namespace Phoenix
     [CreateAssetMenu(menuName ="SO/Bullet Movements/Default", fileName = "BM_Default")]
     public class BulletMovementDefault : BulletMovement
     {
-        public override void ModifyBullet(Bullet bullet)
+        public override void ModifyBullet(BulletController bullet)
         {
         }
 
-        public override void Move(Bullet bullet)
+        public override void Move(BulletController bullet)
         {
-            var destination = bullet.transform.up * 1000;
-            bullet.transform.position = Vector2.MoveTowards(bullet.transform.position, destination, bullet.BulletProperties.speed / 10f);
+            bullet.RigidBody.AddForce((bullet.BulletProperties.speed * Time.deltaTime * (Vector2)bullet.transform.up) - bullet.RigidBody.velocity, ForceMode2D.Impulse);
         }
     }
 }

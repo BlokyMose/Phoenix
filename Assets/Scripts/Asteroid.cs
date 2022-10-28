@@ -13,19 +13,24 @@ namespace Phoenix
         [ShowInInspector, ReadOnly]
         float health;
 
+        public float Health => health;
+
+        public float MaxHealth => maxHealth;
+
         private void Awake()
         {
             health = maxHealth;
         }
 
-        public float GetHealth()
-        {
-            return health;
-        }
+
 
         public void ReceiveDamage(float damage)
         {
             health -= damage;
+        }
+
+        public void Die()
+        {
         }
     }
 }

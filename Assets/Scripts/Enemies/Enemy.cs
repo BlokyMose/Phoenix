@@ -53,7 +53,9 @@ namespace Phoenix
         #endregion
 
 
-        public float GetHealth() => health;
+        public float Health => health;
+
+        public float MaxHealth => maxHealth;
 
         public void ReceiveDamage(float damage)
         {
