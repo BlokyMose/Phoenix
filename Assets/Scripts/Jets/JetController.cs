@@ -1,10 +1,11 @@
 using Encore.Utility;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor.Drawers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Phoenix.JetComponents;
+using static Phoenix.FireComponents;
 
 namespace Phoenix
 {
@@ -44,9 +45,6 @@ namespace Phoenix
         JetProperties jetProperties;
         public JetProperties JetProperties { get { return jetProperties; } }
 
-        [SerializeField]
-        List<BulletProperties> bulletProperties = new List<BulletProperties>();
-
         Rigidbody2D rb;
 
         #endregion
@@ -56,22 +54,13 @@ namespace Phoenix
         [SerializeField]
         RotationSettings rotationSettings = new RotationSettings();
 
-        [SerializeField]
-        LayerMask bulletLayer;
-        
-
         #endregion
 
         #region [Vars: Data Handlers]
 
-        [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!"+nameof(components)), PropertyOrder(-1)]
-        JetComponents components;
+        [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!"+nameof(jetGO)), PropertyOrder(-1)]
+        GameObject jetGO;
         Vector2 moveDirection;
-        float fireCooldown;
-        bool isFiring = false;
-        int currentFireModeIndex;
-        int currentFireOrigin;
-        BulletProperties currentBulletProperties;
 
         #endregion
 
@@ -83,58 +72,63 @@ namespace Phoenix
 
         #region [Methods: Initialization]
 
+        void Awake()
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        void OnEnable()
+        {
+            var brain = GetComponent<Brain>();
+            if (brain != null)
+                Init(brain);
+        }
+
+        void OnDisable()
+        {
+            var brain = GetComponent<Brain>();
+            if (brain!=null)
+                Disable(brain);
+        }
+
         public void Init(Brain brain)
         {
             brain.OnMoveInput += (dir) => { moveDirection = dir; };
-            brain.OnFireInput += (isFiring) => { this.isFiring = isFiring; };
-            GetCursorWorldPosition += brain.GetCursorWorldPosition;
-            brain.OnFireModeInput += () => { currentFireModeIndex = (currentFireModeIndex + 1) % components.FireModes.Count; };
+            brain.OnCursorWorldPos += RotateToCursor;
 
-            rb = GetComponent<Rigidbody2D>();
             rb.drag = jetProperties.linearDrag;
             InstantiateJet();
-            currentFireModeIndex = 0;
-            currentFireOrigin = 0;
-            currentBulletProperties = bulletProperties[0];
         }
 
         public void Disable(Brain brain)
         {
             brain.OnMoveInput -= (dir) => { moveDirection = dir; };
-            brain.OnFireInput -= (isFiring) => { this.isFiring = isFiring; };
-            GetCursorWorldPosition -= brain.GetCursorWorldPosition;
+            brain.OnCursorWorldPos -= RotateToCursor;
         }
 
         void InstantiateJet()
         {
-            if (components == null)
+            if (jetGO == null)
             {
-                var foundJet = transform.Find("Jet");
-                if (foundJet != null)
+                jetGO = transform.Find("Jet").gameObject;
+                if (jetGO == null)
                 {
-                    components = foundJet.gameObject.GetComponent<JetComponents>();
-                }
-                else
-                {
-                    components = Instantiate(jetProperties.jetPrefab, transform);
-                    components.name = "Jet";
+                    jetGO = Instantiate(jetProperties.jetPrefab, transform).gameObject;
+                    jetGO.name = "Jet";
                 }
             }
-
         }
 
         #endregion
 
         void FixedUpdate()
         {
-            RotateToCursor();
-            Move();
-            Fire();
+            Move(moveDirection);
         }
 
-        void RotateToCursor()
+        void RotateToCursor(Vector2 cursorPos)
         {
-            var positionToCursor = (Vector2)transform.position - GetCursorWorldPosition();
+            var positionToCursor = (Vector2)transform.position - cursorPos;
             var newAngle = Mathf.Atan2(positionToCursor.y, positionToCursor.x) * Mathf.Rad2Deg;
             var validatedAngle = ValidateAngle(newAngle);
             transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, validatedAngle));
@@ -173,58 +167,12 @@ namespace Phoenix
             }
         }
 
-        void Move()
+        void Move(Vector2 moveDirection)
         {
             if (rb.velocity.magnitude < jetProperties.maxVelocity)
                 rb.AddForce(moveDirection * jetProperties.moveSpeed, ForceMode2D.Impulse);
         }
 
-        void Fire()
-        {
-            fireCooldown -= Time.deltaTime;
-
-            if (!isFiring) return;
-            if (fireCooldown > 0) return;
-
-            fireCooldown = 1/jetProperties.rps;
-            var currentFireMode = components.FireModes[currentFireModeIndex];
-
-            var bulletGO = new GameObject("Bullet");
-
-            bulletGO.gameObject.layer = (int)Mathf.Log(bulletLayer.value, 2);
-            bulletGO.transform.position = currentFireMode.origins[currentFireOrigin].transform.position;
-            bulletGO.transform.eulerAngles = currentFireMode.origins[currentFireOrigin].eulerAngles;
-            var bullet = bulletGO.AddComponent<BulletController>();
-            bullet.Init(currentBulletProperties);
-
-            currentFireOrigin++;
-
-            switch (currentFireMode.pattern)
-            {
-                case FireMode.FirePattern.Sequence: 
-                    currentFireOrigin %= currentFireMode.origins.Count;
-                    break;
-                case FireMode.FirePattern.ConcurrentInstant:
-                    if (currentFireOrigin / currentFireMode.origins.Count != 1)
-                    {
-                        fireCooldown = 0;
-                        Fire();
-                    }
-                    else
-                        currentFireOrigin = 0;
-                    break;
-                case FireMode.FirePattern.ConcurrentCooldown:
-                    if (currentFireOrigin / currentFireMode.origins.Count != 1)
-                        Fire();
-                    else
-                        currentFireOrigin = 0;
-                    break;
-                case FireMode.FirePattern.SequenceRandom:
-                    currentFireOrigin = UnityEngine.Random.Range(0, currentFireMode.origins.Count);
-                    break;
-
-            }
-        }
     }
 }
 

@@ -27,6 +27,14 @@ namespace Encore.Utility
             return list[list.Count - 1];
         }
 
+        /// <summary>
+        /// Returns the last item in the list
+        /// </summary>
+        public static int GetLast(this IList<int> list)
+        {
+            return list[list.Count - 1];
+        }
+
         public static void AddIfHasnt<T>(this IList<T> list, T addValue)
         {
             if(!list.Contains(addValue)) list.Add(addValue);
@@ -35,6 +43,11 @@ namespace Encore.Utility
         public static void RemoveIfHas<T>(this IList<T> list, T addValue)
         {
             if (!list.Contains(addValue)) list.Remove(addValue);
+        }
+
+        public static void RemoveLast<T>(this IList<T> list)
+        {
+            list.RemoveAt(list.Count-1);
         }
 
         public static void AddRangeUnique<T>(this IList<T> list, IList<T> otherList)

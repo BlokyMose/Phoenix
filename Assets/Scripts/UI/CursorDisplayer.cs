@@ -22,6 +22,7 @@ namespace Phoenix
 
         #endregion
 
+        public Action<Vector2> OnCursorPosition;
 
         #region [Methods: Initialization]
 
@@ -55,11 +56,7 @@ namespace Phoenix
         void SetCursorPosition()
         {
             cursor.transform.position = Vector2.Lerp(cursor.transform.position, pointerPos, speed);
-        }
-
-        public Vector2 GetCursorPosition()
-        {
-            return cursor.transform.position;
+            OnCursorPosition?.Invoke(cursor.transform.position);
         }
     }
 }

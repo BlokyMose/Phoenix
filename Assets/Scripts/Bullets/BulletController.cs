@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,15 +30,17 @@ namespace Phoenix
 
         #endregion
 
+        float lifetime = 0;
 
         Coroutine corDestroyingSelf;
+        Action OnDie;
 
         public void Init(BulletProperties bulletProperties)
         {
             this.bulletProperties = bulletProperties;
 
             bulletComponents = Instantiate(bulletProperties.bulletPrefab, transform);
-            bulletComponents.Init(bulletProperties);
+            bulletComponents.Init(bulletProperties, ref OnDie);
 
             #region [Setup RB2D]
 
@@ -55,8 +58,8 @@ namespace Phoenix
             // Match bulet sprite's collider with this collider
             if (bulletProperties.matchBulletPrefabCollider && bulletComponents.Col != null)
             {
-                col.size = bulletComponents.Col.size * bulletComponents.GO.transform.localScale;
-                col.offset = bulletComponents.Col.offset * bulletComponents.GO.transform.localScale;
+                col.size = bulletComponents.Col.size * bulletComponents.transform.localScale;
+                col.offset = bulletComponents.Col.offset * bulletComponents.transform.localScale;
                 bulletComponents.Col.enabled = false; // Extra collider on the bullet sprite is not needed
             }
             else
@@ -68,13 +71,20 @@ namespace Phoenix
             #endregion
 
             bulletProperties.bulletMovement.ModifyBullet(this);
-            DelayActivation();
+            isActive = true;
+            //DelayActivation();
             CountingLifeDuration();
+        }
+
+        private void Update()
+        {
+            lifetime += Time.deltaTime;
         }
 
         void FixedUpdate()
         {
             bulletProperties.bulletMovement.Move(this);
+
         }
 
         /// <summary>
@@ -112,8 +122,10 @@ namespace Phoenix
             {
                 isActive = false;
                 col.enabled = false;
-                yield return new WaitForSeconds(bulletComponents.Die());
+                yield return new WaitForSeconds(bulletComponents.Die(lifetime));
                 StopAllCoroutines();
+
+                OnDie?.Invoke();
                 Destroy(gameObject);
             }
         }
@@ -122,13 +134,11 @@ namespace Phoenix
         {
             if (!isActive) return;
 
-            // TODO: prevent damaging self
-
             #region [Apply Damage to IHealth]
 
-            var iHealth = collision.gameObject.GetComponent<IHealth>();
-            if (iHealth != null)
-                iHealth.ReceiveDamage(bulletProperties.damage);
+            var healthController = collision.gameObject.GetComponent<HealthController>();
+            if (healthController != null)
+                healthController.ReceiveDamage(bulletProperties.damage);
 
             #endregion
 

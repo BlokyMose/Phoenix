@@ -9,7 +9,7 @@ namespace Phoenix
     [CreateAssetMenu(menuName ="SO/Jet Properties")]
     public class JetProperties : ScriptableObject
     {
-        public JetComponents jetPrefab;
+        public FireComponents jetPrefab;
 
         [Header("Movement")]
         public float moveSpeed = 0.33f;

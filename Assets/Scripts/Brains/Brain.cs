@@ -12,8 +12,9 @@ namespace Phoenix
         #region [Delegates]
 
         public Action<Vector2> OnMoveInput;
-        public Action<bool> OnFireInput;
+        public Action OnFireInput;
         public Action<Vector2> OnPointerPosInput;
+        public Action<Vector2> OnCursorWorldPos;
         public Action OnFireModeInput;
 
         #endregion
@@ -23,24 +24,8 @@ namespace Phoenix
             Init();
         }
 
-        protected virtual void OnEnable()
-        {
-            var jet = GetComponent<JetController>();
-            jet.Init(this);
-        }
-
-        protected virtual void OnDisable()
-        {
-            var jet = GetComponent<JetController>();
-            jet.Disable(this);
-        }
-
         public virtual void Init()
         {
         }
-
-
-        public abstract Vector2 GetCursorWorldPosition();
-
     }
 }

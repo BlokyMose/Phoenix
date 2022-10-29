@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Phoenix
 {
-    public class JetComponents : MonoBehaviour
+    public class FireComponents : MonoBehaviour
     {
         #region [Classes]
 

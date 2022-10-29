@@ -21,12 +21,6 @@ namespace Phoenix
 
         #endregion
 
-
-        public override Vector2 GetCursorWorldPosition()
-        {
-            return (Vector2)transform.position + Vector2.right * 10;
-        }
-
         private void Start()
         {
             StartCoroutine(Firing());
@@ -34,11 +28,20 @@ namespace Phoenix
             {
                 while (true)
                 {
-                    OnFireInput(true);
+                    OnFireInput();
                     yield return null;
                 }
             }
 
+            StartCoroutine(Facing());
+            IEnumerator Facing()
+            {
+                while (true)
+                {
+                    OnCursorWorldPos((Vector2)transform.position + Vector2.right * 10);
+                    yield return null;
+                }
+            }
 
             StartCoroutine(Moving());
             IEnumerator Moving()

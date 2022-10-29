@@ -54,8 +54,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="D:\Microsoft Visual Studio\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
-    <Analyzer Include="D:\Unity\_learning\Phoenix\Assets\Plugins\ModularMotion\ModularEditor.dll" />
-    <Analyzer Include="D:\Unity\_learning\Phoenix\Assets\Plugins\ModularMotion\ModularMotion.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Misc\EditorGameObjects.cs" />
@@ -65,8 +63,8 @@
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Night\LightSprite2DEditor.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Settings\ProfileEditor.cs" />
     <Compile Include="Assets\Plugins\M Studio\Colourful Hierarchy Category GameObject\Editor\StyleHierarchy.cs" />
-    <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Night\LightTexture2DEditor.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Day\DayLightTilemapCollider2DEditor.cs" />
+    <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Night\LightTexture2DEditor.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Manager\LightingManager2DEditor.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Night\LightParticleSystem2DEditor.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartUtilities2D\Editor\Mesh2DEditor.cs" />
@@ -80,8 +78,8 @@
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Misc\MoveGizmos.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Settings\Light2DWindow.cs" />
     <Compile Include="Assets\Plugins\M Studio\Colourful Hierarchy Category GameObject\Editor\ColorPalette.cs" />
-    <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Occlusion\LightTilemapOcclusion2DEditor.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Light\LightTilemapCollider2DEditor.cs" />
+    <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Occlusion\LightTilemapOcclusion2DEditor.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Editor\Settings\ProjectSettingsEditor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +345,9 @@
     <Reference Include="ModularExtension">
       <HintPath>Assets\Plugins\ModularMotion\ModularExtension.dll</HintPath>
     </Reference>
+    <Reference Include="ModularMotion">
+      <HintPath>Assets\Plugins\ModularMotion\ModularMotion.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>Assets\Plugins\ModularMotion\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -361,6 +362,9 @@
     </Reference>
     <Reference Include="ConsolePro.Editor">
       <HintPath>Assets\Plugins\ConsolePro\Editor\ConsolePro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="ModularEditor">
+      <HintPath>Assets\Plugins\ModularMotion\ModularEditor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.Unsafe.dll</HintPath>
@@ -389,20 +393,14 @@
     <Reference Include="Sirenix.Serialization.Config">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
     </Reference>
-    <Reference Include="ModularMotion">
-      <HintPath>Assets\Plugins\ModularMotion\ModularMotion.dll</HintPath>
-    </Reference>
     <Reference Include="Sirenix.Utilities">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Cecil.Rocks">
-      <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.8\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="ModularEditor">
-      <HintPath>Assets\Plugins\ModularMotion\ModularEditor.dll</HintPath>
+    <Reference Include="Unity.Burst.Cecil.Rocks">
+      <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
@@ -875,6 +873,9 @@
     <Reference Include="Unity.2D.Tilemap.Extras">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Extras.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.Animation.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Animation.Editor.dll</HintPath>
     </Reference>
@@ -889,6 +890,9 @@
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
@@ -973,12 +977,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualEffectGraph.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualEffectGraph.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
