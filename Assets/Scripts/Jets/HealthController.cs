@@ -6,16 +6,20 @@ using UnityEngine;
 
 namespace Phoenix
 {
-    public class HealthController : MonoBehaviour
+    public class HealthController : MonoBehaviour, IElemental
     {
         [SerializeField]
         float maxHealth = 100;
         public float MaxHealth => maxHealth;
 
-        [ReadOnly]
+        [ShowInInspector, ReadOnly]
         float health;
-
         public float Health => health;
+
+        [SerializeField]
+        Element element;
+
+        public Element Element => element;
 
         public Action<float> OnDamaged;
         public Action OnDie;

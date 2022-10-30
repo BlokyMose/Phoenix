@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -8,7 +9,7 @@ namespace Phoenix
 {
     [RequireComponent(typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class BulletController : MonoBehaviour
+    public class BulletController : MonoBehaviour, IElemental
     {
         #region [Vars: Data Handlers]
 
@@ -19,7 +20,6 @@ namespace Phoenix
 
         #endregion
 
-
         #region [Vars: Components]
 
         Rigidbody2D rb;
@@ -28,12 +28,27 @@ namespace Phoenix
         CapsuleCollider2D col;
         public CapsuleCollider2D Col => col;
 
+        public Element Element => bulletProperties.element;
+
         #endregion
 
         float lifetime = 0;
 
         Coroutine corDestroyingSelf;
+
+
+        #region [Delegates]
+
+
+        /// <summary>
+        /// Returns <see cref="BulletProperties.damage"/> or <see cref="ElementContainer.GetDamage(float, Element)"/>
+        /// </summary>
+        Func<Element, float> GetDamage;
         Action OnDie;
+
+        #endregion
+
+
 
         public void Init(BulletProperties bulletProperties)
         {
@@ -66,6 +81,19 @@ namespace Phoenix
             {
                 col.size = bulletProperties.colliderSize;
                 col.offset = bulletProperties.colliderOffset;
+            }
+
+            #endregion
+
+            #region [Setup ElementContainer]
+
+            if (bulletProperties.element != null)
+            {
+                GetDamage = (otherElement) => { return bulletProperties.element.GetDamage(bulletProperties.damage, otherElement); };
+            }
+            else
+            {
+                GetDamage = (otherElement) => { return bulletProperties.damage; };
             }
 
             #endregion
@@ -137,8 +165,9 @@ namespace Phoenix
             #region [Apply Damage to IHealth]
 
             var healthController = collision.gameObject.GetComponent<HealthController>();
+
             if (healthController != null)
-                healthController.ReceiveDamage(bulletProperties.damage);
+                healthController.ReceiveDamage(GetDamage(healthController.Element));
 
             #endregion
 
@@ -154,5 +183,7 @@ namespace Phoenix
 
             DestroySelf();
         }
+
+
     }
 }

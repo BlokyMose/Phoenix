@@ -10,6 +10,10 @@ using ColorUtility = Encore.Utility.ColorUtility;
 
 namespace Phoenix
 {
+    /// <summary>
+    /// [NOTE}
+    /// Only supports VFX; add SpriteRenderer support later if needed
+    /// </summary>
     public class ShieldController : MonoBehaviour
     {
         #region [Classes]
@@ -21,21 +25,42 @@ namespace Phoenix
             float atHealth = 100;
             public float AtHealth => atHealth;
 
-            [SerializeField, ColorUsage(true,true)]
-            Color colorIdle = new Color(1, 1, 1, 1);
-            public Color ColorIdle => colorIdle;
+            Color colorOriginal = new Color(1, 1, 1, 1);
+            public Color ColorOriginal
+            {
+                get => colorOriginal;
+                set { colorOriginal = value; }
+            }
 
-            [SerializeField, ColorUsage(true, true)]
+            [HorizontalGroup("colorIdle", width: 0.05f)]
+            [SerializeField, LabelWidth(0.1f)]
+            bool overrideColorIdle = false;
+            public bool OverrideColorIdle => overrideColorIdle;
+
+            [HorizontalGroup("colorIdle", width: 0.95f)]
+            [SerializeField, ColorUsage(true,true), EnableIf(nameof(overrideColorIdle))]
+            Color colorIdle = new Color(1, 1, 1, 1);
+            public Color ColorIdle => overrideColorIdle ? colorIdle : colorOriginal;
+
+
+            [HorizontalGroup("colorDamaged", width: 0.05f)]
+            [SerializeField, LabelWidth(0.1f)]
+            bool overrideColorDamaged = false;
+            public bool OverrideColorDamaged => overrideColorDamaged;
+
+            [HorizontalGroup("colorDamaged", width: 0.95f)]
+            [SerializeField, ColorUsage(true, true), EnableIf(nameof(overrideColorDamaged))]
             Color colorDamaged = new Color(0.8f, 0.2f, 0.2f, 0.5f);
-            public Color ColorDamaged => colorDamaged;
+            public Color ColorDamaged => overrideColorDamaged ? colorDamaged : colorOriginal;
 
             [SerializeField]
             int vfxMode = 0;
             public int VFXMode => vfxMode;
 
-            public HealthStage(float atHealth, Vector4 colorIdle, Vector4 colorDamaged,  int vfxMode)
+            public HealthStage(float atHealth, Vector4 colorOriginal, Vector4 colorIdle, Vector4 colorDamaged,  int vfxMode)
             {
                 this.atHealth = atHealth;
+                this.colorOriginal = colorOriginal;
                 this.colorIdle = colorIdle;
                 this.colorDamaged = colorDamaged;
                 this.vfxMode = vfxMode;
@@ -122,6 +147,8 @@ namespace Phoenix
                 else
                     ArrangeHealthStagesFromHighest();
 
+                SetStagesColorOriginal(vfx.GetVector4(COLOR));
+
                 healthController.OnDamaged += (damage) => { OnReceiveDamage(healthController.Health); };
                 healthController.OnDie += Die;
             }
@@ -150,6 +177,17 @@ namespace Phoenix
             }
         }
 
+        /// <summary>
+        /// Change the VFX default color
+        /// </summary>
+        public void SetStagesColorOriginal(Color color)
+        {
+            foreach (var stage in healthStages)
+            {
+                stage.ColorOriginal = color;
+            }
+        }
+
         public void OnReceiveDamage(float health)
         {
             if (currentHealthStageIndex < healthStages.Count-1 && healthStages[currentHealthStageIndex+1].AtHealth >= health)
@@ -159,11 +197,10 @@ namespace Phoenix
             corDamageAnimation = this.RestartCoroutine(AnimatingDamagedColor());
 
 
-
             IEnumerator AnimatingDamagedColor()
             {
                 vfx.SetVector4(COLOR, currentHealthStage.ColorDamaged);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.125f);
                 vfx.SetVector4(COLOR, currentHealthStage.ColorIdle);
             }
         }
@@ -183,7 +220,7 @@ namespace Phoenix
                 colorIdle = vfx.GetVector4(COLOR);
 
             var maxHealth = (healthController != null) ? healthController.MaxHealth : 100f;
-            healthStages.Add( new HealthStage(maxHealth, colorIdle, colorIdle, 0));
+            healthStages.Add(new HealthStage(maxHealth, colorIdle, colorIdle, colorIdle, 0));
         }
 
         #endregion

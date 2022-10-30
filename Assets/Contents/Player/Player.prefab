@@ -5389,6 +5389,8 @@ GameObject:
   - component: {fileID: 3682275774977892672}
   - component: {fileID: 3682275774977892673}
   - component: {fileID: 3682275774977892678}
+  - component: {fileID: 987975871}
+  - component: {fileID: 987975872}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -5528,9 +5530,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorDisplayerPrefab: {fileID: 7398357457490410111, guid: 07c24a861d698d348bc52f593ff02cd9, type: 3}
-  instantiateVCam: 1
+  instantiateVCam: 0
   vCamPrefab: {fileID: 1992904477449522971, guid: 135a2321919c0f84991d14e1517c6195, type: 3}
-  fireInputMode: 2
+  fireInputMode: 0
 --- !u!114 &3682275774977892678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5544,12 +5546,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jetProperties: {fileID: 11400000, guid: 981da0ec1dd7fe94fae4cbff059f5666, type: 2}
-  bulletProperties:
-  - {fileID: 11400000, guid: 6f15db90af302ae4bbad585bfc7e1c95, type: 2}
   rotationSettings:
     angleLimit: 360
     faceMode: 0
+  jetGO: {fileID: 0}
+--- !u!114 &987975871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682275774977892730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d23c5a6b13b804eb0fb4e2fa9785f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jetProperties: {fileID: 11400000, guid: 981da0ec1dd7fe94fae4cbff059f5666, type: 2}
+  bulletProperties:
+  - {fileID: 11400000, guid: 6f15db90af302ae4bbad585bfc7e1c95, type: 2}
   bulletLayer:
     serializedVersion: 2
     m_Bits: 2048
-  components: {fileID: 0}
+  components: {fileID: 149123074}
+--- !u!114 &987975872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682275774977892730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb376d8227eb9b54aa0b9be98b7e09bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  element: {fileID: 0}

@@ -16,6 +16,8 @@ namespace Phoenix
         [InlineButton(nameof(AssignDefaultBulletMovement), "Default", ShowIf ="@!"+nameof(bulletMovement))]
         public BulletMovement bulletMovement;
 
+        public Element element;
+
         [Tooltip("Amount of damage the opponent will receive")]
         public float damage = 10f;
 
