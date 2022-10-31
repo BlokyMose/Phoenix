@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Element_Fire
   m_EditorClassIdentifier: 
   elementName: Fire
-  color: {r: 1, g: 0, b: 0, a: 1}
+  color: {r: 1.8490566, g: 0.39248848, b: 0.39248848, a: 1}
   rules:
   - element: {fileID: 11400000}
     damageMultiplication: -1

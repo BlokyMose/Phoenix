@@ -96,7 +96,7 @@ namespace Phoenix
             brain.OnMoveInput += (dir) => { moveDirection = dir; };
             brain.OnCursorWorldPos += RotateToCursor;
 
-            rb.drag = jetProperties.linearDrag;
+            rb.drag = jetProperties.LinearDrag;
             InstantiateJet();
         }
 
@@ -113,7 +113,7 @@ namespace Phoenix
                 jetGO = transform.Find("Jet").gameObject;
                 if (jetGO == null)
                 {
-                    jetGO = Instantiate(jetProperties.jetPrefab, transform).gameObject;
+                    jetGO = Instantiate(jetProperties.JetPrefab, transform).gameObject;
                     jetGO.name = "Jet";
                 }
             }
@@ -169,8 +169,8 @@ namespace Phoenix
 
         void Move(Vector2 moveDirection)
         {
-            if (rb.velocity.magnitude < jetProperties.maxVelocity)
-                rb.AddForce(moveDirection * jetProperties.moveSpeed, ForceMode2D.Impulse);
+            if (rb.velocity.magnitude < jetProperties.MaxVelocity)
+                rb.AddForce(moveDirection * jetProperties.MoveSpeed, ForceMode2D.Impulse);
         }
 
     }

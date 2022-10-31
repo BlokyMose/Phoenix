@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6644969288151619517, guid: d6dfe48bebdf1b848b4ca005b5af4de9, type: 3}
   bulletMovement: {fileID: 11400000, guid: df01cc981f46e1442ab3862122ede9b3, type: 2}
-  destroyedVFX: {fileID: 0}
+  element: {fileID: 11400000, guid: 47a3d76f983b4e940a4c5d59daad01f2, type: 2}
   damage: 10
   lifeDuration: 6
   speed: 125

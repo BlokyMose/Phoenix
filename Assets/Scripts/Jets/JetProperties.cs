@@ -6,21 +6,35 @@ using UnityEngine;
 namespace Phoenix
 {
     [InlineEditor]
-    [CreateAssetMenu(menuName ="SO/Jet Properties")]
+    [CreateAssetMenu(menuName ="SO/Properties/Jet Properties", fileName = "JP_")]
     public class JetProperties : ScriptableObject
     {
-        public FireComponents jetPrefab;
+        [SerializeField]
+        GameObject jetPrefab;
+        public GameObject JetPrefab => jetPrefab;
 
         [Header("Movement")]
-        public float moveSpeed = 0.33f;
-        public float maxVelocity = 10f;
-        public float cursorSpeed = 0.2f;
-        public float linearDrag = 1f;
+        [SerializeField]
+        float moveSpeed = 0.33f;
+        public float MoveSpeed => moveSpeed;
+        [SerializeField]
+        float maxVelocity = 10f;
+        public float MaxVelocity => maxVelocity;
+        [SerializeField]
+        float cursorSpeed = 0.2f;
+        public float CursorSpeed => cursorSpeed;
+        [SerializeField]
+        float linearDrag = 1f;
+        public float LinearDrag => linearDrag;
 
         [Header("Attack")]
-        public float rps = 2f;
+        [SerializeField]
+        float rps = 2f;
+        public float RPS => rps;
 
         [Header("Cursor")]
-        public GameObject cursor;
+        [SerializeField]
+        GameObject cursor;
+        public GameObject Cursor => cursor;
     }
 }

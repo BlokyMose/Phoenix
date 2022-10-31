@@ -71,8 +71,12 @@ namespace Phoenix
 
                 if (components == null)
                 {
-                    components = Instantiate(jetProperties.jetPrefab, transform);
-                    components.name = "Jet";
+                    var fireComponents = Instantiate(jetProperties.JetPrefab, transform).GetComponent<FireComponents>();
+                    if (fireComponents != null)
+                    {
+                        components = fireComponents;
+                        components.name = "Jet";
+                    }
                 }
             }
 
@@ -93,7 +97,7 @@ namespace Phoenix
         {
             if (fireCooldown > 0) return;
 
-            fireCooldown = 1 / jetProperties.rps;
+            fireCooldown = 1 / jetProperties.RPS;
             var currentFireMode = components.FireModes[currentFireModeIndex];
 
             var bulletGO = new GameObject("Bullet");

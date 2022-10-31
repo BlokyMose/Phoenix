@@ -28,7 +28,7 @@ namespace Phoenix
 
         public void Init(ref Action<Vector2> onPointerPos, JetProperties jetProperties)
         {
-            Init(ref onPointerPos, jetProperties.cursorSpeed, jetProperties.cursor);
+            Init(ref onPointerPos, jetProperties.CursorSpeed, jetProperties.Cursor);
         }
 
         public void Init(ref Action<Vector2> onPointerPos, float speed, GameObject cursorPrefab)

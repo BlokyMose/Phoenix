@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Encore.Utility
@@ -36,4 +37,13 @@ namespace Encore.Utility
     }
 
     public enum Direction4 { Right, Left, Up, Down }
+
+    [Flags]
+    public enum FollowMode
+    {
+        None = 0,
+        Position = 1,
+        Rotation = 2,
+        Scale = 4,
+    }
 }

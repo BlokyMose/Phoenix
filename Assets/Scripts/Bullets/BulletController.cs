@@ -9,7 +9,7 @@ namespace Phoenix
 {
     [RequireComponent(typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class BulletController : MonoBehaviour, IElemental
+    public class BulletController : MonoBehaviour
     {
         #region [Vars: Data Handlers]
 
@@ -36,19 +36,15 @@ namespace Phoenix
 
         Coroutine corDestroyingSelf;
 
-
         #region [Delegates]
-
 
         /// <summary>
         /// Returns <see cref="BulletProperties.damage"/> or <see cref="ElementContainer.GetDamage(float, Element)"/>
         /// </summary>
-        Func<Element, float> GetDamage;
+        Func<float,Element, float> GetProcessedDamage;
         Action OnDie;
 
         #endregion
-
-
 
         public void Init(BulletProperties bulletProperties)
         {
@@ -89,11 +85,13 @@ namespace Phoenix
 
             if (bulletProperties.element != null)
             {
-                GetDamage = (otherElement) => { return bulletProperties.element.GetDamage(bulletProperties.damage, otherElement); };
+                var elementContainer = gameObject.GetComponent<ElementContainer>();
+                if (elementContainer == null) elementContainer = gameObject.AddComponent<ElementContainer>();
+                elementContainer.Init(bulletProperties.element, ref GetProcessedDamage);
             }
             else
             {
-                GetDamage = (otherElement) => { return bulletProperties.damage; };
+                GetProcessedDamage = (damage, otherElement) => { return damage; };
             }
 
             #endregion
@@ -165,9 +163,10 @@ namespace Phoenix
             #region [Apply Damage to IHealth]
 
             var healthController = collision.gameObject.GetComponent<HealthController>();
-
+            var elementContainer = collision.gameObject.GetComponent<ElementContainer>();
+            var otherElement = elementContainer != null ? elementContainer.Element : null;
             if (healthController != null)
-                healthController.ReceiveDamage(GetDamage(healthController.Element));
+                healthController.ReceiveDamage(GetProcessedDamage(bulletProperties.damage, otherElement));
 
             #endregion
 

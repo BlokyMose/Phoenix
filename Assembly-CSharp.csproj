@@ -105,14 +105,17 @@
     <Compile Include="Assets\Scripts\LevelManagers\LevelPhoenix.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
     <Compile Include="Assets\Scripts\Brains\Brain.cs" />
+    <Compile Include="Assets\Scripts\Elements\Element.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovement.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Movement.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\AsOneInput.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
-    <Compile Include="Assets\Scripts\Elements\Element.cs" />
-    <Compile Include="Assets\Scripts\Elements\IElemental.cs" />
+    <Compile Include="Assets\Scripts\Elements\ElementContainer.cs" />
+    <Compile Include="Assets\Scripts\Elements\ElementSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Brains\ShieldBotBrain.cs" />
+    <Compile Include="Assets\Scripts\Objects\ShieldProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
