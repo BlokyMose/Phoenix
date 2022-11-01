@@ -36,5 +36,10 @@ namespace AsOne
         {
             characterController.OnPointerWorldPos(Camera.main.ScreenToWorldPoint( context.ReadValue<Vector2>()));
         }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+           
+        }
     }
 }
