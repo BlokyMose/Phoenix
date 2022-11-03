@@ -119,6 +119,8 @@ namespace Phoenix
 
         #endregion
 
+        [SerializeField]
+        bool canDestroySelf = false;
 
         [SerializeField]
         float maxHealth = 100;
@@ -161,6 +163,7 @@ namespace Phoenix
         public void ReceiveDamage(float damage)
         {
             health -= damage;
+
             if (isUsingHealthStages)
             {
                 if (currentHealthStageIndex < healthStages.Count - 1 && healthStages[currentHealthStageIndex + 1].AtHealth >= health)
@@ -189,6 +192,8 @@ namespace Phoenix
         public void Die()
         {
             OnDie?.Invoke();
+            if (canDestroySelf && gameObject != null)
+                Destroy(gameObject);
         }
 
         void ArrangeHealthStagesFromHighest()
