@@ -26,6 +26,9 @@ namespace Phoenix
 
         public bool InstatiateVCam { get { return instantiateVCam; }  set { instantiateVCam = value; } }
 
+        [SerializeField]
+        HealthBarController healthBarController;
+
         #endregion
 
         #region [Vars: Properties]
@@ -45,7 +48,6 @@ namespace Phoenix
 
         #endregion
 
-
         #region [Vars: Data Handlers]
 
         CursorDisplayer cursorDisplayer;
@@ -62,6 +64,7 @@ namespace Phoenix
             var controls = new PhoenixControls();
             controls.Player.SetCallbacks(this);
             controls.Enable();
+
 
             if (instantiateVCam)
             {
@@ -80,6 +83,12 @@ namespace Phoenix
             cursorDisplayer.OnCursorPosition += (pos) => { OnCursorWorldPos?.Invoke(Camera.main.ScreenToWorldPoint(pos)); };
 
             SetupFireInputMode(fireInputMode);
+
+            var healthController = GetComponent<HealthController>();
+            if (healthController!=null && healthBarController != null)
+            {
+                healthBarController.Init(healthController);
+            }
         }
 
         Coroutine corAutomaticFireInput;

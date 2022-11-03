@@ -23,7 +23,7 @@ namespace Phoenix
         #region [Classes]
 
         [System.Serializable]
-        public class HealthStage
+        public class VFXHealthStage
         {
             [SerializeField]
             float atHealth = 100;
@@ -69,7 +69,7 @@ namespace Phoenix
             int vfxMode = 0;
             public int VFXMode => vfxMode;
 
-            public HealthStage(float atHealth, Vector4 colorOriginal, bool overrideColorIdle, Vector4 colorIdle, bool overrideColorDamaged, Vector4 colorDamaged,  int vfxMode)
+            public VFXHealthStage(float atHealth, Vector4 colorOriginal, bool overrideColorIdle, Vector4 colorIdle, bool overrideColorDamaged, Vector4 colorDamaged,  int vfxMode)
             {
                 this.atHealth = atHealth;
                 this.colorOriginal = colorOriginal;
@@ -107,7 +107,12 @@ namespace Phoenix
         bool useElementAsColorIdle = true;
 
         [SerializeField, ListDrawerSettings(HideAddButton = true)]
-        List<HealthStage> healthStages = new List<HealthStage>();
+        List<VFXHealthStage> healthStages = new List<VFXHealthStage>();
+
+        [Header("SpriteRenderers")]
+        [SerializeField]
+        List<SpriteRenderer> srs = new List<SpriteRenderer>();
+
 
         Collider2D col;
 
@@ -117,16 +122,18 @@ namespace Phoenix
 
         const string COLOR = "color", MODE = "mode";
         Coroutine corDamageAnimation;
-        HealthStage currentHealthStage => healthStages[currentHealthStageIndex];
+        VFXHealthStage currentHealthStage => healthStages[currentHealthStageIndex];
         int currentHealthStageIndex = 0;
 
         #endregion
 
         public Action OnDie;
 
-        public void Init(Transform targetFollow, ShieldProperties properties)
+        public void Init(Transform targetFollow, ShieldProperties properties, List<SpriteRenderer> srs)
         {
             this.targetFollow = targetFollow;
+
+            this.srs = srs;
 
             #region [Get/Add components]
 
@@ -176,31 +183,41 @@ namespace Phoenix
                 healthController.OnDamaged += (damage) => { OnReceiveDamage(healthController.Health); };
                 healthController.OnDie += Die;
 
-                void SetStagesColorOriginal(Color color)
-                {
-                    foreach (var stage in healthStages)
-                    {
-                        stage.ColorOriginal = color;
-                    }
-                }
-
-                void SetStagesColorOriginalAndCannotOverrideColodIdle(Color color)
-                {
-                    foreach (var stage in healthStages)
-                    {
-                        stage.ColorOriginal = color;
-                        stage.OverrideColorIdle = false;
-                    }
-                }
             }
 
             if (elementContainer != null)
             {
                 elementContainer.Init(properties);
+                elementContainer.OnNewElement += OnNewElement; //TODO 
+            }
+            
+            void OnNewElement(Element element)
+            {
+                SetStagesColorOriginalAndCannotOverrideColodIdle(element.Color);
             }
 
             #endregion
+
+            void SetStagesColorOriginalAndCannotOverrideColodIdle(Color color)
+            {
+                foreach (var stage in healthStages)
+                {
+                    stage.ColorOriginal = color;
+                    stage.OverrideColorIdle = false;
+                }
+                SetColor(currentHealthStage.ColorIdle);
+            }
+
+            void SetStagesColorOriginal(Color color)
+            {
+                foreach (var stage in healthStages)
+                {
+                    stage.ColorOriginal = color;
+                }
+                SetColor(currentHealthStage.ColorIdle);
+            }
         }
+
 
         void FixedUpdate()
         {
@@ -221,41 +238,43 @@ namespace Phoenix
         }
 
         void ArrangeHealthStagesFromHighest()
+        {
+            var newList = new List<VFXHealthStage>();
+            for (int i = healthStages.Count - 1; i >= 0; i--)
             {
-                var newList = new List<HealthStage>();
-                for (int i = healthStages.Count - 1; i >= 0; i--)
+                var top = healthStages[0];
+                var topIndex = 0;
+                for (int k = 0; k < healthStages.Count; k++)
                 {
-                    var top = healthStages[0];
-                    var topIndex = 0;
-                    for (int k = 0; k < healthStages.Count; k++)
+                    if (healthStages[k].AtHealth >= top.AtHealth)
                     {
-                        if (healthStages[k].AtHealth >= top.AtHealth)
-                        {
-                            top = healthStages[k];
-                            topIndex = k;
-                        }
+                        top = healthStages[k];
+                        topIndex = k;
                     }
-
-                    healthStages.RemoveAt(topIndex);
-                    newList.Add(top);
                 }
-                healthStages = newList;
+
+                healthStages.RemoveAt(topIndex);
+                newList.Add(top);
             }
+            healthStages = newList;
+        }
 
         public void OnReceiveDamage(float health)
         {
             if (currentHealthStageIndex < healthStages.Count-1 && healthStages[currentHealthStageIndex+1].AtHealth >= health)
+            {
                 currentHealthStageIndex++;
+                vfx.SetInt(MODE, currentHealthStage.VFXMode);
+            }
 
-            vfx.SetInt(MODE, currentHealthStage.VFXMode);
             corDamageAnimation = this.RestartCoroutine(AnimatingDamagedColor());
 
 
             IEnumerator AnimatingDamagedColor()
             {
-                vfx.SetVector4(COLOR, currentHealthStage.ColorDamaged);
+                SetColor(currentHealthStage.ColorDamaged);
                 yield return new WaitForSeconds(0.125f);
-                vfx.SetVector4(COLOR, currentHealthStage.ColorIdle);
+                SetColor(currentHealthStage.ColorIdle);
             }
         }
 
@@ -275,6 +294,13 @@ namespace Phoenix
             }
         }
 
+        void SetColor(Color color)
+        {
+            vfx.SetVector4(COLOR, color);
+            foreach (var sr in srs)
+                sr.color = color;
+        }
+
         #region [Methods: Inspector]
 
         [Button("Add Health Stage"), GUIColor("@Encore.Utility.ColorUtility.paleGreen")]
@@ -285,7 +311,7 @@ namespace Phoenix
                 colorIdle = vfx.GetVector4(COLOR);
 
             var maxHealth = (healthController != null) ? healthController.MaxHealth : 100f;
-            healthStages.Add(new HealthStage(maxHealth, colorIdle, true, colorIdle, true, colorIdle, 0));
+            healthStages.Add(new VFXHealthStage(maxHealth, colorIdle, true, colorIdle, true, colorIdle, 0));
         }
 
 

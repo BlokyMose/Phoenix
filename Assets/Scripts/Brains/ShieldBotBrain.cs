@@ -8,6 +8,7 @@ namespace Phoenix
 {
     public class ShieldBotBrain : Brain
     {
+        [Header("Shield")]
         [SerializeField, InlineButton(nameof(InstantiateShieldController), "Show", ShowIf = "@!"+nameof(shieldController))]
         ShieldController shieldController;
 
@@ -18,12 +19,21 @@ namespace Phoenix
         ShieldProperties shieldProperties;
 
         [SerializeField]
+        float switchElementEvery = 3;
+
+        [SerializeField]
         Transform target;
+
+        [SerializeField]
+        List<SpriteRenderer> shieldMatchedSRs = new List<SpriteRenderer>();
+
+        ElementSwitcher shieldElementSwitcher;
 
         [SerializeField, LabelText("Rotaion Stability")]
         float cursorPosRatio = 100f;
 
         Vector2 currentPointerPos;
+        float switchElementCooldown;
 
         public override void Init()
         {
@@ -41,22 +51,22 @@ namespace Phoenix
                 healthController.OnDie += Die;
             }
 
-            // Movement logic
+            switchElementCooldown = switchElementEvery;
+
             StartCoroutine(Update());
-            IEnumerator Update()
+        }
+
+        IEnumerator Update()
+        {
+            while (true)
             {
-                while (true)
-                {
-                    var moveDirection = (target.position - transform.position).normalized;
-                    OnMoveInput?.Invoke(moveDirection);
+                Move();
+                SwitchElement();
 
-                    currentPointerPos = GetVector2(target.localEulerAngles.z, target.position, cursorPosRatio);
-                    OnCursorWorldPos?.Invoke(currentPointerPos);
+                yield return null;
+            }
 
-                    yield return null;
-                }
-                
-                Vector2 GetVector2(float angle, Vector2 positionOffset, float multiply = 1f)
+            Vector2 GetVector2(float angle, Vector2 positionOffset, float multiply = 1f)
             {
                 var direction = new Vector2(
                         Mathf.Cos(target.localEulerAngles.z * Mathf.Deg2Rad),
@@ -66,19 +76,40 @@ namespace Phoenix
 
                 return direction;
             }
+
+            void Move()
+            {
+                var moveDirection = (target.position - transform.position).normalized;
+                OnMoveInput?.Invoke(moveDirection);
+
+                currentPointerPos = GetVector2(target.localEulerAngles.z, target.position, cursorPosRatio);
+                OnCursorWorldPos?.Invoke(currentPointerPos);
             }
 
+            void SwitchElement()
+            {
+                switchElementCooldown -= Time.deltaTime;
+
+                if(switchElementCooldown < 0)
+                {
+                    switchElementCooldown = switchElementEvery;
+                    if (shieldElementSwitcher != null)
+                        shieldElementSwitcher.SwitchToNextElement();
+                }
+            }
         }
 
         void InstantiateShieldController()
         {
             shieldController = Instantiate(shieldPrefab, transform);
-            shieldController.Init(transform, shieldProperties);
+            shieldController.Init(transform, shieldProperties, shieldMatchedSRs);
             shieldController.gameObject.name = "Shield";
             shieldController.transform.localPosition = Vector2.zero;
             shieldController.transform.localEulerAngles = Vector2.zero;
             shieldController.transform.parent = null;
             shieldController.OnDie += RespawnShieldController;
+
+            shieldElementSwitcher = shieldController.GetComponent<ElementSwitcher>();
         }
 
         void RespawnShieldController()
@@ -86,6 +117,8 @@ namespace Phoenix
             StartCoroutine(Delay(2f));
             IEnumerator Delay(float delay)
             {
+                shieldController.OnDie -= RespawnShieldController;
+
                 yield return new WaitForSeconds(delay);
                 InstantiateShieldController();
             }
