@@ -89,6 +89,12 @@ namespace Phoenix
             {
                 healthBarController.Init(healthController);
             }
+
+            var recoveryController = GetComponent<RecoveryController>();
+            if (recoveryController != null && healthBarController != null)
+            {
+                healthBarController.Init(recoveryController);
+            }
         }
 
         Coroutine corAutomaticFireInput;

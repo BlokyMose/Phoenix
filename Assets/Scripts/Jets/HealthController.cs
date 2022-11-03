@@ -187,6 +187,8 @@ namespace Phoenix
 
             if (health <= 0)
                 Die();
+            else if (health > maxHealth)
+                health = maxHealth;
         }
 
         public void Die()
