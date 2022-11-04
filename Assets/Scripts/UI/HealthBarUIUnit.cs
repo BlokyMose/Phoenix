@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Phoenix
 {
-    public class HealthBarUnit : MonoBehaviour
+    public class HealthBarUIUnit : MonoBehaviour
     {
         public enum FillStatus { Full, Empty, Filling}
 

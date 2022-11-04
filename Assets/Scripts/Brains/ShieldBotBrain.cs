@@ -51,7 +51,7 @@ namespace Phoenix
                 healthController.OnDie += Die;
             }
 
-            switchElementCooldown = switchElementEvery;
+            switchElementCooldown = 0f;
 
             StartCoroutine(Update());
         }

@@ -33,9 +33,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "FireMode",
+                    "name": "NextFireMode",
                     "type": "Button",
                     "id": "6da6ecab-2156-472b-8e72-2261fbaa4fc0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NextBullet",
+                    "type": "Button",
+                    "id": "cf412306-bdd7-4f6a-b859-33ae355884d5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -248,7 +257,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "FireMode",
+                    "action": "NextFireMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "21ad21cc-09e3-4f02-b75e-06e2ff2ef4e8",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextBullet",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

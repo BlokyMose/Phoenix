@@ -27,7 +27,10 @@ namespace Phoenix
         public bool InstatiateVCam { get { return instantiateVCam; }  set { instantiateVCam = value; } }
 
         [SerializeField]
-        HealthBarController healthBarController;
+        HealthBarUI healthBarUI;        
+        
+        [SerializeField]
+        HealthBarUI healthBarrierUI;
 
         #endregion
 
@@ -83,18 +86,24 @@ namespace Phoenix
             cursorDisplayer.OnCursorPosition += (pos) => { OnCursorWorldPos?.Invoke(Camera.main.ScreenToWorldPoint(pos)); };
 
             SetupFireInputMode(fireInputMode);
+        }
 
-            var healthController = GetComponent<HealthController>();
-            if (healthController!=null && healthBarController != null)
-            {
-                healthBarController.Init(healthController);
-            }
+        public void ConnectToHealthBar(HealthController healthController)
+        {
+            if (healthBarUI != null)
+                healthBarUI.Init(healthController);
+        }
 
-            var recoveryController = GetComponent<RecoveryController>();
-            if (recoveryController != null && healthBarController != null)
-            {
-                healthBarController.Init(recoveryController);
-            }
+        public void ConnectToHealthBar(RecoveryController recoveryController)
+        {
+            if (healthBarUI != null)
+                healthBarUI.Init(recoveryController);
+        }
+
+        public void ConnectToHealthBarrierBar(HealthBarrierController barrierController)
+        {
+            if (healthBarrierUI != null)
+                healthBarrierUI.Init(barrierController);    
         }
 
         Coroutine corAutomaticFireInput;
@@ -161,9 +170,16 @@ namespace Phoenix
             OnPointerPosInput(context.ReadValue<Vector2>());
         }
 
-        public void OnFireMode(InputAction.CallbackContext context)
+        public void OnNextFireMode(InputAction.CallbackContext context)
         {
-            OnFireModeInput();
+            if (context.started)
+                OnNextFireModeInput();
+        }
+
+        public void OnNextBullet(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                OnNextBulletInput();
         }
 
         #endregion

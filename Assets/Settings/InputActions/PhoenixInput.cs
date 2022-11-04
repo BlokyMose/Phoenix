@@ -57,9 +57,18 @@ namespace Phoenix
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""FireMode"",
+                    ""name"": ""NextFireMode"",
                     ""type"": ""Button"",
                     ""id"": ""6da6ecab-2156-472b-8e72-2261fbaa4fc0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextBullet"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf412306-bdd7-4f6a-b859-33ae355884d5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -272,7 +281,18 @@ namespace Phoenix
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""FireMode"",
+                    ""action"": ""NextFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21ad21cc-09e3-4f02-b75e-06e2ff2ef4e8"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextBullet"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -863,7 +883,8 @@ namespace Phoenix
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_PointerPos = m_Player.FindAction("PointerPos", throwIfNotFound: true);
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-            m_Player_FireMode = m_Player.FindAction("FireMode", throwIfNotFound: true);
+            m_Player_NextFireMode = m_Player.FindAction("NextFireMode", throwIfNotFound: true);
+            m_Player_NextBullet = m_Player.FindAction("NextBullet", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -938,7 +959,8 @@ namespace Phoenix
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_PointerPos;
         private readonly InputAction m_Player_Fire;
-        private readonly InputAction m_Player_FireMode;
+        private readonly InputAction m_Player_NextFireMode;
+        private readonly InputAction m_Player_NextBullet;
         public struct PlayerActions
         {
             private @PhoenixControls m_Wrapper;
@@ -946,7 +968,8 @@ namespace Phoenix
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @PointerPos => m_Wrapper.m_Player_PointerPos;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
-            public InputAction @FireMode => m_Wrapper.m_Player_FireMode;
+            public InputAction @NextFireMode => m_Wrapper.m_Player_NextFireMode;
+            public InputAction @NextBullet => m_Wrapper.m_Player_NextBullet;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -965,9 +988,12 @@ namespace Phoenix
                     @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                     @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                     @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                    @FireMode.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFireMode;
-                    @FireMode.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFireMode;
-                    @FireMode.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFireMode;
+                    @NextFireMode.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextFireMode;
+                    @NextFireMode.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextFireMode;
+                    @NextFireMode.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextFireMode;
+                    @NextBullet.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextBullet;
+                    @NextBullet.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextBullet;
+                    @NextBullet.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextBullet;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -981,9 +1007,12 @@ namespace Phoenix
                     @Fire.started += instance.OnFire;
                     @Fire.performed += instance.OnFire;
                     @Fire.canceled += instance.OnFire;
-                    @FireMode.started += instance.OnFireMode;
-                    @FireMode.performed += instance.OnFireMode;
-                    @FireMode.canceled += instance.OnFireMode;
+                    @NextFireMode.started += instance.OnNextFireMode;
+                    @NextFireMode.performed += instance.OnNextFireMode;
+                    @NextFireMode.canceled += instance.OnNextFireMode;
+                    @NextBullet.started += instance.OnNextBullet;
+                    @NextBullet.performed += instance.OnNextBullet;
+                    @NextBullet.canceled += instance.OnNextBullet;
                 }
             }
         }
@@ -1143,7 +1172,8 @@ namespace Phoenix
             void OnMove(InputAction.CallbackContext context);
             void OnPointerPos(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
-            void OnFireMode(InputAction.CallbackContext context);
+            void OnNextFireMode(InputAction.CallbackContext context);
+            void OnNextBullet(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

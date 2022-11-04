@@ -24,7 +24,8 @@ namespace Phoenix
 
         int currentFireModeIndex;
         int currentFireOrigin;
-        BulletProperties currentBulletProperties;
+        int currentBulletIndex;
+        BulletProperties currentBullet => bulletProperties[currentBulletIndex];
 
         [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!" + nameof(components)), PropertyOrder(-1)]
         FireComponents components;
@@ -47,11 +48,12 @@ namespace Phoenix
         public void Init(Brain brain)
         {
             brain.OnFireInput += Fire;
-            brain.OnFireModeInput += NextFireMode;
+            brain.OnNextFireModeInput += NextFireMode;
+            brain.OnNextBulletInput += NextBullet;
 
             currentFireModeIndex = 0;
             currentFireOrigin = 0;
-            currentBulletProperties = bulletProperties[0];
+            currentBulletIndex = 0;
         }
 
         public void Disable(Brain brain)
@@ -87,6 +89,11 @@ namespace Phoenix
             currentFireModeIndex = (currentFireModeIndex + 1) % components.FireModes.Count;
         }
 
+        public void NextBullet()
+        {
+            currentBulletIndex = (currentBulletIndex + 1) % bulletProperties.Count;
+        }
+
         void Update()
         {
             fireCooldown -= Time.deltaTime;
@@ -106,7 +113,7 @@ namespace Phoenix
             bulletGO.transform.position = currentFireMode.origins[currentFireOrigin].transform.position;
             bulletGO.transform.eulerAngles = currentFireMode.origins[currentFireOrigin].eulerAngles;
             var bullet = bulletGO.AddComponent<BulletController>();
-            bullet.Init(currentBulletProperties);
+            bullet.Init(currentBullet);
 
             currentFireOrigin++;
 

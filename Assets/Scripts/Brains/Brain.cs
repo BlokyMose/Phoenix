@@ -15,7 +15,8 @@ namespace Phoenix
         public Action OnFireInput;
         public Action<Vector2> OnPointerPosInput;
         public Action<Vector2> OnCursorWorldPos;
-        public Action OnFireModeInput;
+        public Action OnNextFireModeInput;
+        public Action OnNextBulletInput;
 
         #endregion
 

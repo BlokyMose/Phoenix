@@ -114,6 +114,12 @@ namespace Phoenix
             {
                 foreach (var set in spriteSets)
                     set.ApplyDamaged(colorDamaged);
+            }            
+            
+            public void ApplyRecovery()
+            {
+                //foreach (var set in spriteSets)
+                //    set.ApplyDamaged(colorDamaged);
             }
         }
 
@@ -136,10 +142,17 @@ namespace Phoenix
         int currentHealthStageIndex = 0;
 
         public Action<float> OnDamaged;
+        public Action<float> OnRecovery;
+        public Func<float,float> OnDepleteBarrier;
         public Action OnDie;
 
 
         private void Awake()
+        {
+            Init();
+        }
+
+        public void Init()
         {
             health = maxHealth;
             if (healthStages.Count == 0)
@@ -151,6 +164,10 @@ namespace Phoenix
                 ArrangeHealthStagesFromHighest();
                 healthStages[0].ApplyIdle();
             }
+
+            var playerBrain = GetComponent<PlayerBrain>();
+            if (playerBrain != null)
+                playerBrain.ConnectToHealthBar(this);
         }
 
         public void Init(ShieldProperties properties)
@@ -159,10 +176,26 @@ namespace Phoenix
             health = maxHealth;
         }
 
-        Coroutine corAnimatingDamaged;
+        Coroutine corAnimatingHealth;
         public void ReceiveDamage(float damage)
         {
-            health -= damage;
+            if (damage <= 0) return;
+
+            if (OnDepleteBarrier == null)
+            {
+                OnDamaged?.Invoke(damage);
+                health -= damage;
+            }
+
+            else
+            {
+                var excessDamage = OnDepleteBarrier(damage);
+                if (excessDamage > 0)
+                {
+                    OnDamaged?.Invoke(excessDamage);
+                    health -= damage;
+                }
+            }
 
             if (isUsingHealthStages)
             {
@@ -172,22 +205,45 @@ namespace Phoenix
                     currentHealthStage.ApplyIdle();
                 }
 
-                corAnimatingDamaged = this.RestartCoroutine(AnimatingDamaged());
+                corAnimatingHealth = this.RestartCoroutine(AnimatingDamaged());
                 IEnumerator AnimatingDamaged()
                 {
                     currentHealthStage.ApplyDamaged();
                     yield return new WaitForSeconds(0.125f);
                     currentHealthStage.ApplyIdle();
                 }
-
             }
-
-
-            OnDamaged?.Invoke(damage);
 
             if (health <= 0)
                 Die();
-            else if (health > maxHealth)
+
+        }
+
+        public void ReceiveRecovery(float recovery)
+        {
+            if (recovery <= 0) return;
+
+            health += recovery;
+            OnRecovery?.Invoke(recovery);
+
+            if (isUsingHealthStages)
+            {
+                if (currentHealthStageIndex > 0 && healthStages[currentHealthStageIndex - 1].AtHealth < health)
+                {
+                    currentHealthStageIndex--;
+                    currentHealthStage.ApplyIdle();
+                }
+
+                corAnimatingHealth = this.RestartCoroutine(AnimatingDamaged());
+                IEnumerator AnimatingDamaged()
+                {
+                    currentHealthStage.ApplyRecovery();
+                    yield return new WaitForSeconds(0.125f);
+                    currentHealthStage.ApplyIdle();
+                }
+            }
+
+            if (health > maxHealth)
                 health = maxHealth;
         }
 

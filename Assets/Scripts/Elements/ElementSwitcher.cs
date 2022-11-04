@@ -53,12 +53,13 @@ namespace Phoenix
         public void SwitchToNextElement()
         {
             currentElementIndex = (currentElementIndex + 1) % elements.Count;
-            OnElementSwitched(elements[currentElementIndex]);
+            OnElementSwitched?.Invoke(elements[currentElementIndex]);
         }
 
         public void Init(Brain brain)
         {
-            //brain.OnElementInput
+
+            OnElementSwitched?.Invoke(elements[currentElementIndex]);
         }
 
         public void Disable(Brain brain)

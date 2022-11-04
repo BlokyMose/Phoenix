@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Phoenix
 {
-    [RequireComponent(typeof(HealthController))]
     public class RecoveryController : MonoBehaviour
     {
         [SerializeField]
@@ -29,17 +28,23 @@ namespace Phoenix
         public void Init()
         {
             healthController = GetComponent<HealthController>();
-
-            healthController.OnDamaged += (damage) =>
+            if (healthController != null)
             {
-                if (damage > 0)
+                healthController.OnDamaged += (damage) =>
                 {
-                    StartRecovering();
-                }
-            };
+                    if (damage > 0)
+                    {
+                        StartRecovering();
+                    }
+                };
+
+                var playerBrain = GetComponent<PlayerBrain>();
+                if (playerBrain != null)
+                    playerBrain.ConnectToHealthBar(this);
+            }
         }
 
-        public void StartRecovering()
+        void StartRecovering()
         {
             if (corDelayingRecovery != null) 
                 return;
@@ -61,17 +66,17 @@ namespace Phoenix
             }
         }
 
-        public void Recover(float recoverHealth)
+        void Recover(float recoverHealth)
         {
             if (corDelayingRecovery != null) 
                 StopCoroutine(corDelayingRecovery);
             corDelayingRecovery = null;
-            healthController.ReceiveDamage(-recoverHealth);
+            healthController.ReceiveRecovery(recoverHealth);
             OnRecovered?.Invoke();
             TryStartRecovering();
         }
 
-        public void TryStartRecovering()
+        void TryStartRecovering()
         {
             if(healthController.Health < healthController.MaxHealth)
             {

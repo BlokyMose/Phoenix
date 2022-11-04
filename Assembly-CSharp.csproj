@@ -67,6 +67,7 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
     <Compile Include="Assets\Scripts\Brains\PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Jets\JetProperties.cs" />
+    <Compile Include="Assets\Scripts\Jets\RecoveryController.cs" />
     <Compile Include="Assets\Scripts\Hiroto\BuletPointManager.cs" />
     <Compile Include="Assets\Scripts\Objects\ShieldProperties.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Default.cs" />
@@ -81,12 +82,13 @@
     <Compile Include="Assets\Scripts\Jets\JetController.cs" />
     <Compile Include="Assets\Scripts\Utility\CalcUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerBulletManager.cs" />
+    <Compile Include="Assets\Scripts\UI\HealthBarUIUnit.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementMagnet.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\Enemy.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Player.cs" />
     <Compile Include="Assets\Scripts\Environments\WindManager.cs" />
-    <Compile Include="Assets\Scripts\UI\HealthBarController.cs" />
+    <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Health.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthController.cs" />
     <Compile Include="Assets\Scripts\Enemies\ziguzagu.cs" />
@@ -120,8 +122,8 @@
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
-    <Compile Include="Assets\Scripts\UI\HealthBarUnit.cs" />
-    <Compile Include="Assets\Scripts\Jets\RecoveryController.cs" />
+    <Compile Include="Assets\Scripts\Jets\HealthBarrierController.cs" />
+    <Compile Include="Assets\Scripts\UI\HealthBarrierUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

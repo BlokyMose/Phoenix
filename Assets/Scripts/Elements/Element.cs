@@ -54,6 +54,7 @@ namespace Phoenix
                     return damage * rule.DamageMultiplication;
             }
 
+
             return damage;
         }
 
