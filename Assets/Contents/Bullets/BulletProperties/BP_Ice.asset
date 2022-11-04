@@ -16,7 +16,7 @@ MonoBehaviour:
   bulletMovement: {fileID: 11400000, guid: 99288b97c05646a4a9de62b4597766ff, type: 2}
   element: {fileID: 11400000, guid: 7b76e525b318af74c88ca56543ac4144, type: 2}
   damage: 10
-  lifeDuration: 4
+  lifeDuration: 2
   speed: 750
   pushForce: 1
   matchBulletPrefabCollider: 1

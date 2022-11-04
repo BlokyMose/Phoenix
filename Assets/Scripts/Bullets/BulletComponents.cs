@@ -79,7 +79,7 @@ namespace Phoenix
                 if (vfx.HasBool(IS_EMITTING))
                     vfx.SetBool(IS_EMITTING, false);
                 if (vfx.HasFloat(LIFE_DURATION))
-                    allVFXsLifeDuration = vfx.GetFloat(LIFE_DURATION) /4f;
+                    allVFXsLifeDuration = vfx.GetFloat(LIFE_DURATION);
             }
 
             if (vfxDie != null)
