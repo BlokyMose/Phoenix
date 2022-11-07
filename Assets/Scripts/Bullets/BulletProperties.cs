@@ -11,35 +11,58 @@ namespace Phoenix
     public class BulletProperties : ScriptableObject
     {
         [InlineButton(nameof(AssignDefaultBulletPrefab), "Default", ShowIf = "@!"+nameof(bulletPrefab))]
-        public BulletComponents bulletPrefab;
+        [SerializeField]
+        BulletComponents bulletPrefab;
+        public BulletComponents BulletPrefab => bulletPrefab;
 
         [InlineButton(nameof(AssignDefaultBulletMovement), "Default", ShowIf ="@!"+nameof(bulletMovement))]
-        public BulletMovement bulletMovement;
+        [SerializeField]
+        BulletMovement bulletMovement;
+        public BulletMovement BulletMovement => bulletMovement;
 
-        public Element element;
+        [SerializeField]
+        Element element;
+        public Element Element => element;
 
         [Tooltip("Amount of damage the opponent will receive")]
-        public float damage = 10f;
+        [SerializeField]
+        float damage = 10f;
+        public float Damage => damage;
 
         [Tooltip("How long until this auto-destroy; This variable also affect the VFX's life duration")]
-        public float lifeDuration = 4f;
+        [SerializeField]
+        float lifeDuration = 4f;
+        public float LifeDuration => lifeDuration;
 
         [Tooltip("How fast the bullet moves")]
-        public float speed = 1f;
+        [SerializeField]
+        float speed = 1f;
+        public float Speed => speed;
 
         [Tooltip("Amount of force to push back the opponent when hit")]
-        public float pushForce = 3.33f;
-
+        [SerializeField]
+        float pushForce = 3.33f;
+        public float PushForce => pushForce;
 
         [Header("Capsule Collider"), Tooltip("Modify the bullet's collider to have the same size and offset from the prefab")]
-        public bool matchBulletPrefabCollider = true;
+        [SerializeField]
+        bool matchBulletPrefabCollider = true;
+        public bool MatchBulletPrefabCollider => matchBulletPrefabCollider;
 
         [EnableIf("@!"+nameof(matchBulletPrefabCollider))]
-        public Vector2 colliderSize = new Vector2(0.05f, 0.5f);
+        [SerializeField]
+        Vector2 colliderSize = new Vector2(0.05f, 0.5f);
+        public Vector2 ColliderSize => colliderSize;
 
         [EnableIf("@!" + nameof(matchBulletPrefabCollider))]
-        public Vector2 colliderOffset = new Vector2(0, 0.5f);
+        [SerializeField]
+        Vector2 colliderOffset = new Vector2(0, 0.5f);
+        public Vector2 ColliderOffset => colliderOffset;
 
+        [Header("Icon")]
+        [SerializeField]
+        Sprite icon;
+        public Sprite Icon => icon;
 
         void AssignDefaultBulletPrefab()
         {

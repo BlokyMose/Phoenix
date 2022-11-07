@@ -13,7 +13,7 @@ namespace Phoenix
 
         public override void Move(BulletController bullet)
         {
-            bullet.RigidBody.AddForce((bullet.BulletProperties.speed * Time.deltaTime * (Vector2)bullet.transform.up) - bullet.RigidBody.velocity, ForceMode2D.Impulse);
+            bullet.RigidBody.AddForce((bullet.BulletProperties.Speed * Time.deltaTime * (Vector2)bullet.transform.up) - bullet.RigidBody.velocity, ForceMode2D.Impulse);
         }
     }
 }

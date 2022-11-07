@@ -22,9 +22,9 @@ namespace Encore.Utility
         /// <summary>
         /// Returns the last item in the list
         /// </summary>
-        public static T GetLast<T>(this IList<T> list) where T : class
+        public static T GetLast<T>(this IList<T> list, int indexFromLast = 0) where T : class
         {
-            return list[list.Count - 1];
+            return list[list.Count - (1+indexFromLast)];
         }
 
         /// <summary>

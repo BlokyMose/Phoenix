@@ -28,7 +28,7 @@ namespace Phoenix
         CapsuleCollider2D col;
         public CapsuleCollider2D Col => col;
 
-        public Element Element => bulletProperties.element;
+        public Element Element => bulletProperties.Element;
 
         #endregion
 
@@ -50,7 +50,9 @@ namespace Phoenix
         {
             this.bulletProperties = bulletProperties;
 
-            bulletComponents = Instantiate(bulletProperties.bulletPrefab, transform);
+            bulletComponents = Instantiate(bulletProperties.BulletPrefab, transform);
+            bulletComponents.transform.localPosition = Vector3.zero;
+            bulletComponents.transform.localEulerAngles = Vector3.zero;
             bulletComponents.Init(bulletProperties, ref OnDie);
 
             #region [Setup RB2D]
@@ -67,7 +69,7 @@ namespace Phoenix
             col.isTrigger = false;
 
             // Match bulet sprite's collider with this collider
-            if (bulletProperties.matchBulletPrefabCollider && bulletComponents.Col != null)
+            if (bulletProperties.MatchBulletPrefabCollider && bulletComponents.Col != null)
             {
                 col.size = bulletComponents.Col.size * bulletComponents.transform.localScale;
                 col.offset = bulletComponents.Col.offset * bulletComponents.transform.localScale;
@@ -75,19 +77,19 @@ namespace Phoenix
             }
             else
             {
-                col.size = bulletProperties.colliderSize;
-                col.offset = bulletProperties.colliderOffset;
+                col.size = bulletProperties.ColliderSize;
+                col.offset = bulletProperties.ColliderOffset;
             }
 
             #endregion
 
             #region [Setup ElementContainer]
 
-            if (bulletProperties.element != null)
+            if (bulletProperties.Element != null)
             {
                 var elementContainer = gameObject.GetComponent<ElementContainer>();
                 if (elementContainer == null) elementContainer = gameObject.AddComponent<ElementContainer>();
-                elementContainer.Init(bulletProperties.element, ref GetProcessedDamage);
+                elementContainer.Init(bulletProperties.Element, ref GetProcessedDamage);
             }
             else
             {
@@ -96,7 +98,7 @@ namespace Phoenix
 
             #endregion
 
-            bulletProperties.bulletMovement.ModifyBullet(this);
+            bulletProperties.BulletMovement.ModifyBullet(this);
             isActive = true;
             //DelayActivation();
             CountingLifeDuration();
@@ -109,7 +111,7 @@ namespace Phoenix
 
         void FixedUpdate()
         {
-            bulletProperties.bulletMovement.Move(this);
+            bulletProperties.BulletMovement.Move(this);
 
         }
 
@@ -131,7 +133,7 @@ namespace Phoenix
         /// </summary>
         void CountingLifeDuration()
         {
-            StartCoroutine(Delay(bulletProperties.lifeDuration));
+            StartCoroutine(Delay(bulletProperties.LifeDuration));
             IEnumerator Delay(float delay)
             {
                 yield return new WaitForSeconds(delay);
@@ -166,7 +168,7 @@ namespace Phoenix
             var elementContainer = collision.gameObject.GetComponent<ElementContainer>();
             var otherElement = elementContainer != null ? elementContainer.Element : null;
             if (healthController != null)
-                healthController.ReceiveDamage(GetProcessedDamage(bulletProperties.damage, otherElement));
+                healthController.ReceiveDamage(GetProcessedDamage(bulletProperties.Damage, otherElement));
 
             #endregion
 
@@ -175,7 +177,7 @@ namespace Phoenix
             if (collision.rigidbody != null)
             {
                 var direction = collision.transform.position - transform.position;
-                collision.rigidbody.AddForceAtPosition(direction * bulletProperties.pushForce, collision.GetContact(0).point);
+                collision.rigidbody.AddForceAtPosition(direction * bulletProperties.PushForce, collision.GetContact(0).point);
             }
 
             #endregion

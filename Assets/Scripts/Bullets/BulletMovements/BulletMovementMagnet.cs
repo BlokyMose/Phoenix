@@ -27,7 +27,7 @@ namespace Phoenix
 
         public override void Move(BulletController bullet)
         {
-            bullet.RigidBody.AddForce((bullet.BulletProperties.speed * Time.deltaTime * (Vector2)bullet.transform.up), ForceMode2D.Force);
+            bullet.RigidBody.AddForce((bullet.BulletProperties.Speed * Time.deltaTime * (Vector2)bullet.transform.up), ForceMode2D.Force);
         }
     }
 }

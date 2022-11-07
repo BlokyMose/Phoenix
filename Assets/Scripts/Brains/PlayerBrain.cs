@@ -32,6 +32,9 @@ namespace Phoenix
         [SerializeField]
         HealthBarUI healthBarrierUI;
 
+        [SerializeField]
+        BulletIconListUI bulletIconListUI;
+
         #endregion
 
         #region [Vars: Properties]
@@ -104,6 +107,18 @@ namespace Phoenix
         {
             if (healthBarrierUI != null)
                 healthBarrierUI.Init(barrierController);    
+        }
+
+        public void ConnectToBulletList(FireController fireController)
+        {
+            if (bulletIconListUI != null)
+                bulletIconListUI.Init(fireController);
+        }
+
+        public void DisconnectFromBulletList(FireController fireController)
+        {
+            //if (bulletIconListUI != null)
+            //    bulletIconListUI.Init(fireController);
         }
 
         Coroutine corAutomaticFireInput;

@@ -50,8 +50,8 @@ namespace Phoenix
         public void Init(BulletProperties bulletProperties, ref Action onBulletControllerDie)
         {
             this.bulletProperties = bulletProperties;
-            if (vfx != null && vfx.HasFloat(nameof(bulletProperties.lifeDuration)))
-                vfx.SetFloat(nameof(bulletProperties.lifeDuration), bulletProperties.lifeDuration);
+            if (vfx != null && vfx.HasFloat(nameof(bulletProperties.LifeDuration)))
+                vfx.SetFloat(nameof(bulletProperties.LifeDuration), bulletProperties.LifeDuration);
 
             onBulletControllerDie += this.OnBulletControllerDie;
         }
@@ -90,7 +90,7 @@ namespace Phoenix
                         DoVFXDie();
                         break;
                     case VFXDieMode.BeforeLifeDuration:
-                        if (deathTime < bulletProperties.lifeDuration)
+                        if (deathTime < bulletProperties.LifeDuration)
                             DoVFXDie();
                         break;
                 }

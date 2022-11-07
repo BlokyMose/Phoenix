@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Phoenix
 
         [SerializeField]
         List<BulletProperties> bulletProperties = new List<BulletProperties>();
+        public List<BulletProperties> BulletProperties => bulletProperties;
 
         [SerializeField]
         LayerMask bulletLayer;
@@ -30,12 +32,18 @@ namespace Phoenix
         [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!" + nameof(components)), PropertyOrder(-1)]
         FireComponents components;
 
+        public Action OnNextBullet;
 
         private void OnEnable()
         {
             var brain = GetComponent<Brain>();
             if (brain != null) 
                 Init(brain);
+
+            var playerBrain = GetComponent<PlayerBrain>();
+            if (playerBrain != null)
+                playerBrain.ConnectToBulletList(this);
+                
         }
 
         private void OnDisable()
@@ -43,6 +51,10 @@ namespace Phoenix
             var brain = GetComponent<Brain>();
             if (brain != null) 
                 Disable(brain);
+
+            var playerBrain = GetComponent<PlayerBrain>();
+            if (playerBrain != null)
+                playerBrain.DisconnectFromBulletList(this);
         }
 
         public void Init(Brain brain)
@@ -92,6 +104,7 @@ namespace Phoenix
         public void NextBullet()
         {
             currentBulletIndex = (currentBulletIndex + 1) % bulletProperties.Count;
+            OnNextBullet?.Invoke();
         }
 
         void Update()
