@@ -43,8 +43,8 @@ namespace Phoenix
         void Start()
         {
 
-            StartCoroutine(Update());
-            IEnumerator Update()
+            StartCoroutine(Updating());
+            IEnumerator Updating()
             {
                 while (true)
                 {

@@ -119,7 +119,6 @@
     <Compile Include="Assets\Scripts\Bullets\BulletComponents.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayer.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample2.cs" />
-    <Compile Include="Assets\Scripts\Hiroto\SimpleUITransition.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelPhoenix.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
     <Compile Include="Assets\Scripts\Brains\Brain.cs" />
@@ -131,6 +130,7 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\SimpleUITransition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -53,10 +53,10 @@ namespace Phoenix
 
             switchElementCooldown = 0f;
 
-            StartCoroutine(Update());
+            StartCoroutine(Updating());
         }
 
-        IEnumerator Update()
+        IEnumerator Updating()
         {
             while (true)
             {
