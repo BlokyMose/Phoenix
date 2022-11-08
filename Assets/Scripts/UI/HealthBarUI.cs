@@ -54,6 +54,8 @@ namespace Phoenix
                 healthBarGO.name = i.ToString();
                 healthBarUnits.Add(healthBarGO);
             }
+
+            healthBarUnits[0].UseAlternateFirstSprite();
         }
 
         public void ReceiveDamage(float damage)
@@ -83,8 +85,8 @@ namespace Phoenix
                 if (healthBarUnits[i].Status == HealthBarUIUnit.FillStatus.Full)
                 {
                     healthBarUnits[i].Empty();
-                    emptiedUnit = healthBarUnits[i];
                     healthBarUnits[i].transform.SetSiblingIndex(healthBarUnits.Count - 1);
+                    emptiedUnit = healthBarUnits[i];
 
                     break;
                 }

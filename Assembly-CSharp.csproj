@@ -100,6 +100,7 @@
     <Compile Include="Assets\Settings\InputActions\PhoenixInput.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
+    <Compile Include="Assets\Scripts\UI\BulletIconUIUnit.cs" />
     <Compile Include="Assets\Scripts\Misc\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Appear.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarrierUI.cs" />
@@ -130,7 +131,6 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BulletIconUIUnit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

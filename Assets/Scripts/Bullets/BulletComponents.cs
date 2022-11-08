@@ -50,8 +50,8 @@ namespace Phoenix
         public void Init(BulletProperties bulletProperties, ref Action onBulletControllerDie)
         {
             this.bulletProperties = bulletProperties;
-            if (vfx != null && vfx.HasFloat(nameof(bulletProperties.LifeDuration)))
-                vfx.SetFloat(nameof(bulletProperties.LifeDuration), bulletProperties.LifeDuration);
+            if (vfx != null && vfx.HasFloat(LIFE_DURATION))
+                vfx.SetFloat(LIFE_DURATION, bulletProperties.LifeDuration);
 
             onBulletControllerDie += this.OnBulletControllerDie;
         }

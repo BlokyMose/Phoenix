@@ -12,7 +12,9 @@ namespace Phoenix
         BulletIconUIUnit bulletIconPrefab;
 
         [SerializeField]
-        float animationDelay = 25f / 60f;
+        float animationDelay = 15f / 60f;
+
+        const int showFadedIconCount = 2;
 
         List<BulletIconUIUnit> icons = new List<BulletIconUIUnit>();
 
@@ -23,40 +25,57 @@ namespace Phoenix
                 Destroy(transform.GetChild(i).gameObject);
             }
 
-            InstantiateIcons(fireController.BulletProperties);
+            SetupIcons(fireController.BulletProperties);
             fireController.OnNextBullet += NextBullet;
         }
 
-        void InstantiateIcons(List<BulletProperties> bullets)
+        void SetupIcons(List<BulletProperties> bullets)
         {
             for (int i = bullets.Count - 1; i >= 0; i--)
             {
                 var iconUI = Instantiate(bulletIconPrefab, transform);
                 iconUI.Init(bullets[i]);
-                iconUI.PlayAnimation(BulletIconUIUnit.Mode.Faded);
                 icons.Add(iconUI);
             }
+
+            for (int i = icons.Count - (showFadedIconCount + 1); i < icons.Count - 1; i++)
+            {
+                icons[i].PlayAnimation(BulletIconUIUnit.Mode.Faded);
+            }
+
             icons.GetLast().PlayAnimation(BulletIconUIUnit.Mode.Idle);
         }
 
+        int nextBulletQueue = 0;
         void NextBullet()
         {
-            StartCoroutine(Delay());
-            IEnumerator Delay()
+            nextBulletQueue++;
+            if (nextBulletQueue == 1)
+                StartCoroutine(PlayingAnimation());
+
+            IEnumerator PlayingAnimation()
             {
-                var iconLast = icons.GetLast();
-                var iconSecondLast = icons.GetLast(1);
-                iconLast.PlayAnimation(BulletIconUIUnit.Mode.Invisble);
-                iconSecondLast.PlayAnimation(BulletIconUIUnit.Mode.Idle);
-                
-                yield return new WaitForSeconds(animationDelay);
+                while(nextBulletQueue > 0)
+                {
+                    var iconLast = icons.GetLast();
+                    var iconSecondLast = icons.GetLast(1);
+                    iconLast.PlayAnimation(BulletIconUIUnit.Mode.Invisble);
+                    iconSecondLast.PlayAnimation(BulletIconUIUnit.Mode.Idle);
 
-                iconLast.transform.SetSiblingIndex(0);
-                icons.Remove(iconLast);
-                icons.Insert(0,iconLast);
+                    var newIconUI = Instantiate(bulletIconPrefab, transform);
+                    newIconUI.transform.SetAsFirstSibling();
+                    newIconUI.Init(iconLast.BulletProperties);
+                    icons.Insert(0, newIconUI);
+                    icons.GetLast(showFadedIconCount + 1).PlayAnimation(BulletIconUIUnit.Mode.Faded);
 
-                // TODO: Handle multiple cases: from 1 only bullet to 3 or more bullets
-                icons[0].PlayAnimation(BulletIconUIUnit.Mode.Faded);
+                    yield return new WaitForSeconds(animationDelay);
+
+                    Destroy(iconLast.gameObject);
+                    icons.Remove(iconLast);
+                    nextBulletQueue--;
+
+                }
+
             }
         }
     }

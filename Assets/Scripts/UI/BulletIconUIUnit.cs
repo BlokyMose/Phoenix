@@ -15,7 +15,8 @@ namespace Phoenix
 
         Animator animator;
         int int_mode;
-        BulletProperties properties;
+        BulletProperties bulletProperties;
+        public BulletProperties BulletProperties => bulletProperties;
 
         private void Awake()
         {
@@ -23,10 +24,10 @@ namespace Phoenix
             int_mode = Animator.StringToHash(nameof(int_mode));
         }
 
-        public void Init(BulletProperties properties)
+        public void Init(BulletProperties bulletProperties)
         {
-            this.properties = properties;
-            iconImage.sprite = properties.Icon;
+            this.bulletProperties = bulletProperties;
+            iconImage.sprite = bulletProperties.Icon;
         }
 
         public void PlayAnimation(Mode mode)
