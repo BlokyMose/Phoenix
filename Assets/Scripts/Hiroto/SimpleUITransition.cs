@@ -13,53 +13,53 @@ using UnityEditor;
 public class SimpleUITransition : MonoBehaviour
 {
     [SerializeField, Tooltip("この GameObject の PosX を設定してください。")]
-    float             PosX;
+    float PosX;
     [SerializeField, Tooltip("この GameObject の PosY を設定してください。")]
-    float             PosY;
+    float PosY;
     [SerializeField, Range(0.05f, 10f), Tooltip("IN、または OUT するまでの時間を設定します。")]
-    float             TotalTime = 0.3f;
+    float TotalTime = 0.3f;
     [SerializeField, Tooltip("フェードイン・アウトアニメーションを行います。")]
-    bool              AlphaFade = true;
+    bool AlphaFade = true;
     [SerializeField, Space(10), Tooltip("水平アニメーションを行います。")]
-    bool              HorizontalFade = false;
+    bool HorizontalFade = false;
     [SerializeField, Range(-10f, 10f), Tooltip("水平アニメーションでどちらの方向からINするか、またはその移動量を指定します。通常は -1 or 1 が適切です。")]
-    float             HorizontalRatio = -1;
+    float HorizontalRatio = -1;
     [SerializeField, Tooltip("水平アニメーションの Ease パターンを設定します。")]
-    EaseValue.eEase   HorizontalEase = EaseValue.eEase.CubicOut;
+    EaseValue.eEase HorizontalEase = EaseValue.eEase.CubicOut;
     [SerializeField, Space(10), Tooltip("垂直アニメーションを行います。")]
-    bool              VerticalFade = false;
+    bool VerticalFade = false;
     [SerializeField, Range(-10f, 10f), Tooltip("垂直アニメーションでどちらの方向からINするか、またはその移動量を指定します。通常は -1 or 1 が適切です。")]
-    float             VerticalRatio = -1;
+    float VerticalRatio = -1;
     [SerializeField, Tooltip("垂直アニメーションの Ease パターンを設定します。")]
-    EaseValue.eEase   VerticalEase = EaseValue.eEase.CubicOut;
+    EaseValue.eEase VerticalEase = EaseValue.eEase.CubicOut;
     [SerializeField, Space(10), Range(0, 10f), Tooltip("表示アニメーションが始まるまでのディレイタイムを指定します。")]
-    float             DelayTimeBeforeShow;
+    float DelayTimeBeforeShow;
     [SerializeField, Range(0, 10f), Tooltip("非表示アニメーションが始まるまでのディレイタイムを指定します。")]
-    float             DelayTimeBeforeHide;
+    float DelayTimeBeforeHide;
     [SerializeField, Space(10), Tooltip("表示・非表示に合わせて自動的に SetActive() を実行します。")]
-    bool              AutoActivate = true;
+    bool AutoActivate = true;
     [SerializeField, Tooltip("表示・非表示に合わせて自動的に CanvasGroup の入力可否を設定します。")]
-    bool        　    AutoBlockRaycasts = true;
+    bool AutoBlockRaycasts = true;
 
     [SerializeField, Header("Debug"), Range(0, 1), Tooltip("アニメーションの確認を行います。0 が非表示、1 が表示。")]
-    float       　    Value;
+    float Value;
 
 
     [SerializeField]
     SimpleUITransition[] transitions;
 
     [SerializeField, Header("Event")]
-    public UnityEvent OnFadein   = null;
+    public UnityEvent OnFadein = null;
     [SerializeField]
-    public UnityEvent OnFadeout  = null;
+    public UnityEvent OnFadeout = null;
 
 
 
-    RectTransform     rectTransform;
-    CanvasGroup       canvasGroup;
+    RectTransform rectTransform;
+    CanvasGroup canvasGroup;
 
-    Coroutine         co_fadein;
-    Coroutine         co_fadeout;
+    Coroutine co_fadein;
+    Coroutine co_fadeout;
 
     /// <summary>
     /// awake
@@ -75,7 +75,7 @@ public class SimpleUITransition : MonoBehaviour
 
         transitionUpdate(rectTransform, canvasGroup, Value);
     }
-    
+
     /// <summary>
     /// start
     /// </summary>
@@ -137,7 +137,7 @@ public class SimpleUITransition : MonoBehaviour
 #endif
         transitionUpdate(rectTransform, canvasGroup, Value);
     }
-    
+
     /// <summary>
     /// Value を強制的に変更
     /// </summary>
@@ -148,7 +148,7 @@ public class SimpleUITransition : MonoBehaviour
         {
             return;
         }
-        if (Value == 1 || co_fadein  != null)
+        if (Value == 1 || co_fadein != null)
         {
             OnFadein?.Invoke();
         }
@@ -194,7 +194,7 @@ public class SimpleUITransition : MonoBehaviour
         stopCoroutine();
         co_fadeout = StartCoroutine(fadeout());
     }
-    
+
     /// <summary>
     /// cache entry
     /// </summary>
@@ -206,7 +206,7 @@ public class SimpleUITransition : MonoBehaviour
         }
         if (canvasGroup == null)
         {
-            canvasGroup   = GetComponent<CanvasGroup>();
+            canvasGroup = GetComponent<CanvasGroup>();
         }
     }
 
@@ -232,7 +232,7 @@ public class SimpleUITransition : MonoBehaviour
     {
         yield return new WaitForSeconds(DelayTimeBeforeShow);
 
-        float time     = Time.time;
+        float time = Time.time;
         float startVal = Value;
 
         while (true)
@@ -241,7 +241,7 @@ public class SimpleUITransition : MonoBehaviour
             Value = Mathf.Clamp01(startVal + (1 - startVal) * value);
 
             transitionUpdate(rectTransform, canvasGroup, Value);
-            
+
             if (AutoBlockRaycasts == true)
             {
                 // 完全表示より少し前にレイキャストはONにしておく（ユーザビリティを考えて）
@@ -268,7 +268,7 @@ public class SimpleUITransition : MonoBehaviour
     {
         yield return new WaitForSeconds(DelayTimeBeforeHide);
 
-        float time     = Time.time;
+        float time = Time.time;
         float startVal = Value;
 
         while (true)
@@ -277,7 +277,7 @@ public class SimpleUITransition : MonoBehaviour
             Value = Mathf.Clamp01(startVal + (0 - startVal) * value);
 
             transitionUpdate(rectTransform, canvasGroup, Value);
-            
+
             if (value >= 1)
             {
                 break;
@@ -336,3 +336,4 @@ public class SimpleUITransition : MonoBehaviour
         rect.gameObject.transform.localPosition = trans;
     }
 }
+
