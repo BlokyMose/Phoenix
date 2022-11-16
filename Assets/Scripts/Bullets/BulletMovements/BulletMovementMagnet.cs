@@ -25,7 +25,7 @@ namespace Phoenix
             bullet.RigidBody.mass = Random.Range(massRange.x,massRange.y);
         }
 
-        public override void Move(BulletController bullet)
+        public override void Move(BulletController bullet, Transform target)
         {
             bullet.RigidBody.AddForce((bullet.BulletProperties.Speed * Time.deltaTime * (Vector2)bullet.transform.up), ForceMode2D.Force);
         }

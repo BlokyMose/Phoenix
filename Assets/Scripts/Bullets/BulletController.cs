@@ -17,6 +17,18 @@ namespace Phoenix
         public BulletProperties BulletProperties => bulletProperties;
         bool isActive = false;
         BulletComponents bulletComponents;
+        Transform target;
+        public Transform Target { get => target; set { target = value; } }
+        BulletMovement bulletMovement;
+        public BulletMovement BulletMovement 
+        { 
+            get => bulletMovement; 
+            set 
+            { 
+                bulletMovement = value;
+                bulletMovement.ModifyBullet(this);
+            } 
+        }
 
         #endregion
 
@@ -98,7 +110,7 @@ namespace Phoenix
 
             #endregion
 
-            bulletProperties.BulletMovement.ModifyBullet(this);
+            bulletMovement = bulletProperties.BulletMovement;
             isActive = true;
             //DelayActivation();
             CountingLifeDuration();
@@ -111,7 +123,7 @@ namespace Phoenix
 
         void FixedUpdate()
         {
-            bulletProperties.BulletMovement.Move(this);
+            bulletMovement.Move(this, target);
 
         }
 
@@ -184,7 +196,6 @@ namespace Phoenix
 
             DestroySelf();
         }
-
 
     }
 }

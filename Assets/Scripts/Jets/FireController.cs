@@ -10,6 +10,7 @@ namespace Phoenix
 {
     public class FireController : MonoBehaviour
     {
+
         [SerializeField]
         JetProperties jetProperties;
         public JetProperties JetProperties { get { return jetProperties; } }
@@ -66,6 +67,8 @@ namespace Phoenix
             currentFireModeIndex = 0;
             currentFireOrigin = 0;
             currentBulletIndex = 0;
+
+
         }
 
         public void Disable(Brain brain)

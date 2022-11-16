@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\Elements\ElementContainer.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefault.cs" />
     <Compile Include="Assets\Scripts\Utility\QuitGame.cs" />
+    <Compile Include="Assets\Scripts\DeleteMe.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Enemy.cs" />
     <Compile Include="Assets\Scripts\Hiroto\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletProperties.cs" />
@@ -68,11 +69,15 @@
     <Compile Include="Assets\Scripts\Brains\PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Hiroto\EaseValue.cs" />
     <Compile Include="Assets\Scripts\Jets\JetProperties.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementBoomerang.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\SimpleUITransition.cs" />
     <Compile Include="Assets\Scripts\Jets\RecoveryController.cs" />
     <Compile Include="Assets\Scripts\Hiroto\BuletPointManager.cs" />
     <Compile Include="Assets\Scripts\Objects\ShieldProperties.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Default.cs" />
+    <Compile Include="Assets\Scripts\Utility\BoxCollider2DUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_CharacterController.cs" />
+    <Compile Include="Assets\Scripts\Utility\MathUtility.cs" />
     <Compile Include="Assets\Scripts\Brains\ShieldBotBrain.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerShoot.cs" />
     <Compile Include="Assets\Scripts\Utility\ColorUtility.cs" />
@@ -86,6 +91,7 @@
     <Compile Include="Assets\Scripts\UI\HealthBarUIUnit.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementMagnet.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Environments\BorderController.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Player.cs" />
     <Compile Include="Assets\Scripts\Environments\WindManager.cs" />
@@ -130,7 +136,7 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
-    <Compile Include="Assets\Scripts\Hiroto\SimpleUITransition.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHoming.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

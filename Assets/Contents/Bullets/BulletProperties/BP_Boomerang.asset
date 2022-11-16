@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BP_Boomerang
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 7040888864022611850, guid: ffc18dfac154e654d92368b6f5c1fb6d, type: 3}
-  bulletMovement: {fileID: 11400000, guid: 99288b97c05646a4a9de62b4597766ff, type: 2}
+  bulletMovement: {fileID: 11400000, guid: 1adf6607173bb7b45b3279d044c5b109, type: 2}
   element: {fileID: 11400000, guid: 1af67dd9530c1a34b93a2b55eec488a7, type: 2}
   damage: 10
   lifeDuration: 4
