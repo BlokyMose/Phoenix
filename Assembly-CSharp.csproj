@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefault.cs" />
     <Compile Include="Assets\Scripts\Utility\QuitGame.cs" />
     <Compile Include="Assets\Scripts\DeleteMe.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHoming.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Enemy.cs" />
     <Compile Include="Assets\Scripts\Hiroto\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletProperties.cs" />
@@ -136,7 +137,8 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
-    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHoming.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletControllerCollide.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletControllerTriggerEnter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

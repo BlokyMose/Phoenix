@@ -25,7 +25,6 @@ namespace Phoenix
 
         public override void ModifyBullet(BulletController bullet)
         {
-
         }
 
         public override void Move(BulletController bullet, Transform target)

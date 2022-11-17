@@ -128,7 +128,16 @@ namespace Phoenix
             bulletGO.gameObject.layer = (int)Mathf.Log(bulletLayer.value, 2);
             bulletGO.transform.position = currentFireMode.origins[currentFireOrigin].transform.position;
             bulletGO.transform.eulerAngles = currentFireMode.origins[currentFireOrigin].eulerAngles;
-            var bullet = bulletGO.AddComponent<BulletController>();
+            BulletController bullet = null;
+            switch (currentBullet.CollisionMode)
+            {
+                case Phoenix.BulletProperties.BulletCollisionMode.Collide:
+                    bullet = bulletGO.AddComponent<BulletControllerCollide>();
+                    break;
+                case Phoenix.BulletProperties.BulletCollisionMode.TriggerEnter:
+                    bullet = bulletGO.AddComponent<BulletControllerTriggerEnter>();
+                    break;
+            }
             bullet.Init(currentBullet);
 
             currentFireOrigin++;

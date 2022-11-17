@@ -10,6 +10,12 @@ namespace Phoenix
     [CreateAssetMenu(menuName ="SO/Bullet Properties", fileName = "BP_New")]
     public class BulletProperties : ScriptableObject
     {
+        #region [Classes]
+
+        public enum BulletCollisionMode { Collide, TriggerEnter }
+
+        #endregion
+
         [InlineButton(nameof(AssignDefaultBulletPrefab), "Default", ShowIf = "@!"+nameof(bulletPrefab))]
         [SerializeField]
         BulletComponents bulletPrefab;
@@ -28,6 +34,16 @@ namespace Phoenix
         [SerializeField]
         float damage = 10f;
         public float Damage => damage;
+
+        [Tooltip("Amount of damage the opponent will receive")]
+        [SerializeField]
+        BulletCollisionMode collisionMode = BulletCollisionMode.Collide;
+        public BulletCollisionMode CollisionMode => collisionMode;
+
+        [Tooltip("How many objects it can hit before being destroyed")]
+        [SerializeField, ShowIf("@"+nameof(collisionMode)+"=="+nameof(BulletCollisionMode)+"."+nameof(BulletCollisionMode.TriggerEnter))]
+        int lifeCount = 1;
+        public int LifeCount => lifeCount;
 
         [Tooltip("How long until this auto-destroy; This variable also affect the VFX's life duration")]
         [SerializeField]

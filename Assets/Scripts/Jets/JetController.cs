@@ -46,6 +46,7 @@ namespace Phoenix
         public JetProperties JetProperties { get { return jetProperties; } }
 
         Rigidbody2D rb;
+        public Rigidbody2D RB => rb;
 
         #endregion
 

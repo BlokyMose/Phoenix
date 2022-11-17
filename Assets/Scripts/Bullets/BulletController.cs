@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.VFX;
+using static Phoenix.BulletProperties;
 
 namespace Phoenix
 {
     [RequireComponent(typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class BulletController : MonoBehaviour
+    public abstract class BulletController : MonoBehaviour
     {
         #region [Vars: Data Handlers]
 
         BulletProperties bulletProperties;
         public BulletProperties BulletProperties => bulletProperties;
-        bool isActive = false;
+        protected bool isActive = false;
         BulletComponents bulletComponents;
         Transform target;
         public Transform Target { get => target; set { target = value; } }
@@ -29,6 +30,7 @@ namespace Phoenix
                 bulletMovement.ModifyBullet(this);
             } 
         }
+
 
         #endregion
 
@@ -58,7 +60,7 @@ namespace Phoenix
 
         #endregion
 
-        public void Init(BulletProperties bulletProperties)
+        public virtual void Init(BulletProperties bulletProperties)
         {
             this.bulletProperties = bulletProperties;
 
@@ -78,7 +80,6 @@ namespace Phoenix
             #region [Setup Collider]
 
             col = GetComponent<CapsuleCollider2D>();
-            col.isTrigger = false;
 
             // Match bulet sprite's collider with this collider
             if (bulletProperties.MatchBulletPrefabCollider && bulletComponents.Col != null)
@@ -110,27 +111,21 @@ namespace Phoenix
 
             #endregion
 
-            bulletMovement = bulletProperties.BulletMovement;
+            BulletMovement = bulletProperties.BulletMovement;
             isActive = true;
-            //DelayActivation();
-            CountingLifeDuration();
-        }
 
-        private void Update()
-        {
-            lifetime += Time.deltaTime;
+            CountingLifetimeThenDestroySelf();
         }
 
         void FixedUpdate()
         {
             bulletMovement.Move(this, target);
-
         }
 
         /// <summary>
         /// Prevent this bullet to collide with the jet that is firing it
         /// </summary>
-        void DelayActivation()
+        protected void DelayActivation()
         {
             StartCoroutine(Delay(0.05f));
             IEnumerator Delay(float delay)
@@ -140,20 +135,21 @@ namespace Phoenix
             }
         }
 
-        /// <summary>
-        /// Self destroy after lifeDuration passed
-        /// </summary>
-        void CountingLifeDuration()
+        void CountingLifetimeThenDestroySelf()
         {
-            StartCoroutine(Delay(bulletProperties.LifeDuration));
-            IEnumerator Delay(float delay)
+            StartCoroutine(IncrementingLifetime());
+            IEnumerator IncrementingLifetime()
             {
-                yield return new WaitForSeconds(delay);
+                while (lifetime < bulletProperties.LifeDuration)
+                {
+                    lifetime += Time.deltaTime;
+                    yield return null;
+                }
                 DestroySelf();
             }
         }
 
-        void DestroySelf()
+        protected void DestroySelf()
         {
             if (corDestroyingSelf != null) return;
 
@@ -170,31 +166,14 @@ namespace Phoenix
             }
         }
 
-        void OnCollisionEnter2D(Collision2D collision)
+        protected void ApplyDamageTo(GameObject other)
         {
-            if (!isActive) return;
-
-            #region [Apply Damage to IHealth]
-
-            var healthController = collision.gameObject.GetComponent<HealthController>();
-            var elementContainer = collision.gameObject.GetComponent<ElementContainer>();
+            var healthController = other.GetComponent<HealthController>();
+            var elementContainer = other.GetComponent<ElementContainer>();
             var otherElement = elementContainer != null ? elementContainer.Element : null;
             if (healthController != null)
                 healthController.ReceiveDamage(GetProcessedDamage(bulletProperties.Damage, otherElement));
 
-            #endregion
-
-            #region [Apply Force to RB2D]
-
-            if (collision.rigidbody != null)
-            {
-                var direction = collision.transform.position - transform.position;
-                collision.rigidbody.AddForceAtPosition(direction * bulletProperties.PushForce, collision.GetContact(0).point);
-            }
-
-            #endregion
-
-            DestroySelf();
         }
 
     }
