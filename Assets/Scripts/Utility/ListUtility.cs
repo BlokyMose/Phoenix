@@ -17,8 +17,6 @@ namespace Encore.Utility
                 return defaultValue;
         }
 
-
-
         /// <summary>
         /// Returns the last item in the list
         /// </summary>
@@ -56,6 +54,26 @@ namespace Encore.Utility
             {
                 if (!list.Contains(item)) list.Add(item);
             }
+        }
+
+        /// <summary>return Count == 0</summary>
+        public static bool IsEmpty<T>(this IList<T> list)
+        {
+            return list.Count == 0;
+        }
+
+        public static void Move<T>(this IList<T> list, T item, int toIndex)
+        {
+            if (!list.Contains(item)) return;
+            list.Remove(item);
+            list.Insert(toIndex, item);
+        }
+
+        public static void MoveToLast<T>(this IList<T> list, T item)
+        {
+            if (!list.Contains(item)) return;
+            list.Remove(item);
+            list.Add(item);
         }
     }
 }
