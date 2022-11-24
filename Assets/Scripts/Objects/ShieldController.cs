@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.VFX;
-using static UnityEditor.Rendering.FilterWindow;
 using ColorUtility = Encore.Utility.ColorUtility;
 
 namespace Phoenix

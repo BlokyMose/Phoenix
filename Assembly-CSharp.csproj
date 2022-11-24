@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
     <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetAutoMovement.cs" />
     <Compile Include="Assets\Scripts\Jets\FireController.cs" />
     <Compile Include="Assets\Scripts\Jets\JetController.cs" />
     <Compile Include="Assets\Scripts\Utility\CalcUtility.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Assets\Scripts\Hiroto\Health.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBG.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthController.cs" />
+    <Compile Include="Assets\Scripts\Utility\LoadScene.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBGUnit.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthBarrierController.cs" />
     <Compile Include="Assets\Scripts\Enemies\ziguzagu.cs" />
@@ -112,12 +114,14 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconUIUnit.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JetAutoMovementWave.cs" />
     <Compile Include="Assets\Scripts\Misc\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Appear.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarrierUI.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Rat.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample.cs" />
     <Compile Include="Assets\Scripts\Utility\StructUtility.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JetAutoMovementSteps.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelManager.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_TileMouseButton.cs" />
     <Compile Include="Assets\Scripts\Elements\ElementSwitcher.cs" />
@@ -137,10 +141,31 @@
     <Compile Include="Assets\Scripts\Bullets\BulletMovement.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Movement.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\AsOneInput.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetControllerAuto.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JAMStepModes\JAMStep.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JAMStepModes\JAMStepMoveDuration.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JAMStepModes\JAMStepStop.cs" />
+    <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JAMStepModes\JAMStepNone.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\DestroySelf.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\InstantiateVFX.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFade.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiRotation.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoadSceneOnClick.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiProjectileScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiBeamStatic.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoopScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFlicker.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiPitchRandomizer.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiButtonScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiBeamScript.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiFireProjectile.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\InstantiateGO.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\AutoInvoke.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

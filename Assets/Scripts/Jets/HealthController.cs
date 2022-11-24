@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static Phoenix.HealthController;
 using static Phoenix.ShieldController;
 
@@ -126,14 +127,14 @@ namespace Phoenix
         #endregion
 
         [SerializeField]
-        bool canDestroySelf = false;
-
-        [SerializeField]
         float maxHealth = 100;
         public float MaxHealth => maxHealth;
 
         [SerializeField]
         List<HealthStage> healthStages = new List<HealthStage>();
+
+        [SerializeField]
+        UnityEvent onDieAction;
 
         float health;
         public float Health => health;
@@ -164,6 +165,8 @@ namespace Phoenix
                 ArrangeHealthStagesFromHighest();
                 healthStages[0].ApplyIdle();
             }
+
+            OnDie += () => onDieAction.Invoke();
 
             var playerBrain = GetComponent<PlayerBrain>();
             if (playerBrain != null)
@@ -249,9 +252,7 @@ namespace Phoenix
 
         public void Die()
         {
-            OnDie?.Invoke();
-            if (canDestroySelf && gameObject != null)
-                Destroy(gameObject);
+            OnDie.Invoke();
         }
 
         void ArrangeHealthStagesFromHighest()

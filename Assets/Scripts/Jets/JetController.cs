@@ -1,6 +1,5 @@
 using Encore.Utility;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor.Drawers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -60,8 +59,9 @@ namespace Phoenix
         #region [Vars: Data Handlers]
 
         [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!"+nameof(jetGO)), PropertyOrder(-1)]
-        GameObject jetGO;
-        Vector2 moveDirection;
+        protected GameObject jetGO;
+        protected Vector2 moveDirection;
+        protected float reduceVelocityMultipler = 0f;
 
         #endregion
 
@@ -73,19 +73,19 @@ namespace Phoenix
 
         #region [Methods: Initialization]
 
-        void Awake()
+        protected virtual void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
+            Init();
         }
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             var brain = GetComponent<Brain>();
             if (brain != null)
                 Init(brain);
         }
 
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             var brain = GetComponent<Brain>();
             if (brain!=null)
@@ -96,7 +96,11 @@ namespace Phoenix
         {
             brain.OnMoveInput += (dir) => { moveDirection = dir; };
             brain.OnCursorWorldPos += RotateToCursor;
+        }
 
+        private void Init()
+        {
+            rb = GetComponent<Rigidbody2D>();
             rb.drag = jetProperties.LinearDrag;
             InstantiateJet();
         }
@@ -111,10 +115,10 @@ namespace Phoenix
         {
             if (jetGO == null)
             {
-                jetGO = transform.Find("Jet").gameObject;
-                if (jetGO == null)
+                var jet = transform.Find("Jet");
+                if (jet == null)
                 {
-                    jetGO = Instantiate(jetProperties.JetPrefab, transform).gameObject;
+                    var jetGO = Instantiate(jetProperties.JetPrefab, transform).gameObject;
                     jetGO.name = "Jet";
                 }
             }
@@ -122,15 +126,15 @@ namespace Phoenix
 
         #endregion
 
-        void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             Move(moveDirection);
         }
 
-        void RotateToCursor(Vector2 cursorPos)
+        protected virtual void RotateToCursor(Vector2 cursorPos)
         {
             var positionToCursor = (Vector2)transform.position - cursorPos;
-            var newAngle = Mathf.Atan2(positionToCursor.y, positionToCursor.x) * Mathf.Rad2Deg;
+            var newAngle = Mathf.Atan2(positionToCursor.y, positionToCursor.x) * Mathf.Rad2Deg + 90;
             var validatedAngle = ValidateAngle(newAngle);
             transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, validatedAngle));
 
@@ -168,10 +172,10 @@ namespace Phoenix
             }
         }
 
-        void Move(Vector2 moveDirection)
+        protected virtual void Move(Vector2 moveDirection)
         {
             if (rb.velocity.magnitude < jetProperties.MaxVelocity)
-                rb.AddForce(moveDirection * jetProperties.MoveSpeed, ForceMode2D.Impulse);
+                rb.AddForce((jetProperties.MoveSpeed * Time.deltaTime * moveDirection) - (rb.velocity*reduceVelocityMultipler), ForceMode2D.Impulse);
         }
 
     }

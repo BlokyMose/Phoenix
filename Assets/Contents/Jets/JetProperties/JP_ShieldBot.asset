@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: JP_ShieldBot
   m_EditorClassIdentifier: 
   jetPrefab: {fileID: 0}
-  moveSpeed: 0.33
+  moveSpeed: 15
   maxVelocity: 10
   cursorSpeed: 0.2
   linearDrag: 1

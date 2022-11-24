@@ -5,12 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/Proto.unity
-    guid: cd80a90272288ca489cbb757227409ed
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 2f53d91117aec4b46bff2b94aad2f191
   - enabled: 1
     path: Assets/Scenes/Level_Phoenix_Ray.unity
     guid: c5da2ead5e1971e468a0dbf9c4779ec6

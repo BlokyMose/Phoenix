@@ -105,7 +105,7 @@ namespace Phoenix
             shieldController.Init(transform, shieldProperties, shieldMatchedSRs);
             shieldController.gameObject.name = "Shield";
             shieldController.transform.localPosition = Vector2.zero;
-            shieldController.transform.localEulerAngles = Vector2.zero;
+            shieldController.transform.localEulerAngles = transform.localEulerAngles;
             shieldController.transform.parent = null;
             shieldController.OnDie += RespawnShieldController;
 

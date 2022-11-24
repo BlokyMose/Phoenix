@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: JP_Kaze
   m_EditorClassIdentifier: 
   jetPrefab: {fileID: 6826738892924179456, guid: a8dc63f11decee8428a1ad1eaaecd7bd, type: 3}
-  moveSpeed: 0.33
-  maxVelocity: 10
+  moveSpeed: 15
+  maxVelocity: 8
   cursorSpeed: 0.33
   linearDrag: 1
   rps: 5
