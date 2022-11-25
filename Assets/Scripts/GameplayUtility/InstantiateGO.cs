@@ -20,6 +20,7 @@ namespace Phoenix
         public void Invoke()
         {
             var go = Instantiate(prefab, null);
+            go.SetActive(true);
             go.transform.position = transform.position;
             go.transform.localEulerAngles = transform.localEulerAngles;
 

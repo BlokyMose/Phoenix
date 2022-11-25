@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: JP_Test
   m_EditorClassIdentifier: 
   jetPrefab: {fileID: 1935481277061813789, guid: 358deff3140c53b4da1aa1c375bc96a7, type: 3}
-  moveSpeed: 10
-  maxVelocity: 8
+  mode: 0
+  moveSpeed: 15
+  maxVelocity: 15
   cursorSpeed: 0.2
   linearDrag: 1
   rps: 2

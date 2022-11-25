@@ -14,71 +14,89 @@ namespace Phoenix.JAM
         public class Step
         {
             public enum MoveMode { MoveRelative, MoveAbsolute, Stop, None }
+            [Flags]
+            public enum Direction 
+            { 
+                None = 0,
+                Up = 1, 
+                Down = 2, 
+                Right = 4, 
+                Left = 8, 
+                Custom = 16 
+            }
             public enum StopAxis { XY, X, Y }
 
 
-            [HorizontalGroup(width: 0.35f), SerializeField, LabelWidth(0.1f)]
+            [HorizontalGroup("1",0.35f), SerializeField, LabelWidth(0.1f), GUIColor(nameof(GetModeColor))]
             MoveMode mode;
             public MoveMode Mode => mode;
 
             #region [Mode Options]
+            
+            [HorizontalGroup("1",0.35f), SerializeField, LabelWidth(0.1f), ShowIf("@" + nameof(mode) + "==" + nameof(MoveMode) + "." + nameof(MoveMode.MoveRelative))]
+            Direction directionRelative;
 
-            [HorizontalGroup(width: 0.35f), SerializeField, LabelWidth(0.1f), ShowIf("@" + nameof(mode) + "==" + nameof(MoveMode) + "." + nameof(MoveMode.MoveRelative))]
-            Direction4 directionRelative;
+            [HorizontalGroup("1",0.35f), SerializeField, LabelWidth(0.1f), ShowIf("@" + nameof(mode) + "==" + nameof(MoveMode) + "." + nameof(MoveMode.MoveAbsolute))]
+            Direction directionAbsolute;
 
-            [HorizontalGroup(width: 0.35f), SerializeField, LabelWidth(0.1f), ShowIf("@" + nameof(mode) + "==" + nameof(MoveMode) + "." + nameof(MoveMode.MoveAbsolute))]
-            Direction4 directionAbsolute;
+            [HorizontalGroup("1", 55f), SerializeField, LabelWidth(0.1f), ShowIf(nameof(ShowDirectionCustomField)), SuffixLabel("deg", true)]
+            float directionCustomAngle = 90;
 
-            [HorizontalGroup(width: 0.35f), SerializeField, LabelWidth(0.1f), ShowIf("@" + nameof(mode) + "==" + nameof(MoveMode) + "." + nameof(MoveMode.Stop))]
+            [HorizontalGroup("1",0.35f), SerializeField, LabelWidth(0.1f), ShowIf("@" + nameof(mode) + "==" + nameof(MoveMode) + "." + nameof(MoveMode.Stop))]
             StopAxis stopAxis;
 
             #endregion
 
-            [HorizontalGroup(width: 55f), SerializeField, LabelWidth(0.1f), SuffixLabel("sec", true), ValidateInput(nameof(ValidateDuration), "Must be more than 0")]
+            [HorizontalGroup("2", 55f), SerializeField, LabelWidth(0.1f), SuffixLabel("sec", true)]
             float duration = 1f;
+
+            [HorizontalGroup("2"), SerializeField, LabelWidth(0.1f), SuffixLabel("strength", true)]
+            float strength = 1f;
+
 
             public float Duration => duration;
 
             public Vector2 GetDirectionVector(Transform relativeTransform)
             {
+                var direction = Vector2.zero;
                 switch (mode)
                 {
                     case MoveMode.MoveRelative:
-                        switch (directionRelative)
-                        {
-                            case Direction4.Up:
-                                return relativeTransform.up;
-                            case Direction4.Down:
-                                return -relativeTransform.up;
-                            case Direction4.Right:
-                                return relativeTransform.right;
-                            case Direction4.Left:
-                                return -relativeTransform.right;
-                        }
+                        if (directionRelative.HasFlag(Direction.Up))
+                            direction += (Vector2) (relativeTransform.up); 
+                        if (directionRelative.HasFlag(Direction.Down))
+                            direction += (Vector2) (-relativeTransform.up);
+                        if (directionRelative.HasFlag(Direction.Right))
+                            direction += (Vector2) (relativeTransform.right);
+                        if (directionRelative.HasFlag(Direction.Left))
+                            direction += (Vector2) (-relativeTransform.right);
+                        if (directionRelative.HasFlag(Direction.Custom))
+                            direction += (directionCustomAngle + relativeTransform.localEulerAngles.z).ToVector2();
                         break;
 
                     case MoveMode.MoveAbsolute:
-                        switch (directionAbsolute)
-                        {
-                            case Direction4.Up:
-                                return Vector2.up;
-                            case Direction4.Down:
-                                return Vector2.down;
-                            case Direction4.Right:
-                                return Vector2.right;
-                            case Direction4.Left:
-                                return Vector2.left;
-                        }
+                        if (directionAbsolute.HasFlag(Direction.Up))
+                            direction += Vector2.up;
+                        if (directionAbsolute.HasFlag(Direction.Down))
+                            direction += Vector2.down;
+                        if (directionAbsolute.HasFlag(Direction.Right))
+                            direction += Vector2.right;
+                        if (directionAbsolute.HasFlag(Direction.Left))
+                            direction += Vector2.left;
+                        if (directionAbsolute.HasFlag(Direction.Custom))
+                            direction += directionCustomAngle.ToVector2();
                         break;
 
                     case MoveMode.Stop:
-                        return Vector2.zero;
+                        direction = Vector2.zero; 
+                        break;
 
                     case MoveMode.None:
-                        return Vector2.zero;
+                        direction = Vector2.zero; 
+                        break;
                 }
 
-                return Vector2.zero;
+                return direction * strength;
             }
 
             public void StopRigidBody(Rigidbody2D rb)
@@ -96,10 +114,29 @@ namespace Phoenix.JAM
                 }
             }
 
-            bool ValidateDuration(float duration)
+
+            #region [Methods: Inspector]
+
+            bool ShowDirectionCustomField()
             {
-                return duration > 0f;
+                return 
+                    (mode == MoveMode.MoveRelative && directionRelative.HasFlag(Direction.Custom)) ||
+                    (mode == MoveMode.MoveAbsolute && directionAbsolute.HasFlag(Direction.Custom));
             }
+
+            Color GetModeColor()
+            {
+                return mode switch
+                {
+                    MoveMode.MoveRelative => Encore.Utility.ColorUtility.paleGreen,
+                    MoveMode.MoveAbsolute => Encore.Utility.ColorUtility.paleGreen,
+                    MoveMode.Stop => Encore.Utility.ColorUtility.salmon,
+                    _ => Color.gray
+                };
+            }
+
+            #endregion
+
         }
 
         public class MoveData
@@ -118,10 +155,8 @@ namespace Phoenix.JAM
         List<Step> steps = new List<Step>();
 
 
-
-        public override void ModifyJetControllerAuto(JetControllerAuto jetController, out float reduceVelocityMultipler, out object cachedData)
+        public override void ModifyJetControllerAuto(JetControllerAuto jetController, out object cachedData)
         {
-            reduceVelocityMultipler = 0f;
             cachedData = new MoveData(steps);
         }
 
@@ -135,11 +170,16 @@ namespace Phoenix.JAM
                 if (step.Mode == Step.MoveMode.Stop && timeClamped < step.Duration)
                 {
                     step.StopRigidBody(jetController.RB);
+                    direction = Vector2.zero;
                     break;
+                }
+                else if (step.Duration <= 0)
+                {
+                    direction += step.GetDirectionVector(jetController.transform);
                 }
                 else if (timeClamped < step.Duration)
                 {
-                    direction = step.GetDirectionVector(jetController.transform);
+                    direction += step.GetDirectionVector(jetController.transform);
                     break;
                 }
                 else

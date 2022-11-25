@@ -16,7 +16,6 @@ namespace Phoenix
 
         void Start()
         {
-
             StartCoroutine(Delay());
             IEnumerator Delay()
             {

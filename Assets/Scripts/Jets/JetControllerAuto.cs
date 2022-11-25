@@ -1,4 +1,5 @@
 using Phoenix.JAM;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +33,7 @@ namespace Phoenix
         protected override void OnEnable()
         {
             base.OnEnable();
-            movement.ModifyJetControllerAuto(this, out reduceVelocityMultipler, out cachedData);
+            movement.ModifyJetControllerAuto(this, out cachedData);
             initialParameters = new InitialParameters(transform.localEulerAngles, transform.position);
         }
 
@@ -41,5 +42,6 @@ namespace Phoenix
             time += Time.deltaTime;
             Move(movement.GetMoveDirection(this, time, cachedData));
         }
+
     }
 }

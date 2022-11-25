@@ -14,9 +14,8 @@ namespace Phoenix.JAM
         [SerializeField]
         float amplitude;
 
-        public override void ModifyJetControllerAuto(JetControllerAuto jetController, out float reduceVelocityMultipler, out object cachedData)
+        public override void ModifyJetControllerAuto(JetControllerAuto jetController, out object cachedData)
         {
-            reduceVelocityMultipler = 1f;
             cachedData = null;
         }
 

@@ -61,7 +61,7 @@ namespace Phoenix
         [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!"+nameof(jetGO)), PropertyOrder(-1)]
         protected GameObject jetGO;
         protected Vector2 moveDirection;
-        protected float reduceVelocityMultipler = 0f;
+        protected float reduceVelocityMultipler;
 
         #endregion
 
@@ -102,6 +102,17 @@ namespace Phoenix
         {
             rb = GetComponent<Rigidbody2D>();
             rb.drag = jetProperties.LinearDrag;
+
+            switch (jetProperties.Mode)
+            {
+                case JetProperties.MoveMode.Smooth:
+                    reduceVelocityMultipler = 0f;
+                    break;
+                case JetProperties.MoveMode.Constant:
+                    reduceVelocityMultipler = 1f;
+                    break;
+            }
+
             InstantiateJet();
         }
 

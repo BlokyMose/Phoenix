@@ -9,9 +9,8 @@ namespace Phoenix.JAM
     [InlineEditor]
     public abstract class JetAutoMovement : ScriptableObject
     {
-        public virtual void ModifyJetControllerAuto(JetControllerAuto jetController, out float reduceVelocityMultipler, out object cachedData)
+        public virtual void ModifyJetControllerAuto(JetControllerAuto jetController, out object cachedData)
         {
-            reduceVelocityMultipler = 0f;
             cachedData = null;
         }
 

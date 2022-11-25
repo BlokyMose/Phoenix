@@ -37,5 +37,15 @@ namespace Encore.Utility
 
             return new Vector2(x, y);
         }
+
+        public static Vector2 ToVector2(this float angle)
+        {
+            return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+        }
+
+        public static float ToAngle(this Vector2 vector)
+        {
+            return Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+        }
     }
 }

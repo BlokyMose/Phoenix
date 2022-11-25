@@ -10,26 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5504a675824d3549ac20cf508966ba5, type: 3}
-  m_Name: JAM_Steps
+  m_Name: JAM_Steps_Test_2
   m_EditorClassIdentifier: 
   steps:
   - mode: 0
-    directionRelative: 2
-    directionAbsolute: 0
-    stopAxis: 0
-    duration: 0.3
-  - mode: 0
-    directionRelative: 0
-    directionAbsolute: 0
-    stopAxis: 0
-    duration: 0.45
-  - mode: 0
     directionRelative: 1
     directionAbsolute: 0
+    directionCustom: 90
     stopAxis: 0
-    duration: 0.9
+    duration: 0
+    strength: 0.2
   - mode: 0
-    directionRelative: 0
+    directionRelative: 4
     directionAbsolute: 0
+    directionCustom: 90
     stopAxis: 0
-    duration: 0.45
+    duration: 0.25
+    strength: 1
+  - mode: 0
+    directionRelative: 8
+    directionAbsolute: 0
+    directionCustom: 90
+    stopAxis: 0
+    duration: 0.5
+    strength: 1
+  - mode: 0
+    directionRelative: 4
+    directionAbsolute: 0
+    directionCustom: 90
+    stopAxis: 0
+    duration: 0.25
+    strength: 1
