@@ -47,5 +47,49 @@ namespace Encore.Utility
         {
             return Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
         }
+
+        public static List<int> GetRatio(List<int> list)
+        {
+            var lowestInt = GetTheLowestNumber(list);
+            if (lowestInt < 0) 
+                return list;
+
+            var listResult = new List<int>(list);
+
+            for (int i = 2; i < lowestInt; i++)
+            {
+                if (CanAllNumbersBeDividedBy(listResult, i))
+                {
+                    DivideAllNumbersBy(listResult, i);
+                    i--;
+                }
+            }
+
+            return listResult;
+
+            int GetTheLowestNumber(List<int> allNumbers)
+            {
+                int lowestInt = allNumbers[0];
+                for (int i = 1; i < allNumbers.Count; i++)
+                    if (allNumbers[i] < lowestInt)
+                        lowestInt = allNumbers[i];
+
+                return lowestInt;
+            }
+
+            bool CanAllNumbersBeDividedBy(List<int> allNumbers, int divider)
+            {
+                foreach (var num in allNumbers)
+                    if (num % divider != 0)
+                        return false;
+                return true;
+            }
+
+            void DivideAllNumbersBy(List<int> allNumbers, int divider)
+            {
+                for (int n = 0; n < allNumbers.Count; n++)
+                    allNumbers[n] = allNumbers[n] / divider;
+            }
+        }
     }
 }

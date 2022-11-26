@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Bullets\BulletProperties.cs" />
     <Compile Include="Assets\Scripts\Utility\ListUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
     <Compile Include="Assets\Scripts\Brains\PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Hiroto\EaseValue.cs" />
     <Compile Include="Assets\Scripts\Jets\JetProperties.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementMagnet.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\Enemy.cs" />
     <Compile Include="Assets\Scripts\Environments\BorderController.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\DetectCollision.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Player.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletControllerCollide.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Assets\Scripts\Utility\LoadScene.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBGUnit.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthBarrierController.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\DetectCollisionGiveDamage.cs" />
     <Compile Include="Assets\Scripts\Enemies\ziguzagu.cs" />
     <Compile Include="Assets\Scripts\Misc\IHealth.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Bullet.cs" />
@@ -142,12 +145,14 @@
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiBeamScript.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Utils.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFade.cs" />
+    <Compile Include="Assets\Scripts\Objects\BombController.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiButtonScript.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Rat.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\DestroySelf.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AttackModule.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletComponents.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayer.cs" />
+    <Compile Include="Assets\Scripts\Utility\ComponentUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample2.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelPhoenix.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
@@ -162,10 +167,6 @@
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
-    <Compile Include="Assets\Scripts\GameplayUtility\DetectCollision.cs" />
-    <Compile Include="Assets\Scripts\Objects\BombController.cs" />
-    <Compile Include="Assets\Scripts\GameplayUtility\DetectCollisionGiveDamage.cs" />
-    <Compile Include="Assets\Scripts\Utility\ComponentUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

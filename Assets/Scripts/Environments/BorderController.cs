@@ -15,7 +15,6 @@ namespace Phoenix
 
         public enum BorderOrientation { Auto, Vertical, Horizontal }
 
-
         #endregion
 
         [SerializeField]
@@ -103,15 +102,11 @@ namespace Phoenix
             }
         }
 
-        private void Awake()
+        void Awake()
         {
             col = GetComponent<BoxCollider2D>();
         }
 
-        [Button]
-        void Test(Line a, Line b)
-        {
-            Debug.Log(GetIntersection(a,b));
-        }
+
     }
 }
