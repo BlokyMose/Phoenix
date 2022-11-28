@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VFX;
-using static Phoenix.BulletProperties;
 
 namespace Phoenix
 {
@@ -165,13 +163,13 @@ namespace Phoenix
             }
         }
 
-        protected void ApplyDamageTo(GameObject other)
+        protected void ApplyDamageTo(HealthController otherHealthController)
         {
-            var healthController = other.GetComponent<HealthController>();
-            var elementContainer = other.GetComponent<ElementContainer>();
-            var otherElement = elementContainer != null ? elementContainer.Element : null;
-            if (healthController != null)
-                healthController.ReceiveDamage(GetProcessedDamage(bulletProperties.Damage, otherElement));
+            if (otherHealthController == null) return;
+
+            var otherElementContainer = otherHealthController.GetComponent<ElementContainer>();
+            var otherElement = otherElementContainer != null ? otherElementContainer.Element : null;
+            otherHealthController.ReceiveDamage(GetProcessedDamage(bulletProperties.Damage, otherElement));
 
         }
 

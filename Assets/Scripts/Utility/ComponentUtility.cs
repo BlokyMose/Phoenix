@@ -15,5 +15,13 @@ namespace Encore.Utility
             return targetComponent;
         }
 
+        public static T GetComponentInFamily<T>(this GameObject thisComponent) where T : Component
+        {
+            var targetComponent = thisComponent.GetComponent<T>();
+            targetComponent ??= thisComponent.GetComponentInParent<T>();
+            targetComponent ??= thisComponent.GetComponentInChildren<T>();
+
+            return targetComponent;
+        }
     }
 }

@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using Encore.Utility;
 using UnityEngine;
-using static Phoenix.BulletProperties;
-using static UnityEngine.ParticleSystem;
 
 namespace Phoenix
 {
@@ -17,8 +14,8 @@ namespace Phoenix
         void OnCollisionEnter2D(Collision2D collision)
         {
             if (!isActive) return;
-
-            ApplyDamageTo(collision.gameObject);
+            
+            ApplyDamageTo(collision.collider.GetComponentInFamily<HealthController>());
             ApplyForceTo(collision);
             DestroySelf();
         }

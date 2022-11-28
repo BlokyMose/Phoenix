@@ -1,3 +1,4 @@
+using Encore.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,29 +29,18 @@ namespace Phoenix
         {
             if (!isActive) return;
 
-            var parent = collider.gameObject;
-            var rb = collider.GetComponent<Rigidbody2D>();
-
-            var jetController = collider.GetComponentInParent<JetController>();
-            if (jetController != null)
-            {
-                parent = jetController.gameObject;
-                rb = jetController.RB;
-            }
-
-            ApplyDamageTo(parent);
-            ApplyForceTo(collider, rb);
+            ApplyDamageTo(collider.GetComponentInFamily<HealthController>());
+            ApplyForceTo(collider, collider.GetComponentInFamily<Rigidbody2D>());
             ReduceLifeCount();
         }
 
 
         void ApplyForceTo(Collider2D collider, Rigidbody2D rb)
         {
-            if (rb != null)
-            {
-                var direction = collider.transform.position - transform.position;
-                rb.AddForceAtPosition(direction * BulletProperties.PushForce, collider.ClosestPoint(transform.position));
-            }
+            if (rb == null) return;
+            
+            var direction = collider.transform.position - transform.position;
+            rb.AddForceAtPosition(direction * BulletProperties.PushForce, collider.ClosestPoint(transform.position));
         }
 
     }
