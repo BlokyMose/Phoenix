@@ -14,16 +14,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steps:
   - mode: 0
-    directionRelative: 1
+    directionRelative: 5
     directionAbsolute: 24
     directionCustomAngle: 90
     stopAxis: 0
-    duration: 0.5
-    strength: 0.2
+    duration: 1
+    strength: 0.4
   - mode: 2
     directionRelative: 0
     directionAbsolute: 0
     directionCustomAngle: 90
     stopAxis: 0
-    duration: 0.1
+    duration: 0.05
+    strength: 1
+  - mode: 0
+    directionRelative: 9
+    directionAbsolute: 0
+    directionCustomAngle: 90
+    stopAxis: 0
+    duration: 1.5
+    strength: 0.4
+  - mode: 2
+    directionRelative: 0
+    directionAbsolute: 0
+    directionCustomAngle: 90
+    stopAxis: 0
+    duration: 0.05
+    strength: 1
+  - mode: 0
+    directionRelative: 5
+    directionAbsolute: 24
+    directionCustomAngle: 90
+    stopAxis: 0
+    duration: 1
+    strength: 0.4
+  - mode: 2
+    directionRelative: 0
+    directionAbsolute: 0
+    directionCustomAngle: 90
+    stopAxis: 0
+    duration: 0.05
     strength: 1

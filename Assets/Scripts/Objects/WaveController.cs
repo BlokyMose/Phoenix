@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,53 +12,17 @@ namespace Phoenix
         [Serializable]
         public class Spawner
         {
-            [Serializable]
-            public class Wave
-            {
-                [SerializeField]
-                GameObject enemyPrefab;
-                public GameObject EnemyPrefab => enemyPrefab;
-
-                [SerializeField]
-                float delay = 0;
-                public float Delay => delay;
-
-                [SerializeField]
-                float period = 1f;
-                public float Period => period;
-
-                [SerializeField]
-                int count = 1;
-                public int Count => count;
-                public float Duration => delay + period * count;
-
-
-                public bool TryInstantiatePrefab(Transform transform, int currentCount, SpawnerData.WaveData cache)
-                {
-                    if (cache.ToInstantiateIndex > currentCount || cache.ToInstantiateIndex > count)
-                        return false;
-
-                    var go = Instantiate(enemyPrefab);
-                    go.SetActive(true);
-                    go.transform.SetParent(null);
-                    go.transform.position = transform.position;
-                    go.transform.localEulerAngles = transform.localEulerAngles;
-                    cache.ToInstantiateIndex++;
-
-                    return true;
-                }
-            }
-
-
             [SerializeField]
             Transform position;
+            public Transform Position => position;
 
             [SerializeField]
             bool isLoop = false;
+            public bool IsLoop => isLoop;
 
             [SerializeField]
-            List<Wave> waves = new List<Wave>();
-            public List<Wave> Waves => waves;
+            List<WaveProperties> waves = new List<WaveProperties>();
+            public List<WaveProperties> Waves => waves;
 
             public void Evaluate(float time, SpawnerData cache)
             {
@@ -107,14 +72,19 @@ namespace Phoenix
                 return totalDuration;
             }
 
+            [HorizontalGroup(0.5f), Button]
+            void AddWave()
+            {
+                waves.Add(ScriptableObject.CreateInstance<WaveProperties>());
+            }
         }
 
         public class SpawnerData
         {
             public class WaveData
             {
-                Wave wave;
-                public Wave Wave => wave;
+                WaveProperties wave;
+                public WaveProperties Wave => wave;
 
                 int toInstantiateIndex;
                 public int ToInstantiateIndex
@@ -123,7 +93,7 @@ namespace Phoenix
                     set { toInstantiateIndex = value; }
                 }
 
-                public WaveData(Wave wave, int toInstantiateIndex)
+                public WaveData(WaveProperties wave, int toInstantiateIndex)
                 {
                     this.wave = wave;
                     this.toInstantiateIndex = toInstantiateIndex;
@@ -142,7 +112,7 @@ namespace Phoenix
                     wavesData.Add(new WaveData(wave, 0));
             }
 
-            public WaveData GetWaveData(Wave wave)
+            public WaveData GetWaveData(WaveProperties wave)
             {
                 foreach (var waveData in wavesData)
                     if (waveData.Wave == wave)
@@ -166,7 +136,7 @@ namespace Phoenix
 
         [SerializeField]
         List<Spawner> spawners = new List<Spawner>();
-
+        public List<Spawner> Spawners => spawners;
 
         void Awake()
         {
@@ -200,5 +170,7 @@ namespace Phoenix
 
             }
         }
+
+        
     }
 }

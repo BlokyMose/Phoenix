@@ -43,5 +43,11 @@ namespace Phoenix
             Move(movement.GetMoveDirection(this, time, cachedData));
         }
 
+        [HorizontalGroup(0.5f), Button("Add Step")]
+        void AddMovement()
+        {
+            if (movement == null)
+                movement = ScriptableObject.CreateInstance<JetAutoMovementSteps>();  
+        }
     }
 }

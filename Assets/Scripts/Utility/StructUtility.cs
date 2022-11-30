@@ -34,6 +34,9 @@ namespace Encore.Utility
             this.right = right;
             this.bottom = bottom;
         }
+
+        public float Horizontal => left + right;
+        public float Vertical => top + bottom;
     }
 
     public enum Direction4 { Right, Left, Up, Down }
@@ -45,5 +48,33 @@ namespace Encore.Utility
         Position = 1,
         Rotation = 2,
         Scale = 4,
+    }
+
+    public struct EditorPos
+    {
+        float width;
+        public float Width => width;
+        float height;
+        public float Height => height;
+
+        public EditorPos(float width, float height)
+        {
+            this.width = width;
+            this.height = height;
+        }        
+        
+        public EditorPos(Vector2 vector2)
+        {
+            this.width = vector2.x;
+            this.height = vector2.y;
+        }
+
+        /// <summary>Add width</summary>
+        public void AddColumn(float add) => width += add;
+
+        /// <summary>Add height</summary>
+        public void AddRow(float add) => height += add;
+
+        public Vector2 Vector2 => new Vector2(width, height);
     }
 }
