@@ -136,7 +136,10 @@ namespace Phoenix
 
         [SerializeField]
         List<Spawner> spawners = new List<Spawner>();
-        public List<Spawner> Spawners => spawners;
+        public List<Spawner> Spawners
+        {
+            get => spawners;
+        } 
 
         void Awake()
         {
@@ -164,7 +167,7 @@ namespace Phoenix
                     foreach (var spawnerAndData in spawnersAndData)
                         spawnerAndData.Item1.Evaluate(time, spawnerAndData.Item2);
 
-                    time += Time.deltaTime;
+                    time += Time.fixedDeltaTime;
                     yield return null;
                 }
 

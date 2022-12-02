@@ -17,6 +17,22 @@ namespace Encore.Utility
         public static Color fireBrick { get { return new Color32(178, 34, 34, 255); } }
         public static Color orange { get { return new Color32(255, 165, 0, 255); } }
         public static Color goldenRod { get { return new Color32(218, 165, 32, 255); } }
+        public static Color cadetBlue { get { return new Color32(95, 158, 160, 255); } }
+        public static Color darkSlateGray { get { return new Color32(47, 79, 79, 255); } }
+        public static Color teal { get { return new Color32(0, 128, 128, 255); } }
+        public static Color steelBlue { get { return new Color32(70, 130, 180, 255); } }
+        public static Color tan { get { return new Color32(210, 180, 140, 255); } }
+        public static Color violet { get { return new Color32(238, 130, 238, 255); } }
+        public static Color darkSlateBlue { get { return new Color32(72, 61, 139, 255); } }
+        public static Color darkOliveGreen { get { return new Color32(85, 107, 47, 255); } }
+        public static Color dodgerBlue { get { return new Color32(30, 144, 255, 255); } }
+        public static Color lightGreen { get { return new Color32(144, 238, 144, 255); } }
+        public static Color lightSalmon { get { return new Color32(255, 160, 122, 255); } }
+        public static Color mediumSpringGreen { get { return new Color32(0, 250, 154, 255); } }
+        public static Color orangeRed { get { return new Color32(255, 69, 0, 255); } }
+        public static Color najavoWhite { get { return new Color32(255, 222, 173, 255); } }
+        public static Color aqua { get { return new Color32(0, 255, 255, 255); } }
+        public static Color lime { get { return new Color32(0, 255, 0, 255); } }
 
 
 

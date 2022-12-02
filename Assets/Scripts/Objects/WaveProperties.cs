@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,23 +12,43 @@ namespace Phoenix
     {
         [SerializeField, InlineButton(nameof(SetSOName), "Set Name"), LabelWidth(0.1f)]
         string soName = "Wave Name";
-        public string SOName => soName;
+        public string SOName
+        {
+            get => soName;
+            set => soName = value;
+        }
 
         [SerializeField, LabelWidth(0.1f)]
-        GameObject enemyPrefab;
-        public GameObject EnemyPrefab => enemyPrefab;
+        GameObject prefab;
+        public GameObject Prefab
+        {
+            get => prefab;
+            set => prefab = value;
+        }
 
         [SerializeField]
         float delay = 1f;
-        public float Delay => delay;
+        public float Delay
+        {
+            get => delay;
+            set => delay = value;
+        }
 
         [SerializeField]
         float period = 0.5f;
-        public float Period => period;
+        public float Period
+        {
+            get => period;
+            set => period = value;
+        }
 
         [SerializeField]
         int count = 5;
-        public int Count => count;
+        public int Count
+        {
+            get => count;
+            set => count = value;
+        }
         public float Duration => delay + period * count;
 
 
@@ -36,9 +57,9 @@ namespace Phoenix
             if (cache.ToInstantiateIndex > currentCount || cache.ToInstantiateIndex > count)
                 return false;
 
-            if (enemyPrefab != null)
+            if (prefab != null)
             {
-                var go = Instantiate(enemyPrefab);
+                var go = Instantiate(prefab);
                 go.SetActive(true);
                 go.transform.SetParent(null);
                 go.transform.position = transform.position;
