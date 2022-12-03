@@ -13,12 +13,28 @@ namespace Phoenix
         public class Spawner
         {
             [SerializeField]
+            bool isActive = true;
+            public bool IsActive
+            {
+                get => isActive;
+                set => isActive = value;
+            }
+
+            [SerializeField]
             Transform position;
-            public Transform Position => position;
+            public Transform Position
+            {
+                get => position;
+                set => position = value;
+            }
 
             [SerializeField]
             bool isLoop = false;
-            public bool IsLoop => isLoop;
+            public bool IsLoop
+            {
+                get => isLoop;
+                set => isLoop = value;
+            }
 
             [SerializeField]
             List<WaveProperties> waves = new List<WaveProperties>();
@@ -26,41 +42,39 @@ namespace Phoenix
 
             public void Evaluate(float time, SpawnerData cache)
             {
-                if (time < TotalWavesDuration())
-                {
-                    float currentWaveDurationSum = 0f;
-                    foreach (var wave in waves)
-                    {
-                        currentWaveDurationSum += wave.Duration;
+                if (!isActive) return;
 
-                        if (time < currentWaveDurationSum)
+                var timeInLoop = time % TotalWavesDuration();
+                if (time > TotalWavesDuration() && isLoop)
+                    cache.ResetDataForLoop((int)Mathf.Floor(time / TotalWavesDuration()));
+
+                float currentWaveDurationSum = 0f;
+                foreach (var wave in waves)
+                {
+                    currentWaveDurationSum += wave.Duration;
+
+                    if (timeInLoop < currentWaveDurationSum)
+                    {
+                        var totalDurationOfPreviousWaves = currentWaveDurationSum - wave.Duration;
+                        var timeInWave = timeInLoop - totalDurationOfPreviousWaves;
+                        if (timeInWave >= wave.Delay)
                         {
-                            var totalDurationOfPreviousWaves = currentWaveDurationSum - wave.Duration;
-                            var timeInWave = time - totalDurationOfPreviousWaves;
-                            if (timeInWave >= wave.Delay)
+                            var timeAfterDelay = timeInWave - wave.Delay;
+                            for (int i = 0; i < wave.Count; i++)
                             {
-                                var timeAfterDelay = timeInWave - wave.Delay;
-                                for (int i = 0; i < wave.Count; i++)
+                                if (timeAfterDelay > wave.Period * i)
                                 {
-                                    if (timeAfterDelay > wave.Period * i)
-                                    {
-                                        if (wave.TryInstantiatePrefab(position, i, cache.GetWaveData(wave)))
-                                            break;
-                                    }
+                                    if (wave.TryInstantiatePrefab(position, i, cache.GetWaveData(wave)))
+                                        break;
                                 }
                             }
-
-                            break;
                         }
+
+                        break;
                     }
                 }
 
-                else if (isLoop)
-                {
-                    var timeClamped = time % TotalWavesDuration();
-                    cache.ResetDataForLoop((int)Mathf.Floor(time/TotalWavesDuration()));
-                    Evaluate(timeClamped, cache);
-                }
+
             }
 
             public float TotalWavesDuration()
@@ -123,7 +137,7 @@ namespace Phoenix
 
             public void ResetDataForLoop(int currentLoopCount)
             {
-                if (currentLoopCount != loopCount)
+                if (currentLoopCount < loopCount)
                     return;
 
                 foreach (var waveData in wavesData)

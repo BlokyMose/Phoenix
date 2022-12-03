@@ -141,12 +141,29 @@ namespace Phoenix.Editor
             }
 
 
-
-
-
-            public void Reset()
+            public void Reset(WaveController waveController)
             {
-                waveColors = new List<WaveColor>();
+                this.waveController = waveController;
+                this.waveColors = new List<WaveColor>();
+                foreach (var spawner in waveController.Spawners)
+                {
+                    foreach (var wave in spawner.Waves)
+                    {
+                        bool alreadyAdded = false;
+                        foreach (var waveColor in waveColors)
+                        {
+                            if (waveColor.wave == wave)
+                            {
+                                alreadyAdded = true;
+                                break;
+                            }
+                        }
+                        if (!alreadyAdded)
+                        {
+                            waveColors.Add(new WaveColor(wave, randomColor));
+                        }
+                    }
+                }
                 currentRandomColorIndex = -1;
             }
 
@@ -175,25 +192,28 @@ namespace Phoenix.Editor
 
         #region [Vars: Properties]
 
-        readonly int wavePropertiesRowCount = 6;
-        readonly Padding padding = new(10,10,10,10);
-        readonly EditorPos defaultFieldSize = new EditorPos(100, 20);
-        readonly EditorPos generalInfoFieldSize = new EditorPos(100, 20);
+        int wavePropertiesRowCount = 0;
+        readonly Padding padding = new(5,5,10,10);
+        readonly EditorPos defaultFieldSize = new EditorPos(100, 25);
+        readonly EditorPos iconSize = new EditorPos(25, 25);
+        readonly EditorPos addSubButtonsSize = new EditorPos(40, 25);
         readonly float spaceBetweenRow = 15f;
-        readonly float spaceBetweenWaveColumn = 5f;
+        readonly float spaceBetweenWaveColumn = 15f;
         WaveColors waveColors = new WaveColors();
 
         #endregion
 
         #region [Vars: Data Handlers]
 
-        float rowLength => wavePropertiesRowCount * generalInfoFieldSize.Height + spaceBetweenRow;
+        float rowLength => wavePropertiesRowCount * defaultFieldSize.Height + spaceBetweenRow;
         WaveController waveController;
         CopiedWave copiedWaveProperties;
         Vector2 scrollViewPos;
         readonly string iconsFolder = "Assets/Scripts/Editor/Icons/";
-        Texture2D iconDelay, iconClock, iconCount, iconCopy, iconPaste, iconDelete, iconAdd;
+        Texture2D iconDelay, iconClock, iconCount, iconCopy, iconPaste, iconDelete, iconAdd, iconLoop,iconWarning, iconOn, iconOff,iconPrefab,iconWrench;
         EditorColors guiColors = new EditorColors();
+        bool isShowPrefab = true, isShowDelay = true, isShowPeriod = true, isShowCount = true, isShowSOControls = true;
+        float incrementBy = 0.1f;
 
         #endregion
 
@@ -206,6 +226,12 @@ namespace Phoenix.Editor
             iconPaste = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_paste.png");
             iconDelete = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_delete.png");
             iconAdd = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_add.png");
+            iconLoop = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_loop.png");
+            iconWarning = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_warning.png");
+            iconOn = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_on.png");
+            iconOff = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_off.png");
+            iconPrefab = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_prefab.png");
+            iconWrench = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_wrench.png");
             guiColors = new EditorColors(GUI.color, GUI.contentColor, GUI.backgroundColor);
 
             EditorApplication.playModeStateChanged += (mode) =>
@@ -215,21 +241,47 @@ namespace Phoenix.Editor
                     var waveCs = FindObjectsOfType<WaveController>();
                     foreach (var waveC in waveCs)
                         if (waveC.GetInstanceID() == waveController.GetInstanceID())
+                        {
                             waveController = waveC;
+                        }
                 }
 
             };
+        }
+
+        int CountShownWavePropertiesRow()
+        {
+            var count = 1;
+            if(isShowPrefab)
+                count++;
+            if (isShowDelay)
+                count++;
+            if (isShowPeriod)
+                count++;
+            if (isShowCount)
+                count++;
+            if (isShowSOControls)
+                count++;
+
+            if (count < 2)
+                count = 2; // soName is always true, and generalInfo requires 2 rows to look good.
+
+            return count;
         }
 
         void OnGUI()
         {
             var spawners = new List<WaveController.Spawner>(waveController.Spawners);
             if (waveColors.WaveController != waveController)
-                waveColors.Reset();
+                waveColors.Reset(waveController);
+
+            wavePropertiesRowCount = CountShownWavePropertiesRow();
+
+            var pos = new EditorPos(padding.left, padding.top);
+            pos.AddRow(MakeTopBar(pos.Vector2));
 
             #region [Begin ScrollView]
 
-            var pos = new EditorPos(padding.left, padding.top);
             var windowSize = new Vector2(position.width - padding.Horizontal, position.height - padding.Vertical);
             var scrollViewRect = new Rect(pos.Vector2, windowSize);
             var viewRect = new Rect(Vector2.zero, GetContentViewSize(spawners));
@@ -237,33 +289,140 @@ namespace Phoenix.Editor
 
             #endregion
 
+            pos = new EditorPos(0, 0);
             MakeSpawnerGeneralInfosColumn(pos.Vector2, spawners);
-            MakeWavesView(new Vector2(generalInfoFieldSize.Width + 20, pos.Height), spawners);
+            MakeWavesView(new Vector2(defaultFieldSize.Width + 20, pos.Height), spawners);
 
             GUI.EndScrollView();
             Undo.RecordObject(this, "Wave");
 
+            float MakeTopBar(Vector2 originPos)
+            {
+                var topBarPos = new EditorPos(originPos);
+
+
+                topBarPos.AddColumn(MakeLabel(topBarPos.Vector2, "Show"));
+                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconPrefab, ref isShowPrefab, nameof(isShowPrefab)));
+                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconDelay, ref isShowDelay, nameof(isShowDelay)));
+                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconClock, ref isShowPeriod, nameof(isShowPeriod)));
+                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconCount, ref isShowCount, nameof(isShowCount)));
+                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconWrench, ref isShowSOControls, nameof(isShowSOControls)));
+
+                topBarPos.AddColumn(20f);
+                topBarPos.AddColumn(MakeLabel(topBarPos.Vector2, "+/- by", "IncrementBy; used wehn using + or - buttons"));
+                topBarPos.AddColumn(MakeFloatInput(topBarPos.Vector2, ref incrementBy));
+
+
+                return defaultFieldSize.Height;
+
+                float MakeLabel(Vector2 labelPos, string labelName, string tooltip = "")
+                {
+                    var rect = new Rect(labelPos, new Vector2(defaultFieldSize.Width / 2, defaultFieldSize.Height));
+                    EditorGUI.LabelField(rect, new GUIContent(labelName + ": ", tooltip));
+                    return rect.width;
+                }
+
+                float MakeShowButton(Vector2 buttonPos, Texture2D icon, ref bool boolValue, string boolName)
+                {
+                    var buttonRect = new Rect(buttonPos, iconSize.Vector2);
+                    if (boolValue)
+                    {
+                        if (GUI.Button(buttonRect, new GUIContent(icon, boolName + ": true")))
+                            boolValue = false;
+                    }
+                    else
+                    {
+                        GUI.color = Color.white.ChangeAlpha(0.5f);
+                        if (GUI.Button(buttonRect, new GUIContent(icon, boolName + ": false")))
+                            boolValue = true;
+                    }
+
+                    GUI.color = guiColors.color;
+
+                    return buttonRect.width;
+                }
+
+                float MakeFloatInput(Vector2 textInputPos, ref float floatVar)
+                {
+                    var rect = new Rect(textInputPos, new Vector2(defaultFieldSize.Width / 2, defaultFieldSize.Height));
+                    floatVar = EditorGUI.FloatField(rect, floatVar);
+                    return rect.width;
+                }
+            }
+
             void MakeSpawnerGeneralInfosColumn(Vector2 originPos, List<WaveController.Spawner> spawners)
             {
                 var rowPos = new EditorPos(originPos);
+                int spawnerIndex = 0;
                 foreach (var spawner in spawners)
-                    rowPos.AddRow(MakeGeneralInfo(spawner, rowPos.Vector2));
+                {
+                    rowPos.AddRow(MakeGeneralInfo(spawner, rowPos.Vector2, spawnerIndex));
+                    spawnerIndex++;
+                }
 
-                float MakeGeneralInfo(WaveController.Spawner spawner, Vector2 originPos)
+                float MakeGeneralInfo(WaveController.Spawner spawner, Vector2 originPos, int spawnerIndex)
                 {
                     var infoPos = new EditorPos(originPos);
-
-                    var transformRect = new Rect(infoPos.Vector2, generalInfoFieldSize.Vector2);
-                    Transform transform = null;
-                    transform = (Transform)EditorGUI.ObjectField(transformRect, spawner.Position, typeof(Transform), true);
-                    infoPos.AddRow(transformRect.height);
-
-                    var isLoopRect = new Rect(infoPos.Vector2, generalInfoFieldSize.Vector2);
-                    bool isLoop = false;
-                    isLoop = EditorGUI.Toggle(isLoopRect, spawner.IsLoop);
-                    infoPos.AddRow(isLoopRect.height);
+                    infoPos.AddRow(MakeTransform(infoPos.Vector2, spawner));
+                    infoPos.AddRow(MakeToggles(infoPos.Vector2, spawner));
 
                     return rowLength;
+
+                    float MakeTransform(Vector2 pos, WaveController.Spawner spawner)
+                    {
+                        var transformRect = new Rect(pos, defaultFieldSize.Vector2);
+                        spawner.Position = (Transform)EditorGUI.ObjectField(transformRect, spawner.Position, typeof(Transform), true);
+                        return transformRect.height;
+                    }
+
+                    float MakeToggles(Vector2 pos, WaveController.Spawner spawner)
+                    {
+                        var togglePos = new EditorPos(pos);
+                        togglePos.AddColumn(MakeIsActive(togglePos.Vector2, spawner));
+                        togglePos.AddColumn(MakeIsLoop(togglePos.Vector2, spawner));
+
+                        return defaultFieldSize.Height;
+                    }
+
+                    float MakeIsLoop(Vector2 pos, WaveController.Spawner spawner)
+                    {
+                        var isLoopRect = new Rect(pos, iconSize.Vector2);
+                        if (spawner.IsLoop)
+                        {
+                            if (GUI.Button(isLoopRect, new GUIContent(iconLoop, "isLooping: true")))
+                                spawner.IsLoop = false;
+                        }
+                        else
+                        {
+                            GUI.color = guiColors.color.ChangeAlpha(0.25f);
+                            if (GUI.Button(isLoopRect, new GUIContent(iconLoop, "isLooping: false")))
+                                spawner.IsLoop = true;
+                        }
+
+                        GUI.color = guiColors.color;
+
+                        return isLoopRect.width;
+                    }
+
+                    float MakeIsActive(Vector2 pos, WaveController.Spawner spawner)
+                    {
+                        var isActiveRect = new Rect(pos, iconSize.Vector2);
+                        if (spawner.IsActive)
+                        {
+                            if (GUI.Button(isActiveRect, new GUIContent(iconOn, "isActive: true")))
+                                spawner.IsActive = false;
+                        }
+                        else
+                        {
+                            GUI.color = guiColors.color.ChangeAlpha(0.25f);
+                            if (GUI.Button(isActiveRect, new GUIContent(iconOff, "isActive: false")))
+                                spawner.IsActive = true;
+                        }
+
+                        GUI.color = guiColors.color;
+
+                        return isActiveRect.width;
+                    }
                 }
 
             }
@@ -300,11 +459,16 @@ namespace Phoenix.Editor
                         var wavePos = new EditorPos(originPos);
 
                         wavePos.AddRow(MakeSOName(wavePos, wave).height);
-                        wavePos.AddRow(MakePrefab(wavePos, wave).height);
-                        wavePos.AddRow(MakeDelay(wavePos, wave).height);
-                        wavePos.AddRow(MakePeriod(wavePos, wave).height);
-                        wavePos.AddRow(MakeCount(wavePos, wave).height);
-                        wavePos.AddRow(MakeSOControls(wavePos, wave, spawnerIndex, waveIndex).height);
+                        if(isShowPrefab)
+                            wavePos.AddRow(MakePrefab(wavePos, wave).height);
+                        if(isShowDelay)
+                            wavePos.AddRow(MakeDelay(wavePos, wave).height);
+                        if(isShowPeriod)
+                            wavePos.AddRow(MakePeriod(wavePos, wave).height);
+                        if(isShowCount)
+                            wavePos.AddRow(MakeCount(wavePos, wave).height);
+                        if(isShowSOControls)
+                            wavePos.AddRow(MakeSOControls(wavePos, wave, spawnerIndex, waveIndex).height);
 
                         return defaultFieldSize.Width;
 
@@ -325,7 +489,9 @@ namespace Phoenix.Editor
                             var prefabRect = new Rect(wavePos.Vector2, defaultFieldSize.Vector2);
                             if (wave.Prefab == null)
                             {
-
+                                var warningRect = MakeIcon(wavePos, iconWarning, "Prefab: Null", Color.yellow);
+                                prefabRect.width -= warningRect.width;
+                                prefabRect.x += warningRect.width;
                             }
                             GUI.color = waveColor;
                             var newPrefab = EditorGUI.ObjectField(prefabRect, wave.Prefab, typeof(GameObject), true);
@@ -341,12 +507,12 @@ namespace Phoenix.Editor
                             var iconRect = MakeIcon(thisPos, iconDelay, "Delay");
                             thisPos.AddColumn(iconRect.width);
 
-                            var delayRect = new Rect(thisPos.Vector2, new Vector2(defaultFieldSize.Width - iconRect.width - 40f, defaultFieldSize.Height));
+                            var delayRect = new Rect(thisPos.Vector2, new Vector2(defaultFieldSize.Width - iconRect.width - addSubButtonsSize.Width , defaultFieldSize.Height));
                             var newDelay = EditorGUI.FloatField(delayRect, wave.Delay);
                             thisPos.AddColumn(delayRect.width);
                             wave.Delay = newDelay;
 
-                            var addSubRect = MakeAddSubButtons(thisPos, wave.Delay, (newDelay) => { wave.Delay = newDelay; }, 0.1f);
+                            var addSubRect = MakeAddSubButtons(thisPos, wave.Delay, (newDelay) => { wave.Delay = newDelay; }, incrementBy);
 
 
                             return new Rect(pos.Width, pos.Height, delayRect.width + addSubRect.width, delayRect.height);
@@ -359,12 +525,12 @@ namespace Phoenix.Editor
                             var iconRect = MakeIcon(thisPos, iconClock, "Period");
                             thisPos.AddColumn(iconRect.width);
 
-                            var delayRect = new Rect(thisPos.Vector2, new Vector2(defaultFieldSize.Width - iconRect.width - 40f, defaultFieldSize.Height));
+                            var delayRect = new Rect(thisPos.Vector2, new Vector2(defaultFieldSize.Width - iconRect.width - addSubButtonsSize.Width , defaultFieldSize.Height));
                             var newPeriod = EditorGUI.FloatField(delayRect, wave.Period);
                             thisPos.AddColumn(delayRect.width);
                             wave.Period = newPeriod;
 
-                            var addSubRect = MakeAddSubButtons(thisPos, wave.Period, (newPeriod) => { wave.Period = newPeriod; }, 0.1f);
+                            var addSubRect = MakeAddSubButtons(thisPos, wave.Period, (newPeriod) => { wave.Period = newPeriod; }, incrementBy);
 
                             return new Rect(pos.Width, pos.Height, delayRect.width + addSubRect.width, delayRect.height);
                         }
@@ -376,7 +542,7 @@ namespace Phoenix.Editor
                             var iconRect = MakeIcon(thisPos, iconCount, "Count");
                             thisPos.AddColumn(iconRect.width);
 
-                            var delayRect = new Rect(thisPos.Vector2, new Vector2(defaultFieldSize.Width - iconRect.width - 40f, defaultFieldSize.Height));
+                            var delayRect = new Rect(thisPos.Vector2, new Vector2(defaultFieldSize.Width - iconRect.width - addSubButtonsSize.Width, defaultFieldSize.Height));
                             var newCount = EditorGUI.IntField(delayRect, wave.Count);
                             thisPos.AddColumn(delayRect.width);
                             wave.Count = newCount;
@@ -389,17 +555,16 @@ namespace Phoenix.Editor
                         Rect MakeSOControls(EditorPos pos, WaveProperties wave, int spawnerIndex, int waveIndex)
                         {
                             var thisPos = new EditorPos(pos.Vector2);
-                            var buttonSize = new Vector2(25f, defaultFieldSize.Height);
                             int buttonCount = 0;
                             
-                            thisPos.AddColumn(MakeCopyButton(wave, thisPos.Vector2, buttonSize).width);
+                            thisPos.AddColumn(MakeCopyButton(wave, thisPos.Vector2, iconSize.Vector2).width);
                             buttonCount++;
-                            thisPos.AddColumn(MakePasteButton(wave, thisPos.Vector2, buttonSize).width);
+                            thisPos.AddColumn(MakePasteButton(wave, thisPos.Vector2, iconSize.Vector2).width);
                             buttonCount++;
-                            thisPos.AddColumn(MakeDeleteButton(wave, thisPos.Vector2, buttonSize).width);
+                            thisPos.AddColumn(MakeDeleteButton(wave, thisPos.Vector2, iconSize.Vector2).width);
                             buttonCount++;
                             
-                            return new Rect(pos.Width, pos.Height, buttonSize.x * buttonCount, buttonSize.y);
+                            return new Rect(pos.Width, pos.Height, iconSize.Width * buttonCount, iconSize.Height);
 
                             Rect MakeCopyButton(WaveProperties wave, Vector2 pos, Vector2 buttonSize)
                             {
@@ -502,7 +667,7 @@ namespace Phoenix.Editor
                     if (spawner.Waves.Count > mostWaveCount)
                         mostWaveCount = spawner.Waves.Count;
 
-                var width = mostWaveCount * defaultFieldSize.Width + generalInfoFieldSize.Width;
+                var width = mostWaveCount * defaultFieldSize.Width + defaultFieldSize.Width;
 
                 return new Vector2(width, height);
             }
@@ -510,29 +675,31 @@ namespace Phoenix.Editor
 
         }
 
-        Rect MakeIcon(EditorPos pos, Texture2D icon, string tooltip)
+        Rect MakeIcon(EditorPos pos, Texture2D icon, string tooltip, Color? color = null)
         {
-            var rect = new Rect(pos.Width, pos.Height, 15f, defaultFieldSize.Height);
-            GUI.color = Color.white.ChangeAlpha(0.5f);
-            EditorGUI.LabelField(rect, new GUIContent(icon, tooltip));
+            var rect = new Rect(pos.Vector2, iconSize.Vector2);
+            var iconReducedSize = new Vector2(rect.width * 0.66f, rect.height * 0.66f);
+            var iconReducedPos = new Vector2(rect.x + rect.width/2 - iconReducedSize.x/2, rect.y + rect.height / 2 - iconReducedSize.y / 2);
+            var iconReducedRect = new Rect(iconReducedPos, iconReducedSize);
+
+            GUI.color = (color != null) ? (Color)color : Color.white.ChangeAlpha(0.5f);
+            EditorGUI.LabelField(iconReducedRect, new GUIContent(icon, tooltip));
             GUI.color = guiColors.color;
-            rect.width += 5f;
+
             return rect;
         }
 
         Rect MakeAddSubButtons(EditorPos pos, int initialValue, Action<int> onNewValue, int increment)
         {
-            var buttonWidth = 20f;
-
             var thisPos = new EditorPos(pos.Vector2);
+            var buttonSize = new EditorPos(addSubButtonsSize.Width / 2, addSubButtonsSize.Height);
 
-            var addRect = new Rect(thisPos.Width, thisPos.Height, buttonWidth, defaultFieldSize.Height);
-
+            var addRect = new Rect(thisPos.Vector2, buttonSize.Vector2);
             if (GUI.Button(addRect, "+"))
                 onNewValue(initialValue + increment);
             thisPos.AddColumn(addRect.width);
 
-            var subRect = new Rect(thisPos.Width, thisPos.Height, buttonWidth, defaultFieldSize.Height);
+            var subRect = new Rect(thisPos.Vector2, buttonSize.Vector2);
             if (GUI.Button(subRect, "-"))
                 onNewValue(initialValue - increment);
             thisPos.AddColumn(subRect.width);
@@ -542,17 +709,16 @@ namespace Phoenix.Editor
 
         Rect MakeAddSubButtons(EditorPos pos, float initialValue, Action<float> onNewValue, float increment)
         {
-            var buttonWidth = 20f;
-
             var thisPos = new EditorPos(pos.Vector2);
+            var buttonSize = new EditorPos(addSubButtonsSize.Width/2, addSubButtonsSize.Height);
 
-            var addRect = new Rect(thisPos.Width, thisPos.Height, buttonWidth, defaultFieldSize.Height);
+            var addRect = new Rect(thisPos.Vector2, buttonSize.Vector2);
 
             if(GUI.Button(addRect, "+"))
                 onNewValue(initialValue + increment);
             thisPos.AddColumn(addRect.width);
 
-            var subRect = new Rect(thisPos.Width, thisPos.Height, buttonWidth, defaultFieldSize.Height);
+            var subRect = new Rect(thisPos.Vector2, buttonSize.Vector2);
             if (GUI.Button(subRect, "-"))
                 onNewValue(initialValue - increment);
             thisPos.AddColumn(subRect.width);

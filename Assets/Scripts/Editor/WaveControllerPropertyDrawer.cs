@@ -14,13 +14,15 @@ namespace Phoenix.Editor
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
             if (GUILayout.Button("Open Editor"))
             {
                 WaveControllerEditor.OpenWindow(target as WaveController, serializedObject);
             }
+
+            base.OnInspectorGUI();
+            
         }
 
-        
+
     }
 }
