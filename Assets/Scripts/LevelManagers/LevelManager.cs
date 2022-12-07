@@ -18,6 +18,92 @@ namespace Phoenix
             public Transform point;
         }
 
+        [Serializable]
+        public class Stage
+        {
+            public enum StageActiveMode { Active, Passive, Inactive }
+            public enum NextRequirement { All, One }
+
+            [SerializeField, Tooltip("- Active: activate & deactivate objects based on order \n- Passive: deactivate objects at start \n- Inactive: do nothing")]
+            StageActiveMode activeMode = StageActiveMode.Active;
+            public StageActiveMode ActiveMode => activeMode;
+
+            [SerializeField]
+            NextRequirement next = NextRequirement.All;
+
+            [SerializeField]
+            List<LevelObjectActivator> objectActivators = new List<LevelObjectActivator>();
+            public List<LevelObjectActivator> ObjectActivators => objectActivators;
+
+            int activatedObjectsCount = 0;
+            bool isStageCleared = false;
+            public Action OnStageCleared;
+
+            public void Init()
+            {
+                foreach (var objectActivator in objectActivators)
+                {
+                    objectActivator.Init(OnNextStage);
+                }
+
+                void OnNextStage()
+                {
+                    activatedObjectsCount++;
+                    if (CanGoToNextStage())
+                    {
+                        EndStage();
+                        OnStageCleared?.Invoke();
+                    }
+                }
+            }
+
+            public void StartStage()
+            {
+                foreach (var objectActivator in objectActivators)
+                {
+                    objectActivator.Activate(true);
+                }
+            }
+
+            public void EndStage()
+            {
+                foreach (var objectActivator in objectActivators)
+                {
+                    objectActivator.Activate(false);
+                }
+            }
+
+            bool CanGoToNextStage()
+            {
+                switch (next)
+                {
+                    case NextRequirement.All:
+                        isStageCleared = activatedObjectsCount >= objectActivators.Count;
+                        break;
+
+                    case NextRequirement.One:
+                        if (objectActivators.Count > 0)
+                            isStageCleared = activatedObjectsCount > 0;
+                        else
+                            isStageCleared = true;
+                        break;
+
+                    default:
+                        isStageCleared = true;
+                        break;
+                }
+
+                return isStageCleared;
+
+            }
+
+            public void Reset()
+            {
+                activatedObjectsCount = 0;
+                isStageCleared = false;
+            }
+        }
+
         #endregion
 
         #region [Vars: Properties]
@@ -35,13 +121,19 @@ namespace Phoenix
         [SerializeField]
         bool useVCamInScene = true;
 
-        #endregion
+        [Header("Stages")]
+        [SerializeField]
+        List<Stage> stages = new List<Stage>();
 
+
+        #endregion
 
         #region [Vars: Data Handlers]
 
         PlayerBrain playerBrain;
         Cinemachine.CinemachineVirtualCamera vCam;
+        Stage currentStage => stages[currentStageIndex];
+        int currentStageIndex;
 
         #endregion
 
@@ -72,6 +164,44 @@ namespace Phoenix
                 vCam = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
                 if (vCam == null)
                     Debug.LogWarning("useVCamInScene is True, but there is no VCam found");
+            }
+
+            foreach (var stage in stages)
+            {
+                if (stage.ActiveMode != Stage.StageActiveMode.Inactive)
+                {
+                    stage.OnStageCleared += OnStageCleared;
+                    stage.Init();
+                }
+            }
+
+            StartLevel();
+
+            void OnStageCleared()
+            {
+                for (int i = currentStageIndex+1; i < stages.Count; i++)
+                {
+                    if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
+                    {
+                        currentStageIndex = i;
+                        currentStage.StartStage();
+                        break;
+                    }
+                }
+            }
+
+            void StartLevel()
+            {
+                for (int i = 0; i < stages.Count; i++)
+                {
+                    if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
+                    {
+                        currentStageIndex = i;
+                        currentStage.StartStage();
+                        break;
+                    }
+                }
+
             }
         }
     }

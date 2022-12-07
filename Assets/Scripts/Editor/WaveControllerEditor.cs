@@ -22,6 +22,7 @@ namespace Phoenix.Editor
         {
             var window = GetWindow<WaveControllerEditor>("Wave");
             window.waveController = waveController;
+            window.waveControllerID = waveController.GetInstanceID();
             window.waveColors = new WaveColors(waveController);
             window.Show();
         }
@@ -207,6 +208,7 @@ namespace Phoenix.Editor
 
         float rowLength => wavePropertiesRowCount * defaultFieldSize.Height + spaceBetweenRow;
         WaveController waveController;
+        int waveControllerID = -1;
         CopiedWave copiedWaveProperties;
         Vector2 scrollViewPos;
         readonly string iconsFolder = "Assets/Scripts/Editor/Icons/";
@@ -219,6 +221,7 @@ namespace Phoenix.Editor
 
         void OnEnable()
         {
+
             iconDelay = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_delay.png");
             iconClock = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_clock.png");
             iconCount = AssetDatabase.LoadAssetAtPath<Texture2D>(iconsFolder + "ic_count.png");
@@ -240,7 +243,7 @@ namespace Phoenix.Editor
                 {
                     var waveCs = FindObjectsOfType<WaveController>();
                     foreach (var waveC in waveCs)
-                        if (waveC.GetInstanceID() == waveController.GetInstanceID())
+                        if (waveControllerID != -1 && waveC.GetInstanceID() == waveControllerID)
                         {
                             waveController = waveC;
                         }
@@ -271,6 +274,15 @@ namespace Phoenix.Editor
 
         void OnGUI()
         {
+            if (waveController == null)
+            {
+                var labelRect = new Rect(0, 0, position.width, position.height);
+                var labelStyle = GUI.skin.label;
+                labelStyle.alignment = TextAnchor.MiddleCenter;
+                EditorGUI.LabelField(labelRect, "Choose a WaveController", labelStyle);
+                return;
+            }
+
             var spawners = new List<WaveController.Spawner>(waveController.Spawners);
             if (waveColors.WaveController != waveController)
                 waveColors.Reset(waveController);

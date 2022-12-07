@@ -7,6 +7,7 @@ namespace Phoenix
 {
     [RequireComponent(typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(HealthController))]
     public abstract class BulletController : MonoBehaviour
     {
         #region [Vars: Data Handlers]
@@ -65,6 +66,10 @@ namespace Phoenix
             bulletComponents.transform.localPosition = Vector3.zero;
             bulletComponents.transform.localEulerAngles = Vector3.zero;
             bulletComponents.Init(bulletProperties, ref OnDie);
+
+            var healthController = GetComponent<HealthController>();
+            healthController.Init(1);
+            healthController.OnDie += DestroySelf; 
 
             #region [Setup RB2D]
 

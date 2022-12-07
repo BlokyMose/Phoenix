@@ -134,7 +134,7 @@ namespace Phoenix
         List<HealthStage> healthStages = new List<HealthStage>();
 
         [SerializeField]
-        UnityEvent onDieAction;
+        UnityEvent onDieAction = new UnityEvent();
 
         float health;
         public float Health => health;
@@ -151,6 +151,12 @@ namespace Phoenix
         private void Awake()
         {
             Init();
+        }
+
+        public void Init(int maxHealth)
+        {
+            this.maxHealth = maxHealth;
+            health = maxHealth;
         }
 
         public void Init()
