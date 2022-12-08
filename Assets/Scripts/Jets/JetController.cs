@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Phoenix.FireComponents;
+using static Phoenix.JetProperties;
 
 namespace Phoenix
 {
@@ -40,9 +41,10 @@ namespace Phoenix
 
         #region [Vars: Components]
 
-        [SerializeField]
-        JetProperties jetProperties;
-        public JetProperties JetProperties { get { return jetProperties; } }
+        [SerializeField, LabelText("Jet Properties")]
+        JetProperties jetPropertiesNonStatic;
+        JetPropertiesStatic jetPropertiesStatic;
+        public JetPropertiesStatic JetProperties { get { AssignJetPropertiesStaticIfHasnt(); return jetPropertiesStatic; } }
 
         Rigidbody2D rb;
         public Rigidbody2D RB => rb;
@@ -100,20 +102,38 @@ namespace Phoenix
 
         private void Init()
         {
-            rb = GetComponent<Rigidbody2D>();
-            rb.drag = jetProperties.LinearDrag;
+            AssignJetPropertiesStaticIfHasnt();
 
-            switch (jetProperties.Mode)
+            rb = GetComponent<Rigidbody2D>();
+            rb.drag = jetPropertiesStatic.LinearDrag;
+
+            switch (jetPropertiesStatic.Mode)
             {
-                case JetProperties.MoveMode.Smooth:
+                case MoveMode.Smooth:
                     reduceVelocityMultipler = 0f;
                     break;
-                case JetProperties.MoveMode.Constant:
+                case MoveMode.Constant:
                     reduceVelocityMultipler = 1f;
                     break;
             }
 
             InstantiateJet();
+        }
+
+        private void AssignJetPropertiesStaticIfHasnt()
+        {
+            if (jetPropertiesStatic == null)
+            {
+                if (jetPropertiesNonStatic is JetPropertiesStatic)
+                {
+                    jetPropertiesStatic = jetPropertiesNonStatic as JetPropertiesStatic;
+                }
+                else if (jetPropertiesNonStatic is JetPropertiesRandom)
+                {
+                    jetPropertiesStatic = (jetPropertiesNonStatic as JetPropertiesRandom).GenerateJetPropertiesStatic();
+
+                }
+            }
         }
 
         public void Disable(Brain brain)
@@ -129,7 +149,7 @@ namespace Phoenix
                 var jet = transform.Find("Jet");
                 if (jet == null)
                 {
-                    var jetGO = Instantiate(jetProperties.JetPrefab, transform).gameObject;
+                    var jetGO = Instantiate(jetPropertiesStatic.JetPrefab, transform).gameObject;
                     jetGO.name = "Jet";
                 }
             }
@@ -185,8 +205,8 @@ namespace Phoenix
 
         protected virtual void Move(Vector2 moveDirection)
         {
-            if (rb.velocity.magnitude < jetProperties.MaxVelocity)
-                rb.AddForce((jetProperties.MoveSpeed * Time.deltaTime * moveDirection) - (rb.velocity*reduceVelocityMultipler), ForceMode2D.Impulse);
+            if (rb.velocity.magnitude < jetPropertiesStatic.MaxVelocity)
+                rb.AddForce((jetPropertiesStatic.MoveSpeed * Time.deltaTime * moveDirection) - (rb.velocity*reduceVelocityMultipler), ForceMode2D.Impulse);
         }
 
     }

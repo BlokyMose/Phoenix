@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9084e799bd88b734b86ef02ac0aeb8b0, type: 3}
-  m_Name: JP_Default
+  m_Script: {fileID: 11500000, guid: db851eab67263044cb93894ab9cd9eb1, type: 3}
+  m_Name: JPS_Default
   m_EditorClassIdentifier: 
-  jetPrefab: {fileID: 6826738892924179456, guid: a8dc63f11decee8428a1ad1eaaecd7bd, type: 3}
-  moveSpeed: 15
-  maxVelocity: 10
-  cursorSpeed: 0.2
-  linearDrag: 1
-  rps: 2
+  jetPrefab: {fileID: 0}
+  mode: 0
+  moveSpeed: 0
+  maxVelocity: 0
+  cursorSpeed: 0
+  linearDrag: 0
+  rps: 0
   cursor: {fileID: 0}

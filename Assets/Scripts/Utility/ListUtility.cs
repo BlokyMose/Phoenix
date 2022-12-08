@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Encore.Utility
@@ -36,6 +37,13 @@ namespace Encore.Utility
         public static void AddIfHasnt<T>(this IList<T> list, T addValue)
         {
             if(!list.Contains(addValue)) list.Add(addValue);
+        }
+
+        public static T GetRandom<T>(this IList<T> list) where T : class
+        {
+            if (list.Count == 0)
+                return null;
+            return list[new Random().Next(0, list.Count)];
         }
 
         public static void RemoveIfHas<T>(this IList<T> list, T addValue)

@@ -11,8 +11,8 @@ namespace Phoenix
     {
 
         [SerializeField]
-        JetProperties jetProperties;
-        public JetProperties JetProperties { get { return jetProperties; } }
+        JetPropertiesStatic jetProperties;
+        public JetPropertiesStatic JetProperties { get { return jetProperties; } }
 
 
         [SerializeField]

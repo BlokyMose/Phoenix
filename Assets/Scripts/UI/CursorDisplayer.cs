@@ -26,7 +26,7 @@ namespace Phoenix
 
         #region [Methods: Initialization]
 
-        public void Init(ref Action<Vector2> onPointerPos, JetProperties jetProperties)
+        public void Init(ref Action<Vector2> onPointerPos, JetPropertiesStatic jetProperties)
         {
             Init(ref onPointerPos, jetProperties.CursorSpeed, jetProperties.Cursor);
         }
