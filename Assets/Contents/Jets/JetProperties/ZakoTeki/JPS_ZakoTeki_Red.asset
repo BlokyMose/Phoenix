@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jetPrefab: {fileID: 0}
   mode: 0
-  moveSpeed: 15
-  maxVelocity: 8
+  moveSpeed: 20
+  maxVelocity: 15
   cursorSpeed: 0.1
   linearDrag: 1
   rps: 2

@@ -7,6 +7,11 @@ namespace Phoenix
 {
     public class AutoInvoke : MonoBehaviour
     {
+        public enum InvokeInMode { Awake, Start, OnEnable }
+
+        [SerializeField]
+        InvokeInMode invokeIn = InvokeInMode.Awake;
+
         [SerializeField]
         float delay = 0;
 
@@ -14,7 +19,25 @@ namespace Phoenix
         UnityEvent unityEvent;
 
 
+        void Awake()
+        {
+            if (invokeIn == InvokeInMode.Awake)
+                Invoke();
+        }
+
         void Start()
+        {
+            if (invokeIn == InvokeInMode.Start)
+                Invoke();
+        }
+
+        void OnEnable()
+        {
+            if (invokeIn == InvokeInMode.OnEnable)
+                Invoke();
+        }
+
+        void Invoke()
         {
             StartCoroutine(Delay());
             IEnumerator Delay()

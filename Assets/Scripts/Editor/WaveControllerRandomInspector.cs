@@ -1,17 +1,15 @@
+using Phoenix.Editor;
 using Sirenix.OdinInspector.Editor;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace Phoenix.Editor
+namespace Phoenix
 {
-    [CustomEditor(typeof(WaveController))]
-    public class WaveControllerPropertyDrawer : OdinEditor
+    [CustomEditor(typeof(WaveControllerRandom))]
+    public class WaveControllerRandomInspector : OdinEditor
     {
-
         public override void OnInspectorGUI()
         {
             if (GUILayout.Button("Open Editor"))
@@ -20,9 +18,7 @@ namespace Phoenix.Editor
             }
 
             base.OnInspectorGUI();
-            
+
         }
-
-
     }
 }

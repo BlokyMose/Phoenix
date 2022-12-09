@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Phoenix.JetController;
 
 namespace Phoenix
 {
@@ -123,6 +122,9 @@ namespace Phoenix
 
         [Header("Stages")]
         [SerializeField]
+        bool isLoopingStages = false;
+
+        [SerializeField]
         List<Stage> stages = new List<Stage>();
 
 
@@ -179,6 +181,9 @@ namespace Phoenix
 
             void OnStageCleared()
             {
+                if (isLoopingStages && currentStageIndex + 1 >= stages.Count)
+                    currentStageIndex = -1;
+
                 for (int i = currentStageIndex+1; i < stages.Count; i++)
                 {
                     if (stages[i].ActiveMode == Stage.StageActiveMode.Active)

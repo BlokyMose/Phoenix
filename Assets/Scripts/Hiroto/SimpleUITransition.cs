@@ -77,9 +77,9 @@ public class SimpleUITransition : MonoBehaviour
     }
 
     /// <summary>
-    /// start
+    /// Visible after deativated, then activated again
     /// </summary>
-    void Start()
+    void OnEnable()
     {
         foreach (var trans in transitions)
         {

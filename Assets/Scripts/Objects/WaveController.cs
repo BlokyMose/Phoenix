@@ -1,14 +1,18 @@
+using Encore.Utility;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Phoenix.WaveController;
 using static Phoenix.WaveController.Spawner;
 
 namespace Phoenix
 {
     public class WaveController : MonoBehaviour
     {
+        #region [Classes]
+
         [Serializable]
         public class Spawner
         {
@@ -44,6 +48,7 @@ namespace Phoenix
             {
                 if (!isActive) return;
 
+                // Convert total time to time substracted by all previous loops
                 var timeInLoop = time % TotalWavesDuration();
                 if (time > TotalWavesDuration() && isLoop)
                     cache.ResetDataForLoop((int)Mathf.Floor(time / TotalWavesDuration()));
@@ -51,8 +56,8 @@ namespace Phoenix
                 float currentWaveDurationSum = 0f;
                 foreach (var wave in waves)
                 {
+                    // Check which wave timeInLoop is in
                     currentWaveDurationSum += wave.Duration;
-
                     if (timeInLoop < currentWaveDurationSum)
                     {
                         var totalDurationOfPreviousWaves = currentWaveDurationSum - wave.Duration;
@@ -62,6 +67,7 @@ namespace Phoenix
                             var timeAfterDelay = timeInWave - wave.Delay;
                             for (int i = 0; i < wave.Count; i++)
                             {
+                                // Check which period of the wave timeAfterDelay is in
                                 if (timeAfterDelay > wave.Period * i)
                                 {
                                     if (wave.TryInstantiatePrefab(position, i, cache.GetWaveData(wave)))
@@ -73,7 +79,6 @@ namespace Phoenix
                         break;
                     }
                 }
-
 
             }
 
@@ -112,6 +117,11 @@ namespace Phoenix
                     this.wave = wave;
                     this.toInstantiateIndex = toInstantiateIndex;
                 }
+
+                public void Reset()
+                {
+                    toInstantiateIndex = 0;
+                }
             }
 
             List<WaveData> wavesData = new List<WaveData>();
@@ -121,7 +131,7 @@ namespace Phoenix
 
             public SpawnerData(Spawner spawner)
             {
-                wavesData = new List<WaveData>();
+                wavesData = new();
                 foreach (var wave in spawner.Waves)
                     wavesData.Add(new WaveData(wave, 0));
             }
@@ -145,17 +155,37 @@ namespace Phoenix
 
                 loopCount++;
             }
+
+            public void Reset()
+            {
+                foreach (var waveData in wavesData)
+                    waveData.Reset();
+
+                loopCount = 1;
+            }
         }
 
+        struct SpawnerAndData
+        {
+            public Spawner spawner;
+            public SpawnerData spawnerData;
+
+            public SpawnerAndData(Spawner spawner, SpawnerData spawnerData)
+            {
+                this.spawner = spawner;
+                this.spawnerData = spawnerData;
+            }
+        }
+
+        #endregion
 
         [SerializeField]
-        List<Spawner> spawners = new List<Spawner>();
-        public List<Spawner> Spawners
-        {
-            get => spawners;
-        } 
+        protected List<Spawner> spawners = new List<Spawner>();
+        public List<Spawner> Spawners => spawners;
 
-        void Awake()
+        protected Coroutine corSpawning;
+
+        void OnEnable()
         {
             Init();
         }
@@ -165,21 +195,21 @@ namespace Phoenix
             StartSpawning();
         }
 
-        void StartSpawning()
+        protected virtual void StartSpawning()
         {
-            StartCoroutine(Update());
+            corSpawning = this.RestartCoroutine(Update());
             IEnumerator Update()
             {
-                List<Tuple<Spawner,SpawnerData>> spawnersAndData = new();
+                List<SpawnerAndData> spawnerAndDataList = new();
                 foreach (var spawner in spawners)
-                    spawnersAndData.Add(Tuple.Create(spawner, new SpawnerData(spawner)));
+                    spawnerAndDataList.Add(new SpawnerAndData(spawner, new SpawnerData(spawner)));
 
                 var time = 0f;
 
                 while (true)
                 {
-                    foreach (var spawnerAndData in spawnersAndData)
-                        spawnerAndData.Item1.Evaluate(time, spawnerAndData.Item2);
+                    foreach (var spawnerAndData in spawnerAndDataList)
+                        spawnerAndData.spawner.Evaluate(time, spawnerAndData.spawnerData);
 
                     time += Time.fixedDeltaTime;
                     yield return null;
