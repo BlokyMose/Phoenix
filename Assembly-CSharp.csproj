@@ -141,6 +141,7 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Rat.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\InstantiateVFX.cs" />
+    <Compile Include="Assets\Scripts\Objects\WaveControllerRandom.cs" />
     <Compile Include="Assets\Scripts\Utility\StructUtility.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JetAutoMovementSteps.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelManager.cs" />
@@ -172,13 +173,15 @@
     <Compile Include="Assets\Scripts\Jets\JetPropertiesStatic.cs" />
     <Compile Include="Assets\Scripts\Jets\JetControllerAuto.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
-    <Compile Include="Assets\Scripts\Objects\WaveProperties.cs" />
+    <Compile Include="Assets\Scripts\Objects\WavePropertiesStatic.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\Objects\WaveControllerRandom.cs" />
+    <Compile Include="Assets\Scripts\Objects\WaveProperties.cs" />
+    <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
+    <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -8,16 +8,26 @@ namespace Phoenix
     public class PhoenixBrain : Brain
     {
 
+        #region [Vars: Components]
+
+        [SerializeField]
+        Transform targetPos;
+
+        #endregion
+
+
         #region [Vars: Properties]
 
         [SerializeField, MinMaxSlider(-2.5f, 2.5f)]
         Vector2 moveYRange = new Vector2(-2.5f, 2.5f);
 
+        [SerializeField]
+        Vector2 stayDurationRange = new Vector2(1, 2);
+
         #endregion
 
         #region [Vars: Data Handlers]
 
-        Vector2 destination = new Vector2(0, 0);
 
         #endregion
 
@@ -46,19 +56,38 @@ namespace Phoenix
             StartCoroutine(Moving());
             IEnumerator Moving()
             {
+                bool isSettingNewPos = false;
                 while (true)
                 {
-                    if (Mathf.Abs(transform.position.y) - Mathf.Abs(destination.y) < 3)
+                    if (!isSettingNewPos && Mathf.Abs(transform.position.y - targetPos.position.y) < 0.25f)
                     {
-                        destination = new Vector2(destination.x, Random.Range(moveYRange.x,moveYRange.y));
+                        isSettingNewPos = true;
+                        StartCoroutine(DelaySetPosition());
+                        IEnumerator DelaySetPosition()
+                        {
+                            yield return new WaitForSeconds(Random.Range(stayDurationRange.x, stayDurationRange.y));
+                            targetPos.position = new Vector2(targetPos.position.x, Random.Range(moveYRange.x, moveYRange.y));
+                            isSettingNewPos = false;
+                        }
                     }
 
-                    if (transform.position.y > destination.y)
+                    if (transform.position.y > targetPos.position.y)
                         OnMoveInput(Vector2.down);
                     else
                         OnMoveInput(Vector2.up);
 
+                    if (Mathf.Abs(transform.position.x - targetPos.position.x) > 0.25f)
+                    {
+                        if (transform.position.x > targetPos.position.x)
+                            OnMoveInput(Vector2.left);
+                        else
+                            OnMoveInput(Vector2.right);
+                    }
+
+
                     yield return null;
+
+
                 }
             }
         }

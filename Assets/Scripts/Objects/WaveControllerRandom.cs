@@ -38,12 +38,12 @@ namespace Phoenix
         struct SpawnerAndDataRandom
         {
             public Spawner spawner;
-            public SpawnerDataRandom spawnerData;
+            public SpawnerDataRandom data;
 
             public SpawnerAndDataRandom(Spawner spawner, SpawnerDataRandom spawnerData)
             {
                 this.spawner = spawner;
-                this.spawnerData = spawnerData;
+                this.data = spawnerData;
             }
         }
 
@@ -51,8 +51,13 @@ namespace Phoenix
         #endregion
 
         [SerializeField, LabelText("Chances for wave by index")]
-        List<WaveProbabilty> probabilities = new();
+        List<WaveProbabilty> waveProbabilities = new();
 
+        [SerializeField]
+        List<List<Spawner>> alternativeSpawnerLists = new List<List<Spawner>>();
+
+        [SerializeField, Range(0,100)]
+        int chanceToInstantiate = 100;
 
         protected override void StartSpawning()
         {
@@ -65,16 +70,17 @@ namespace Phoenix
 
                 InitRandomWave(spawnerAndDataList);
 
-
                 while (true)
                 {
                     int finishedSpawnersCount = 0;
                     foreach (var spawnerAndData in spawnerAndDataList)
                     {
-                        if (spawnerAndData.spawnerData.time < spawnerAndData.spawnerData.maxTime)
+                        if (spawnerAndData.data.time < spawnerAndData.data.maxTime)
                         {
-                            spawnerAndData.spawnerData.time += Time.fixedDeltaTime;
-                            spawnerAndData.spawner.Evaluate(spawnerAndData.spawnerData.time, spawnerAndData.spawnerData);
+                            spawnerAndData.data.time += Time.fixedDeltaTime;
+                            var instantiableWave = spawnerAndData.spawner.GetInstantiableWave(spawnerAndData.data.time, spawnerAndData.data);
+
+                            InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);
                         }
                         else
                         {
@@ -93,10 +99,16 @@ namespace Phoenix
                     int index = GetRandomWaveIndex();
                     foreach (var spawnerAndData in spawnerAndDataList)
                     {
-                        spawnerAndData.spawnerData.Reset();
+                        spawnerAndData.data.Reset();
                         var startTimeAndMaxTime = GetStartAndEndTimeOfWaveIndex(index, spawnerAndData.spawner.Waves);
-                        spawnerAndData.spawnerData.time = startTimeAndMaxTime.Item1;
-                        spawnerAndData.spawnerData.maxTime = startTimeAndMaxTime.Item2;
+                        spawnerAndData.data.time = startTimeAndMaxTime.Item1;
+                        spawnerAndData.data.maxTime = startTimeAndMaxTime.Item2;
+
+                        foreach (var wave in spawnerAndData.spawner.Waves)
+                        {
+                            if (wave is WavePropertiesInitialRandom)
+                                (wave as WavePropertiesInitialRandom).ResetCache();
+                        }
                     }
                 }
 
@@ -104,13 +116,13 @@ namespace Phoenix
                 {
                     int chosenWaveIndex = 0;
                     var totalProbabilities = 0;
-                    foreach (var probability in probabilities)
+                    foreach (var probability in waveProbabilities)
                         totalProbabilities += probability.ChosenProbability;
 
                     var random = Random.Range(0, totalProbabilities);
                     int currentProbabilitiesSum = 0;
                     int waveIndex = 0;
-                    foreach (var probability in probabilities)
+                    foreach (var probability in waveProbabilities)
                     {
                         if (probability.ChosenProbability > 0)
                         {
@@ -142,10 +154,25 @@ namespace Phoenix
             }
         }
 
-        [Button]
-        void SyncProbabilitiesWithSpawners()
+        protected override void InstantiateWavePrefab(WaveProperties wave, Transform transform)
         {
-            probabilities = new();
+            if (wave == null) return;
+            if (Random.Range(0, 100) > chanceToInstantiate) return;
+
+            if (wave.GetPrefab() != null)
+            {
+                var go = Instantiate(wave.GetPrefab());
+                go.SetActive(true);
+                go.transform.SetParent(null);
+                go.transform.position = transform.position;
+                go.transform.rotation = transform.rotation;
+            }
+        }
+
+        [Button]
+        void SyncWaveProbabilitiesWithSpawners()
+        {
+            waveProbabilities = new();
             var maxWavesCount = 0;
             foreach (var spawner in spawners)
                 if (spawner.Waves.Count > maxWavesCount)
@@ -153,7 +180,7 @@ namespace Phoenix
 
             var equalProbability = 100 / maxWavesCount;
             for (int i = 0; i < maxWavesCount; i++)
-                probabilities.Add(new WaveProbabilty(equalProbability));
+                waveProbabilities.Add(new WaveProbabilty(equalProbability));
 
         }
     }

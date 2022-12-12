@@ -34,11 +34,11 @@ namespace Phoenix.Editor
 
         class CopiedWave
         {
-            public WaveProperties wave;
+            public WavePropertiesStatic wave;
             public int spawnerIndex;
             public int waveIndex;
 
-            public CopiedWave(WaveProperties wave, int spawnerIndex, int waveIndex)
+            public CopiedWave(WavePropertiesStatic wave, int spawnerIndex, int waveIndex)
             {
                 this.wave = wave;
                 this.spawnerIndex = spawnerIndex;
@@ -50,10 +50,10 @@ namespace Phoenix.Editor
         {
             public class WaveColor
             {
-                public WaveProperties wave;
+                public WavePropertiesStatic wave;
                 public Color color;
 
-                public WaveColor(WaveProperties wave, Color color)
+                public WaveColor(WavePropertiesStatic wave, Color color)
                 {
                     this.wave = wave;
                     this.color = color;
@@ -99,6 +99,9 @@ namespace Phoenix.Editor
                 {
                     foreach (var wave in spawner.Waves)
                     {
+                        // TODO: change this later
+                        var _wave = wave as WavePropertiesStatic;
+
                         bool alreadyAdded = false;
                         foreach (var waveColor in waveColors)
                         {
@@ -110,7 +113,7 @@ namespace Phoenix.Editor
                         }
                         if (!alreadyAdded)
                         {
-                            waveColors.Add(new WaveColor(wave, randomColor));
+                            waveColors.Add(new WaveColor(_wave, randomColor));
                         }
                     }
                 }
@@ -118,7 +121,7 @@ namespace Phoenix.Editor
 
 
 
-            public bool HasWave(WaveProperties wave)
+            public bool HasWave(WavePropertiesStatic wave)
             {
                 foreach (var waveColor in waveColors)
                     if (waveColor.wave == wave)
@@ -127,7 +130,7 @@ namespace Phoenix.Editor
                 return false;
             }
 
-            public Color GetColorOf(WaveProperties wave)
+            public Color GetColorOf(WavePropertiesStatic wave)
             {
                 foreach (var waveColor in waveColors)
                     if (waveColor.wave == wave)
@@ -136,7 +139,7 @@ namespace Phoenix.Editor
                 return Color.gray;
             }
 
-            public void AddWaveColor(WaveProperties wave)
+            public void AddWaveColor(WavePropertiesStatic wave)
             {
                 waveColors.Add(new WaveColor(wave, randomColor));
             }
@@ -150,10 +153,13 @@ namespace Phoenix.Editor
                 {
                     foreach (var wave in spawner.Waves)
                     {
+                        // TODO: change this later
+                        var _wave = wave as WavePropertiesStatic;
+
                         bool alreadyAdded = false;
                         foreach (var waveColor in waveColors)
                         {
-                            if (waveColor.wave == wave)
+                            if (waveColor.wave == _wave)
                             {
                                 alreadyAdded = true;
                                 break;
@@ -161,7 +167,7 @@ namespace Phoenix.Editor
                         }
                         if (!alreadyAdded)
                         {
-                            waveColors.Add(new WaveColor(wave, randomColor));
+                            waveColors.Add(new WaveColor(_wave, randomColor));
                         }
                     }
                 }
@@ -453,7 +459,10 @@ namespace Phoenix.Editor
                 {
                     var colPos = new EditorPos(originPos);
                     int waveIndex = 0;
-                    var waves = new List<WaveProperties>(spawner.Waves);
+                    var waves = new List<WavePropertiesStatic>();
+                    foreach (var wave in spawner.Waves)
+                        waves.Add(wave as WavePropertiesStatic);
+
                     foreach (var wave in waves)
                     {
                         colPos.AddColumn(MakeWave(wave, colPos.Vector2, spawnerIndex, waveIndex) + spaceBetweenWaveColumn);
@@ -464,7 +473,7 @@ namespace Phoenix.Editor
 
                     return rowLength;
 
-                    float MakeWave(WaveProperties wave, Vector2 originPos, int spawnerIndex, int waveIndex)
+                    float MakeWave(WavePropertiesStatic wave, Vector2 originPos, int spawnerIndex, int waveIndex)
                     {
                         var waveColor = waveColors.GetColorOf(wave);
 
@@ -484,7 +493,7 @@ namespace Phoenix.Editor
 
                         return defaultFieldSize.Width;
 
-                        Rect MakeSOName(EditorPos pos, WaveProperties wave)
+                        Rect MakeSOName(EditorPos pos, WavePropertiesStatic wave)
                         {
                             var nameRect = new Rect(pos.Vector2, defaultFieldSize.Vector2);
                             GUI.color = waveColor;
@@ -496,7 +505,7 @@ namespace Phoenix.Editor
                             return nameRect;
                         }
 
-                        Rect MakePrefab(EditorPos pos, WaveProperties wave)
+                        Rect MakePrefab(EditorPos pos, WavePropertiesStatic wave)
                         {
                             var prefabRect = new Rect(wavePos.Vector2, defaultFieldSize.Vector2);
                             if (wave.Prefab == null)
@@ -512,7 +521,7 @@ namespace Phoenix.Editor
                             return prefabRect;
                         }
 
-                        Rect MakeDelay(EditorPos pos, WaveProperties wave)
+                        Rect MakeDelay(EditorPos pos, WavePropertiesStatic wave)
                         {
                             var thisPos = new EditorPos(pos.Vector2);
 
@@ -530,7 +539,7 @@ namespace Phoenix.Editor
                             return new Rect(pos.Width, pos.Height, delayRect.width + addSubRect.width, delayRect.height);
                         }
 
-                        Rect MakePeriod(EditorPos pos, WaveProperties wave)
+                        Rect MakePeriod(EditorPos pos, WavePropertiesStatic wave)
                         {
                             var thisPos = new EditorPos(pos.Vector2);
 
@@ -547,7 +556,7 @@ namespace Phoenix.Editor
                             return new Rect(pos.Width, pos.Height, delayRect.width + addSubRect.width, delayRect.height);
                         }
 
-                        Rect MakeCount(EditorPos pos, WaveProperties wave)
+                        Rect MakeCount(EditorPos pos, WavePropertiesStatic wave)
                         {
                             var thisPos = new EditorPos(pos.Vector2);
 
@@ -564,7 +573,7 @@ namespace Phoenix.Editor
                             return new Rect(pos.Width, pos.Height, delayRect.width + addSubRect.width, delayRect.height);
                         }
 
-                        Rect MakeSOControls(EditorPos pos, WaveProperties wave, int spawnerIndex, int waveIndex)
+                        Rect MakeSOControls(EditorPos pos, WavePropertiesStatic wave, int spawnerIndex, int waveIndex)
                         {
                             var thisPos = new EditorPos(pos.Vector2);
                             int buttonCount = 0;
@@ -578,7 +587,7 @@ namespace Phoenix.Editor
                             
                             return new Rect(pos.Width, pos.Height, iconSize.Width * buttonCount, iconSize.Height);
 
-                            Rect MakeCopyButton(WaveProperties wave, Vector2 pos, Vector2 buttonSize)
+                            Rect MakeCopyButton(WavePropertiesStatic wave, Vector2 pos, Vector2 buttonSize)
                             {
                                 var rect = new Rect(pos.x, pos.y, buttonSize.x, defaultFieldSize.Height);
                                 if (copiedWaveProperties != null && copiedWaveProperties.wave == wave)
@@ -602,7 +611,7 @@ namespace Phoenix.Editor
                                 return rect;
                             }
 
-                            Rect MakePasteButton(WaveProperties wave, Vector2 pos, Vector2 buttonSize)
+                            Rect MakePasteButton(WavePropertiesStatic wave, Vector2 pos, Vector2 buttonSize)
                             {
                                 if (copiedWaveProperties != null)
                                 {
@@ -619,7 +628,7 @@ namespace Phoenix.Editor
                                 return new Rect(pos, Vector2.zero);
                             }
 
-                            Rect MakeDeleteButton(WaveProperties wave, Vector2 pos, Vector2 buttonSize)
+                            Rect MakeDeleteButton(WavePropertiesStatic wave, Vector2 pos, Vector2 buttonSize)
                             {
                                 if (copiedWaveProperties == null)
                                 {
@@ -650,7 +659,7 @@ namespace Phoenix.Editor
                         {
                             if (GUI.Button(addRect, new GUIContent(iconAdd, "New Wave")))
                             {
-                                var newWaveProperties = CreateInstance<WaveProperties>();
+                                var newWaveProperties = CreateInstance<WavePropertiesStatic>();
                                 waveController.Spawners[spawnerIndex].Waves.Add(newWaveProperties);
                                 waveColors.AddWaveColor(newWaveProperties);
                             }

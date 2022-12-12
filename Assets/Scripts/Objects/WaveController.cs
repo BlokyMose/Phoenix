@@ -44,14 +44,18 @@ namespace Phoenix
             List<WaveProperties> waves = new List<WaveProperties>();
             public List<WaveProperties> Waves => waves;
 
-            public void Evaluate(float time, SpawnerData cache)
+            /// <summary>
+            /// Get which wave should instantiate its prefab based on time and spawnerData;<br></br> 
+            /// Alters spawnerData.toInstantiateNextIndex based on time
+            /// </summary>
+            public WaveProperties GetInstantiableWave(float time, SpawnerData spawnerCache)
             {
-                if (!isActive) return;
+                if (!isActive) return null;
 
                 // Convert total time to time substracted by all previous loops
                 var timeInLoop = time % TotalWavesDuration();
                 if (time > TotalWavesDuration() && isLoop)
-                    cache.ResetDataForLoop((int)Mathf.Floor(time / TotalWavesDuration()));
+                    spawnerCache.ResetDataForLoop((int)Mathf.Floor(time / TotalWavesDuration()));
 
                 float currentWaveDurationSum = 0f;
                 foreach (var wave in waves)
@@ -62,16 +66,20 @@ namespace Phoenix
                     {
                         var totalDurationOfPreviousWaves = currentWaveDurationSum - wave.Duration;
                         var timeInWave = timeInLoop - totalDurationOfPreviousWaves;
-                        if (timeInWave >= wave.Delay)
+                        if (timeInWave >= wave.GetDelay())
                         {
-                            var timeAfterDelay = timeInWave - wave.Delay;
-                            for (int i = 0; i < wave.Count; i++)
+                            var timeAfterDelay = timeInWave - wave.GetDelay();
+                            for (int subWaveIndex = 0; subWaveIndex < wave.GetCount(); subWaveIndex++)
                             {
                                 // Check which period of the wave timeAfterDelay is in
-                                if (timeAfterDelay > wave.Period * i)
+                                if (timeAfterDelay > wave.GetPeriod() * subWaveIndex)
                                 {
-                                    if (wave.TryInstantiatePrefab(position, i, cache.GetWaveData(wave)))
-                                        break;
+                                    var waveCache = spawnerCache.GetWaveData(wave);
+                                    if (waveCache.ToInstantiateNextIndex <= subWaveIndex)
+                                    {
+                                        waveCache.ToInstantiateNextIndex++;
+                                        return wave;
+                                    }
                                 }
                             }
                         }
@@ -79,6 +87,10 @@ namespace Phoenix
                         break;
                     }
                 }
+
+                return null;
+
+
 
             }
 
@@ -94,7 +106,13 @@ namespace Phoenix
             [HorizontalGroup(0.5f), Button]
             void AddWave()
             {
-                waves.Add(ScriptableObject.CreateInstance<WaveProperties>());
+                waves.Add(ScriptableObject.CreateInstance<WavePropertiesStatic>());
+            }
+
+            [HorizontalGroup(0.5f), Button]
+            void AddWaveRandom()
+            {
+                waves.Add(ScriptableObject.CreateInstance<WavePropertiesInitialRandom>());
             }
         }
 
@@ -106,7 +124,8 @@ namespace Phoenix
                 public WaveProperties Wave => wave;
 
                 int toInstantiateIndex;
-                public int ToInstantiateIndex
+                /// <summary>Cache data of from which index instantiation is possible</summary>
+                public int ToInstantiateNextIndex
                 {
                     get => toInstantiateIndex;
                     set { toInstantiateIndex = value; }
@@ -151,7 +170,7 @@ namespace Phoenix
                     return;
 
                 foreach (var waveData in wavesData)
-                    waveData.ToInstantiateIndex = 0;
+                    waveData.ToInstantiateNextIndex = 0;
 
                 loopCount++;
             }
@@ -168,12 +187,12 @@ namespace Phoenix
         struct SpawnerAndData
         {
             public Spawner spawner;
-            public SpawnerData spawnerData;
+            public SpawnerData data;
 
             public SpawnerAndData(Spawner spawner, SpawnerData spawnerData)
             {
                 this.spawner = spawner;
-                this.spawnerData = spawnerData;
+                this.data = spawnerData;
             }
         }
 
@@ -209,7 +228,10 @@ namespace Phoenix
                 while (true)
                 {
                     foreach (var spawnerAndData in spawnerAndDataList)
-                        spawnerAndData.spawner.Evaluate(time, spawnerAndData.spawnerData);
+                    {
+                        var instantiableWave = spawnerAndData.spawner.GetInstantiableWave(time, spawnerAndData.data);
+                        InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);
+                    }
 
                     time += Time.fixedDeltaTime;
                     yield return null;
@@ -218,6 +240,19 @@ namespace Phoenix
             }
         }
 
-        
+        protected virtual void InstantiateWavePrefab(WaveProperties wave, Transform transform)
+        {
+            if (wave == null) return;
+
+            if (wave.GetPrefab() != null)
+            {
+                var go = Instantiate(wave.GetPrefab());
+                go.SetActive(true);
+                go.transform.SetParent(null);
+                go.transform.position = transform.position;
+                go.transform.rotation = transform.rotation;
+            }
+        }
+
     }
 }
