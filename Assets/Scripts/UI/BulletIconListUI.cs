@@ -47,7 +47,7 @@ namespace Phoenix
         }
 
         int nextBulletQueue = 0;
-        void NextBullet()
+        void NextBullet(BulletProperties bulletProperties)
         {
             nextBulletQueue++;
             if (nextBulletQueue == 1)

@@ -13,12 +13,25 @@ namespace Phoenix
 
         public Action<Vector2> OnMoveInput;
         public Action OnFireInput;
+        public Action<bool> OnFiring;
         public Action<Vector2> OnPointerPosInput;
         public Action<Vector2> OnCursorWorldPos;
         public Action OnNextFireModeInput;
         public Action OnNextBulletInput;
 
         #endregion
+
+        protected bool _isFiring = false;
+        protected bool isFiring
+        {
+            get => _isFiring;
+            set
+            {
+                if (_isFiring != value)
+                    OnFiring?.Invoke(value);
+                _isFiring = value;
+            }
+        }
 
         protected virtual void Awake()
         {
@@ -27,6 +40,9 @@ namespace Phoenix
 
         public virtual void Init()
         {
+            var fireController = GetComponent<FireController>();
+            if (fireController != null)
+                fireController.Init(this);
         }
     }
 }

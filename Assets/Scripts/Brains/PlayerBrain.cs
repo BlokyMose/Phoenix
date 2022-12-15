@@ -57,7 +57,6 @@ namespace Phoenix
         #region [Vars: Data Handlers]
 
         CursorDisplayer cursorDisplayer;
-        bool isFiring = false;
 
         #endregion
 
@@ -65,12 +64,9 @@ namespace Phoenix
 
         public override void Init()
         {
-            base.Init();
-
             var controls = new PhoenixControls();
             controls.Player.SetCallbacks(this);
             controls.Enable();
-
 
             if (instantiateVCam)
             {
@@ -85,10 +81,12 @@ namespace Phoenix
             Cursor.visible = false;
             cursorDisplayer = Instantiate(cursorDisplayerPrefab);
             if (jet != null)
-                cursorDisplayer.Init(ref OnPointerPosInput, jet.JetProperties);
-            cursorDisplayer.OnCursorPosition += (pos) => { OnCursorWorldPos?.Invoke(Camera.main.ScreenToWorldPoint(pos)); };
+                cursorDisplayer.Init(ref OnPointerPosInput, ref OnFiring, jet.JetProperties);
+            cursorDisplayer.OnCursorPosition += (pos) => { OnCursorWorldPos?.Invoke(pos); };
 
             SetupFireInputMode(fireInputMode);
+
+            base.Init();
         }
 
         public void ConnectToHealthBar(HealthController healthController)
@@ -113,6 +111,12 @@ namespace Phoenix
         {
             if (bulletIconListUI != null)
                 bulletIconListUI.Init(fireController);
+        }        
+        
+        public void ConnectToCursorDisplayer(FireController fireController)
+        {
+            if (cursorDisplayer != null)
+                cursorDisplayer.Init(fireController);
         }
 
         public void DisconnectFromBulletList(FireController fireController)

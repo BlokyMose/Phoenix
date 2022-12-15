@@ -148,8 +148,13 @@ namespace Phoenix.Editor
             public void Reset(WaveController waveController)
             {
                 this.waveController = waveController;
+                Reset(waveController.Spawners);
+            }
+
+            public void Reset(List<WaveController.Spawner> spawners)
+            {
                 this.waveColors = new List<WaveColor>();
-                foreach (var spawner in waveController.Spawners)
+                foreach (var spawner in spawners)
                 {
                     foreach (var wave in spawner.Waves)
                     {
@@ -173,7 +178,6 @@ namespace Phoenix.Editor
                 }
                 currentRandomColorIndex = -1;
             }
-
         }
 
 
@@ -206,7 +210,7 @@ namespace Phoenix.Editor
         readonly EditorPos addSubButtonsSize = new EditorPos(40, 25);
         readonly float spaceBetweenRow = 15f;
         readonly float spaceBetweenWaveColumn = 15f;
-        WaveColors waveColors = new WaveColors();
+        WaveColors waveColors = new();
 
         #endregion
 
@@ -215,6 +219,17 @@ namespace Phoenix.Editor
         float rowLength => wavePropertiesRowCount * defaultFieldSize.Height + spaceBetweenRow;
         WaveController waveController;
         int waveControllerID = -1;
+
+        List<WaveController.Spawner> _spawners;
+        List<WaveController.Spawner> spawners
+        {
+            get => _spawners;
+            set
+            {
+                _spawners = value;
+                waveColors.Reset(_spawners);
+            }
+        }
         CopiedWave copiedWaveProperties;
         Vector2 scrollViewPos;
         readonly string iconsFolder = "Assets/Scripts/Editor/Icons/";
@@ -222,6 +237,7 @@ namespace Phoenix.Editor
         EditorColors guiColors = new EditorColors();
         bool isShowPrefab = true, isShowDelay = true, isShowPeriod = true, isShowCount = true, isShowSOControls = true;
         float incrementBy = 0.1f;
+        int currentSequence = 0;
 
         #endregion
 
@@ -280,18 +296,12 @@ namespace Phoenix.Editor
 
         void OnGUI()
         {
-            if (waveController == null)
-            {
-                var labelRect = new Rect(0, 0, position.width, position.height);
-                var labelStyle = GUI.skin.label;
-                labelStyle.alignment = TextAnchor.MiddleCenter;
-                EditorGUI.LabelField(labelRect, "Choose a WaveController", labelStyle);
-                return;
-            }
+            if (!DoesWaveControllerExist()) return;
 
-            var spawners = new List<WaveController.Spawner>(waveController.Spawners);
             if (waveColors.WaveController != waveController)
                 waveColors.Reset(waveController);
+
+            spawners ??= new List<WaveController.Spawner>(waveController.Spawners);
 
             wavePropertiesRowCount = CountShownWavePropertiesRow();
 
@@ -314,24 +324,84 @@ namespace Phoenix.Editor
             GUI.EndScrollView();
             Undo.RecordObject(this, "Wave");
 
+            // = = =
+
+            bool DoesWaveControllerExist()
+            {
+                if(waveController != null) return true;
+
+                var labelRect = new Rect(0, 0, position.width, position.height);
+                var labelStyle = GUI.skin.label;
+                labelStyle.alignment = TextAnchor.MiddleCenter;
+                EditorGUI.LabelField(labelRect, "Choose a WaveController", labelStyle);
+                return false;
+            }
+
             float MakeTopBar(Vector2 originPos)
             {
                 var topBarPos = new EditorPos(originPos);
+                topBarPos.AddColumn(MakeShowMenu(topBarPos.Vector2));
+                topBarPos.AddColumn(MakeIncrementMenu(topBarPos.Vector2));
+                topBarPos.AddColumn(MakeSequenceMenu(topBarPos.Vector2));
 
 
-                topBarPos.AddColumn(MakeLabel(topBarPos.Vector2, "Show"));
-                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconPrefab, ref isShowPrefab, nameof(isShowPrefab)));
-                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconDelay, ref isShowDelay, nameof(isShowDelay)));
-                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconClock, ref isShowPeriod, nameof(isShowPeriod)));
-                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconCount, ref isShowCount, nameof(isShowCount)));
-                topBarPos.AddColumn(MakeShowButton(topBarPos.Vector2, iconWrench, ref isShowSOControls, nameof(isShowSOControls)));
+                return defaultFieldSize.Height + 10;
 
-                topBarPos.AddColumn(20f);
-                topBarPos.AddColumn(MakeLabel(topBarPos.Vector2, "+/- by", "IncrementBy; used wehn using + or - buttons"));
-                topBarPos.AddColumn(MakeFloatInput(topBarPos.Vector2, ref incrementBy));
+                float MakeShowMenu(Vector2 pos)
+                {
+                    var menuPos = new EditorPos(pos);
+                    menuPos.AddColumn(MakeLabel(menuPos.Vector2, "Show"));
+                    menuPos.AddColumn(MakeShowButton(menuPos.Vector2, iconPrefab, ref isShowPrefab, nameof(isShowPrefab)));
+                    menuPos.AddColumn(MakeShowButton(menuPos.Vector2, iconDelay, ref isShowDelay, nameof(isShowDelay)));
+                    menuPos.AddColumn(MakeShowButton(menuPos.Vector2, iconClock, ref isShowPeriod, nameof(isShowPeriod)));
+                    menuPos.AddColumn(MakeShowButton(menuPos.Vector2, iconCount, ref isShowCount, nameof(isShowCount)));
+                    menuPos.AddColumn(MakeShowButton(menuPos.Vector2, iconWrench, ref isShowSOControls, nameof(isShowSOControls)));
 
+                    return menuPos.Width;
+                }
+                
+                float MakeIncrementMenu(Vector2 pos)
+                {
+                    var menuPos = new EditorPos(pos);
+                    menuPos.AddColumn(20f);
+                    menuPos.AddColumn(MakeLabel(menuPos.Vector2, "+/- by", "IncrementBy; used when using + or - buttons"));
+                    menuPos.AddColumn(MakeFloatInput(menuPos.Vector2, ref incrementBy));
 
-                return defaultFieldSize.Height;
+                    return menuPos.Width;
+                }
+
+                float MakeSequenceMenu(Vector2 pos)
+                {
+                    if (waveController is not WaveControllerRandom) return 0f;
+                    var waveControllerRandom = waveController as WaveControllerRandom;
+                    if (waveControllerRandom.SpawnerSequences.Count == 0) return 0f;
+
+                    var menuPos = new EditorPos(pos);
+                    menuPos.AddColumn(20f);
+                    menuPos.AddColumn(MakeLabel(menuPos.Vector2, "Sequen", "Sequence: The waves that will follow after the first wave is randomly selected"));
+                    menuPos.AddColumn(MakeButton(menuPos.Vector2, "-1", () => SelectSequence(-1), GetColorIfSelected(-1)));
+                    for (int i = 0; i < waveControllerRandom.SpawnerSequences.Count; i++)
+                        menuPos.AddColumn(MakeButton(menuPos.Vector2, i.ToString(), () => SelectSequence(i), GetColorIfSelected(i)));
+
+                    return menuPos.Width;
+
+                    void SelectSequence(int index)
+                    {
+                        currentSequence = index;
+                        if (index == -1)
+                            spawners = waveControllerRandom.Spawners;
+                        else
+                           spawners = waveControllerRandom.SpawnerSequences[index].Spawners;
+
+                    }
+
+                    Color? GetColorIfSelected(int index)
+                    {
+                        if (index == currentSequence)
+                            return Encore.Utility.ColorUtility.paleGreen;
+                        return guiColors.color.ChangeAlpha(0.5f);
+                    }
+                }
 
                 float MakeLabel(Vector2 labelPos, string labelName, string tooltip = "")
                 {
@@ -354,6 +424,22 @@ namespace Phoenix.Editor
                         if (GUI.Button(buttonRect, new GUIContent(icon, boolName + ": false")))
                             boolValue = true;
                     }
+
+                    GUI.color = guiColors.color;
+
+                    return buttonRect.width;
+                }
+
+
+                float MakeButton(Vector2 buttonPos, string text, Action onClicked, Color? color = null) 
+                {
+                    var buttonRect = new Rect(buttonPos, iconSize.Vector2);
+
+                    if (color != null)
+                        GUI.color = (Color)color;
+
+                    if (GUI.Button(buttonRect, text))
+                        onClicked();
 
                     GUI.color = guiColors.color;
 
@@ -618,8 +704,8 @@ namespace Phoenix.Editor
                                     var rect = new Rect(pos.x, pos.y, buttonSize.x, defaultFieldSize.Height);
                                     if (GUI.Button(rect, new GUIContent(iconPaste, "Paste")))
                                     {
-                                        waveController.Spawners[spawnerIndex].Waves.Insert(waveIndex, copiedWaveProperties.wave);
-                                        waveController.Spawners[spawnerIndex].Waves.RemoveAt(waveIndex+1);
+                                        spawners[spawnerIndex].Waves.Insert(waveIndex, copiedWaveProperties.wave);
+                                        spawners[spawnerIndex].Waves.RemoveAt(waveIndex+1);
                                         copiedWaveProperties = null;
                                         
                                     }
@@ -636,7 +722,7 @@ namespace Phoenix.Editor
                                     GUI.color = Encore.Utility.ColorUtility.salmon;
                                     if (GUI.Button(rect, new GUIContent(iconDelete, "Delete")))
                                     {
-                                        waveController.Spawners[spawnerIndex].Waves.RemoveAt(waveIndex);
+                                        spawners[spawnerIndex].Waves.RemoveAt(waveIndex);
                                     }
                                     GUI.color = guiColors.color;
 
@@ -660,7 +746,7 @@ namespace Phoenix.Editor
                             if (GUI.Button(addRect, new GUIContent(iconAdd, "New Wave")))
                             {
                                 var newWaveProperties = CreateInstance<WavePropertiesStatic>();
-                                waveController.Spawners[spawnerIndex].Waves.Add(newWaveProperties);
+                                spawners[spawnerIndex].Waves.Add(newWaveProperties);
                                 waveColors.AddWaveColor(newWaveProperties);
                             }
                         }
@@ -668,7 +754,7 @@ namespace Phoenix.Editor
                         {
                             if (GUI.Button(addRect, new GUIContent(iconPaste, "Paste Wave")))
                             {
-                                waveController.Spawners[spawnerIndex].Waves.Add(copiedWaveProperties.wave);
+                                spawners[spawnerIndex].Waves.Add(copiedWaveProperties.wave);
                                 copiedWaveProperties = null;
                             }
                         }
@@ -692,8 +778,6 @@ namespace Phoenix.Editor
 
                 return new Vector2(width, height);
             }
-
-
         }
 
         Rect MakeIcon(EditorPos pos, Texture2D icon, string tooltip, Color? color = null)

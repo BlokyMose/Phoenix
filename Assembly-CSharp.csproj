@@ -71,6 +71,7 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
     <Compile Include="Assets\Scripts\Hiroto\OptionButtun.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelObjectActivator.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\ziguzagu.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
     <Compile Include="Assets\Scripts\Brains\PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Hiroto\EaseValue.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
     <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
+    <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovement.cs" />
     <Compile Include="Assets\Scripts\Jets\FireController.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AutoInvoke.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Assets\Scripts\Jets\JetPropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Health.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiFireProjectile.cs" />
+    <Compile Include="Assets\SimpleTableUI\Example\TableUIExample.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBG.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthController.cs" />
     <Compile Include="Assets\Scripts\Utility\LoadScene.cs" />
@@ -176,12 +179,12 @@
     <Compile Include="Assets\Scripts\Objects\WavePropertiesStatic.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
+    <Compile Include="Assets\Scripts\Objects\WaveProperties.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\Sound\ChangeSoundVolume.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
-    <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\Objects\WaveProperties.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
-    <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
+    <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -1069,6 +1072,14 @@
     <ProjectReference Include="Sirenix.OdinInspector.CompatibilityLayer.Editor.csproj">
       <Project>{BB1197B9-0A4F-7D15-8D71-668B2C6ADE7B}</Project>
       <Name>Sirenix.OdinInspector.CompatibilityLayer.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="SimpleTableUI.csproj">
+      <Project>{AAD4E488-F2C8-A20B-DA12-59902A8684D6}</Project>
+      <Name>SimpleTableUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="SimpleTableUI_Editor.csproj">
+      <Project>{0720F424-DE93-39AC-A6EE-A42F44FAAF59}</Project>
+      <Name>SimpleTableUI_Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Sirenix.OdinInspector.CompatibilityLayer.csproj">
       <Project>{9C414C6E-6A3A-AB2C-A489-5C5F102EF201}</Project>

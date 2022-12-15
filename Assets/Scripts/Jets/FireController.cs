@@ -32,19 +32,8 @@ namespace Phoenix
         [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!" + nameof(components)), PropertyOrder(-1)]
         FireComponents components;
 
-        public Action OnNextBullet;
+        public Action<BulletProperties> OnNextBullet;
 
-        private void OnEnable()
-        {
-            var brain = GetComponent<Brain>();
-            if (brain != null) 
-                Init(brain);
-
-            var playerBrain = GetComponent<PlayerBrain>();
-            if (playerBrain != null)
-                playerBrain.ConnectToBulletList(this);
-                
-        }
 
         private void OnDisable()
         {
@@ -67,7 +56,12 @@ namespace Phoenix
             currentFireOrigin = 0;
             currentBulletIndex = 0;
 
-
+            if (brain is PlayerBrain)
+            {
+                var playerBrain = brain as PlayerBrain;
+                playerBrain.ConnectToBulletList(this);
+                playerBrain.ConnectToCursorDisplayer(this);
+            }
         }
 
         public void Disable(Brain brain)
@@ -106,7 +100,7 @@ namespace Phoenix
         public void NextBullet()
         {
             currentBulletIndex = (currentBulletIndex + 1) % bulletProperties.Count;
-            OnNextBullet?.Invoke();
+            OnNextBullet?.Invoke(currentBullet);
         }
 
         void Update()

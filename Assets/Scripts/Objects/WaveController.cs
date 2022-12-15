@@ -48,7 +48,7 @@ namespace Phoenix
             /// Get which wave should instantiate its prefab based on time and spawnerData;<br></br> 
             /// Alters spawnerData.toInstantiateNextIndex based on time
             /// </summary>
-            public WaveProperties GetInstantiableWave(float time, SpawnerData spawnerCache)
+            public WaveProperties GetInstantiableWaveAt(float time, SpawnerData spawnerCache)
             {
                 if (!isActive) return null;
 
@@ -178,7 +178,9 @@ namespace Phoenix
             public void Reset()
             {
                 foreach (var waveData in wavesData)
+                {
                     waveData.Reset();
+                }
 
                 loopCount = 1;
             }
@@ -229,8 +231,9 @@ namespace Phoenix
                 {
                     foreach (var spawnerAndData in spawnerAndDataList)
                     {
-                        var instantiableWave = spawnerAndData.spawner.GetInstantiableWave(time, spawnerAndData.data);
-                        InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);
+                        var instantiableWave = spawnerAndData.spawner.GetInstantiableWaveAt(time, spawnerAndData.data);
+                        if (instantiableWave != null)
+                            InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);
                     }
 
                     time += Time.fixedDeltaTime;
@@ -242,8 +245,6 @@ namespace Phoenix
 
         protected virtual void InstantiateWavePrefab(WaveProperties wave, Transform transform)
         {
-            if (wave == null) return;
-
             if (wave.GetPrefab() != null)
             {
                 var go = Instantiate(wave.GetPrefab());

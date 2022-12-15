@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
+using static Phoenix.WaveController;
 using Random = UnityEngine.Random;
 
 namespace Phoenix
@@ -45,8 +47,21 @@ namespace Phoenix
                 this.spawner = spawner;
                 this.data = spawnerData;
             }
+
+            public void Reinit(Spawner spawner, SpawnerDataRandom spawnerData)
+            {
+                this.spawner = spawner;
+                this.data = spawnerData;
+            }
         }
 
+        [Serializable]
+        public class SpawnerSequence
+        {
+            [SerializeField]
+            List<Spawner> spawners = new List<Spawner>();
+            public List<Spawner> Spawners => spawners;
+        }
 
         #endregion
 
@@ -54,10 +69,14 @@ namespace Phoenix
         List<WaveProbabilty> waveProbabilities = new();
 
         [SerializeField]
-        List<List<Spawner>> alternativeSpawnerLists = new List<List<Spawner>>();
+        List<SpawnerSequence> spawnerSequences = new();
+        public List<SpawnerSequence> SpawnerSequences => spawnerSequences;    
 
         [SerializeField, Range(0,100)]
         int chanceToInstantiate = 100;
+
+        int currentWaveIndex = 0;
+        int currentSequence = 0;
 
         protected override void StartSpawning()
         {
@@ -78,37 +97,57 @@ namespace Phoenix
                         if (spawnerAndData.data.time < spawnerAndData.data.maxTime)
                         {
                             spawnerAndData.data.time += Time.fixedDeltaTime;
-                            var instantiableWave = spawnerAndData.spawner.GetInstantiableWave(spawnerAndData.data.time, spawnerAndData.data);
-
-                            InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);
+                            var instantiableWave = spawnerAndData.spawner.GetInstantiableWaveAt(spawnerAndData.data.time, spawnerAndData.data);
+                            if (instantiableWave != null)
+                                InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);
                         }
-                        else
-                        {
-                            finishedSpawnersCount++;
-                        }
+                        else finishedSpawnersCount++;
                     }
 
                     if (finishedSpawnersCount >= spawnerAndDataList.Count)
                         InitRandomWave(spawnerAndDataList);
-
+                    
                     yield return null;
                 }
 
+                // = = =
+
                 void InitRandomWave(List<SpawnerAndDataRandom> spawnerAndDataList)
                 {
-                    int index = GetRandomWaveIndex();
-                    foreach (var spawnerAndData in spawnerAndDataList)
+                    spawnerAndDataList.Clear();
+
+                    if (currentSequence >= SpawnerSequences.Count)
                     {
-                        spawnerAndData.data.Reset();
-                        var startTimeAndMaxTime = GetStartAndEndTimeOfWaveIndex(index, spawnerAndData.spawner.Waves);
+                        currentWaveIndex = GetRandomWaveIndex();
+                        foreach (var spawner in spawners)
+                            spawnerAndDataList.Add(NewSpawnerAndData(spawner, currentWaveIndex));
+
+                        currentSequence = 0;
+                    }
+                    else
+                    {
+                        foreach (var spawner in spawnerSequences[currentSequence].Spawners)
+                            spawnerAndDataList.Add(NewSpawnerAndData(spawner, currentWaveIndex));
+
+                        currentSequence++;
+                    }
+
+                    SpawnerAndDataRandom NewSpawnerAndData(Spawner spawner, int startWaveIndex)
+                    {
+                        var spawnerAndData = new SpawnerAndDataRandom(spawner, new SpawnerDataRandom(spawner));
+                        var startTimeAndMaxTime = GetStartAndEndTimeOfWaveIndex(startWaveIndex, spawnerAndData.spawner.Waves);
                         spawnerAndData.data.time = startTimeAndMaxTime.Item1;
                         spawnerAndData.data.maxTime = startTimeAndMaxTime.Item2;
 
+
+                        // TODO: move this do DataRandom
                         foreach (var wave in spawnerAndData.spawner.Waves)
                         {
                             if (wave is WavePropertiesInitialRandom)
                                 (wave as WavePropertiesInitialRandom).ResetCache();
                         }
+
+                        return spawnerAndData;
                     }
                 }
 
@@ -156,17 +195,8 @@ namespace Phoenix
 
         protected override void InstantiateWavePrefab(WaveProperties wave, Transform transform)
         {
-            if (wave == null) return;
             if (Random.Range(0, 100) > chanceToInstantiate) return;
-
-            if (wave.GetPrefab() != null)
-            {
-                var go = Instantiate(wave.GetPrefab());
-                go.SetActive(true);
-                go.transform.SetParent(null);
-                go.transform.position = transform.position;
-                go.transform.rotation = transform.rotation;
-            }
+            base.InstantiateWavePrefab(wave, transform);
         }
 
         [Button]
