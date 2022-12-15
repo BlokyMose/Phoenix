@@ -29,6 +29,14 @@ namespace Encore.Utility
         /// <summary>
         /// Returns the last item in the list
         /// </summary>
+        public static T GetLastStruct<T>(this IList<T> list, int indexFromLast = 0) where T : struct
+        {
+            return list[list.Count - (1 + indexFromLast)];
+        }
+
+        /// <summary>
+        /// Returns the last item in the list
+        /// </summary>
         public static int GetLast(this IList<int> list)
         {
             return list[list.Count - 1];

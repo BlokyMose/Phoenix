@@ -16,7 +16,7 @@ MonoBehaviour:
   mode: 0
   moveSpeed: 15
   maxVelocity: 8
-  cursorSpeed: 0.1
+  cursorSpeed: 0.2
   linearDrag: 1
   rps: 4
   cursor: {fileID: 5380371159089511090, guid: 20471ba2825c25f42b2648ebb688720e, type: 3}
