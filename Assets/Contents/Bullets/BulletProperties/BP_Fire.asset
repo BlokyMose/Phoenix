@@ -24,4 +24,4 @@ MonoBehaviour:
   matchBulletPrefabCollider: 1
   colliderSize: {x: 1, y: 1}
   colliderOffset: {x: 0, y: 0.5}
-  icon: {fileID: 21300000, guid: 1bf369c38d1d45741877db13de4361dd, type: 3}
+  icon: {fileID: 21300000, guid: fbc350b6a14a8aa4caeb14c73162d4f4, type: 3}

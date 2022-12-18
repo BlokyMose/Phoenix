@@ -159,7 +159,6 @@
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Components\DayLightCollider2D\DayLightColliderTransfom.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\LightShapes\Extensions\MeshRendererShape.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Light\Mask\SkinnedMesh.cs" />
-    <Compile Include="Assets\Plugins\ModularMotion\Example\Scripts\EnableTooltip.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartUtilities2D\Scripts\Utilities\2D\Math2D.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Components\DayLightCollider\DayLightCollider2D.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Components\Lightmap\LightRoom2D.cs" />
@@ -195,7 +194,6 @@
     <Compile Include="Assets\Plugins\FunkyCode\SmartUtilities2D\Scripts\Utilities\2D\Polygon\Polygon2DListCollider2D.cs" />
     <Compile Include="Assets\Plugins\ConsolePro\Remote\LiteNetLib\BaseChannel.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Components\LightTilemap2D\LightTile.cs" />
-    <Compile Include="Assets\Plugins\ModularMotion\Example\Scripts\Damage.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Light\Mask\SpriteRenderer2D.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Components\LightCollider\LightCollider2D.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Components\LightCollider2D\LayerManager.cs" />
@@ -219,7 +217,6 @@
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Light\NoSort.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Day\Sorting\SortDepth.cs" />
     <Compile Include="Assets\Plugins\ConsolePro\Remote\LiteNetLib\Layers\XorEncryptLayer.cs" />
-    <Compile Include="Assets\Plugins\ModularMotion\Example\Scripts\SetCursor.cs" />
     <Compile Include="Assets\Plugins\ConsolePro\Remote\LiteNetLib\Utils\NtpPacket.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Components\Light2D\LightTransform.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Light\Mask\UnityTilemap.cs" />
@@ -232,7 +229,6 @@
     <Compile Include="Assets\Plugins\ConsolePro\Remote\LiteNetLib\ConnectionRequest.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Light\ShadowEngine\Extensions\TilemapCollider.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Light\Sorted.cs" />
-    <Compile Include="Assets\Plugins\ModularMotion\Example\Scripts\AnimatedDash.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Day\NoSort.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\SmartLighting2D\Scripts\Rendering\Light\Main.cs" />
     <Compile Include="Assets\Plugins\FunkyCode\Demos - SmartLighting2D\Demos - Intermediate\5 - Race\Scripts\RacerController.cs" />
@@ -320,7 +316,6 @@
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Bump Mask\ObjectToLight.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\UI\FogOfWar.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Spine\LitSpine.shader" />
-    <None Include="Assets\Plugins\ModularMotion\ICSharpCode.SharpZipLib.dll" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Sprites\DayDepth\Depth_Pass1.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Sprites\FogOfWar.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\LightShadow\SoftDefault.shader" />
@@ -362,7 +357,6 @@
     <None Include="Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.xml" />
     <None Include="Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.dll" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Bump Mask\DayBump.shader" />
-    <None Include="Assets\Plugins\ModularMotion\ModularEditor.dll" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Light\PointLight.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\MultiplyHDR.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Sprites\Fast\SpriteLit_Pass4.shader" />
@@ -380,7 +374,6 @@
     <None Include="Assets\Plugins\Sirenix\Readme.txt" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Light\SpriteLight.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Light\PointOcclusion.shader" />
-    <None Include="Assets\Plugins\ModularMotion\ModularMotion.xml" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Bump Mask\PixelToLight.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Sprites\Bump\Bumped_Pass1.shader" />
     <None Include="Assets\Plugins\Sirenix\Assemblies\link.xml" />
@@ -393,7 +386,6 @@
     <None Include="Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\SL2D_ShaderLibrary.cginc" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\LightShadow\AlphaShadow.shader" />
-    <None Include="Assets\Plugins\ModularMotion\ModularExtension.dll" />
     <None Include="Assets\Plugins\Sirenix\Assemblies\NoEmitAndNoEditor\Sirenix.Utilities.dll" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Unlit\Texture.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Depth\DayShadows.shader" />
@@ -405,7 +397,6 @@
     <None Include="Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.xml" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Multiply.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Sprites\DayDepth\DepthPass.shader" />
-    <None Include="Assets\Plugins\ModularMotion\ModularMotion.dll" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\LitShaders\Sprites\Day\DayBump.shader" />
     <None Include="Assets\Plugins\FunkyCode\SmartLighting2D\Resources\Shaders\Internal\Mask\MaskTranslucency.shader" />
   </ItemGroup>
@@ -653,35 +644,8 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>D:\Unity\AppData\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Plugins\ModularMotion\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.OdinInspector.Attributes">
-      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Cecil.Pdb">
-      <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Serialization.Config">
-      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Utilities.Editor">
-      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="ModularExtension">
-      <HintPath>Assets\Plugins\ModularMotion\ModularExtension.dll</HintPath>
-    </Reference>
-    <Reference Include="ModularMotion">
-      <HintPath>Assets\Plugins\ModularMotion\ModularMotion.dll</HintPath>
-    </Reference>
     <Reference Include="Sirenix.OdinInspector.Editor">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="ModularEditor">
-      <HintPath>Assets\Plugins\ModularMotion\ModularEditor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.Unsafe.dll</HintPath>
@@ -689,11 +653,17 @@
     <Reference Include="Unity.Burst.Cecil.Mdb">
       <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Mdb.dll</HintPath>
     </Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes">
+      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Cecil.Pdb">
+      <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Pdb.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Cecil">
       <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Burst.Cecil.Rocks">
-      <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
+    <Reference Include="Sirenix.Serialization.Config">
+      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Utilities">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.dll</HintPath>
@@ -701,8 +671,17 @@
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.7.8\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst.Cecil.Rocks">
+      <HintPath>Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Utilities.Editor">
+      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:\Unity\AppData\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>

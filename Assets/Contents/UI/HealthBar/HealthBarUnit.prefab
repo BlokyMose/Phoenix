@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 87.5, y: 35}
+  m_SizeDelta: {x: 91.4055, y: 41.0811}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6706860399847135594
 CanvasRenderer:
@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.014747341, g: 0.16037738, b: 0, a: 0.7490196}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0a6c282fb07e36f44b31e175d435f11d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d98d3520e7f11a84ab061a4e6a112d4a, type: 3}
   m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -144,8 +144,8 @@ MonoBehaviour:
   - {fileID: 4087404860493035079}
   blinkingRange: {x: 0.1, y: 0.5}
   useAlternateFirstSprite: 1
-  alternateFirstSpriteFill: {fileID: 21300000, guid: 14a77448f9e247243a7bcedd25ceb7a4, type: 3}
-  alternateFirstSpriteBorder: {fileID: 21300000, guid: 60f66da5c99c9ab4e9be0d1f6e8e4ef4, type: 3}
+  alternateFirstSpriteFill: {fileID: 21300000, guid: b74f42189aab0c444ae7237982146c43, type: 3}
+  alternateFirstSpriteBorder: {fileID: 21300000, guid: 7ef0f8bdf4661d649906fe863ae9750e, type: 3}
   alternateFirstSpriteLight: {fileID: 21300000, guid: a26d6eeb384330740a384bbe2b112e65, type: 3}
 --- !u!1 &4087404860493035079
 GameObject:
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4087404860493035079}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -259,7 +259,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 79.5, y: 26}
+  m_SizeDelta: {x: 72.9189, y: 23.6216}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8249725195076334412
 CanvasRenderer:
@@ -282,14 +282,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5235849, g: 1, b: 0.5504793, a: 1}
+  m_Color: {r: 0, g: 0.5283019, b: 0.026605139, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 43d659fa7f162654bb72067c5d6a59c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 90454ce53cd722b489b59bffc2a3c8a2, type: 3}
   m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1

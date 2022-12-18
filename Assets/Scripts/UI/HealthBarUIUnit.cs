@@ -99,8 +99,8 @@ namespace Phoenix
                 healthBarFill.sprite = alternateFirstSpriteFill;
                 healthBarBorder.sprite = alternateFirstSpriteBorder;
                 healthBarLight.sprite = alternateFirstSpriteLight;
-                foreach (var image in images)
-                    image.SetNativeSize();
+                //foreach (var image in images)
+                //    image.SetNativeSize();
             }
         }
 

@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149123073}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
@@ -38,7 +38,7 @@ Transform:
   - {fileID: 361585317}
   m_Father: {fileID: 3682275774977892676}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &149123078
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 23de5119e4fdd6a4caa409e08792b9db, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0fef20582f160994680e9a3222bbcb05, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -116,62 +116,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -1.39, y: -1.0799999}
-      - {x: -1.12, y: -0.89}
-      - {x: -0.82, y: -0.68}
-      - {x: -0.68, y: -0.57}
-      - {x: -0.68, y: -0.98999995}
-      - {x: -0.66999996, y: -1.02}
-      - {x: -0.61, y: -1}
-      - {x: -0.53999996, y: -0.93}
-      - {x: -0.48999998, y: -1.02}
-      - {x: -0.45999998, y: -1.1}
-      - {x: -0.42999998, y: -1.17}
-      - {x: -0.39999998, y: -1.18}
-      - {x: -0.34, y: -1.09}
-      - {x: -0.07, y: -0.66999996}
-      - {x: 0, y: -0.58}
-      - {x: 0.07, y: -0.68}
-      - {x: 0.22999999, y: -0.90999997}
-      - {x: 0.32, y: -1.06}
-      - {x: 0.34, y: -1.0799999}
-      - {x: 0.41, y: -1.17}
-      - {x: 0.44, y: -1.16}
-      - {x: 0.45999998, y: -1.1}
-      - {x: 0.48999998, y: -1.02}
-      - {x: 0.53, y: -0.93}
-      - {x: 0.61, y: -0.98999995}
-      - {x: 0.65999997, y: -1.01}
-      - {x: 0.68, y: -0.98999995}
-      - {x: 0.71999997, y: -0.59999996}
-      - {x: 0.82, y: -0.69}
-      - {x: 0.95, y: -0.77}
-      - {x: 1.03, y: -0.82}
-      - {x: 1.15, y: -0.90999997}
-      - {x: 1.23, y: -0.96}
-      - {x: 1.3199999, y: -1.03}
-      - {x: 1.4, y: -1.0799999}
-      - {x: 1.52, y: -1.17}
-      - {x: 1.76, y: -1.3299999}
-      - {x: 1.86, y: -1.41}
-      - {x: 1.9699999, y: -1.48}
-      - {x: 2.09, y: -1.5699999}
-      - {x: 2.1699998, y: -1.62}
-      - {x: 2.27, y: -1.6899999}
-      - {x: 2.3, y: -1.7099999}
-      - {x: 2.32, y: -1.7099999}
-      - {x: 2.34, y: -1.6899999}
-      - {x: 2.34, y: -0.61}
-      - {x: 0.01, y: 1.7199999}
-      - {x: -0.01, y: 1.7199999}
-      - {x: -2.34, y: -0.61}
-      - {x: -2.34, y: -1.6899999}
-      - {x: -2.33, y: -1.7099999}
-      - {x: -2.29, y: -1.7099999}
-      - {x: -2.26, y: -1.6999999}
-      - {x: -2.1599998, y: -1.62}
-      - {x: -2.06, y: -1.55}
-      - {x: -1.89, y: -1.43}
+    - - {x: -2.0270798, y: -1.067259}
+      - {x: -1.260158, y: -0.055424456}
+      - {x: -0.6225053, y: 0.27561975}
+      - {x: 0.00804615, y: 1.7298579}
+      - {x: 0.39060226, y: 0.46680844}
+      - {x: 1.3350484, y: -0.256416}
+      - {x: 2.0021067, y: -1.0855616}
 --- !u!114 &149123076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,7 +400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1070048752
 Transform:
   m_ObjectHideFlags: 0
@@ -5536,6 +5487,7 @@ MonoBehaviour:
   vCamPrefab: {fileID: 1992904477449522971, guid: 135a2321919c0f84991d14e1517c6195, type: 3}
   healthBarUI: {fileID: 0}
   healthBarrierUI: {fileID: 0}
+  bulletIconListUI: {fileID: 0}
   fireInputMode: 0
 --- !u!114 &3682275774977892678
 MonoBehaviour:
@@ -5549,7 +5501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d3b64652f4f2a4ca996f5b844a1779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jetProperties: {fileID: 11400000, guid: 981da0ec1dd7fe94fae4cbff059f5666, type: 2}
+  jetPropertiesNonStatic: {fileID: 11400000, guid: 981da0ec1dd7fe94fae4cbff059f5666, type: 2}
   rotationSettings:
     angleLimit: 360
     faceMode: 0
@@ -5587,9 +5539,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb376d8227eb9b54aa0b9be98b7e09bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDestroySelf: 0
   maxHealth: 50
-  healthStages: []
+  healthStages:
+  - atHealth: 100
+    colorIdle: {r: 1, g: 1, b: 1, a: 1}
+    colorDamaged: {r: 1, g: 0.504717, b: 0.504717, a: 1}
+    spriteSets:
+    - sr: {fileID: 149123078}
+      sprite: {fileID: 0}
+      overrideColorIdle: 0
+      colorIdle: {r: 0, g: 0, b: 0, a: 0}
+      overrideColorDamaged: 0
+      colorDamaged: {r: 0, g: 0, b: 0, a: 0}
+  onDieAction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1336316366
 MonoBehaviour:
   m_ObjectHideFlags: 0
