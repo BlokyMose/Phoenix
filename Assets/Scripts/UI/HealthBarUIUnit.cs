@@ -10,7 +10,7 @@ namespace Phoenix
 {
     public class HealthBarUIUnit : MonoBehaviour
     {
-        public enum FillStatus { Full, Empty, Filling}
+        public enum FillStatus { Full, Empty, Filling, Decreased }
 
         [SerializeField]
         Image healthBarFill;
@@ -49,6 +49,12 @@ namespace Phoenix
             normalSpriteBorder = healthBarBorder.sprite;
             normalSpriteLight = healthBarLight.sprite;
             images = new List<Image>() { healthBarFill, healthBarBorder, healthBarLight };
+        }
+
+        public void Decrease(float fillAmount, float fillAmountMax)
+        {
+            status = FillStatus.Decreased;
+            healthBarFill.fillAmount = fillAmount / fillAmountMax;
         }
 
         public void Fill(float time, float duration)

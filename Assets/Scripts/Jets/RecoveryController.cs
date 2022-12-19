@@ -38,9 +38,8 @@ namespace Phoenix
                     }
                 };
 
-                var playerBrain = GetComponent<PlayerBrain>();
-                if (playerBrain != null)
-                    playerBrain.ConnectToHealthBar(this);
+                if (healthController.HealthBarUI!=null)
+                    healthController.HealthBarUI.Init(this);
             }
         }
 

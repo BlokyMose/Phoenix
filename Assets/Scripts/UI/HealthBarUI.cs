@@ -1,4 +1,5 @@
 using Encore.Utility;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,17 +15,18 @@ namespace Phoenix
         [SerializeField]
         Transform healthBarParent;
 
+        [SerializeField, LabelText("HP per Bar")]
+        int hpPerBar = 10;
+
         List<HealthBarUIUnit> healthBarUnits = new List<HealthBarUIUnit>();
 
-        void Awake()
-        {
-        }
+        Func<float> GetHealth;
 
         public void Init(HealthController healthController)
         {
-            int barCount = (int)(healthController.MaxHealth / 10);
+            int barCount = (int)(healthController.MaxHealth / hpPerBar);
             SetupHealthBarUnit(barCount);
-
+            GetHealth += () => { return healthController.Health; };
             healthController.OnDamaged += ReceiveDamage;
             healthController.OnRecovery += ReceiveRecovery;
         }
@@ -36,7 +38,8 @@ namespace Phoenix
 
         public void Init(HealthBarrierController barrierController)
         {
-            int barCount = (int)(barrierController.MaxHealth / 10);
+            GetHealth += () => barrierController.Health;
+            int barCount = (int)(barrierController.MaxHealth / hpPerBar);
             SetupHealthBarUnit(barCount);
 
             barrierController.OnDamaged += ReceiveDamage;
@@ -60,42 +63,70 @@ namespace Phoenix
 
         public void ReceiveDamage(float damage)
         {
-            int barCount = (int)(damage / 10);
+            int barCount = (int)(damage / hpPerBar);
             for (int i = 0; i < barCount; i++)
-            {
                 EmptyOneFullUnit();
-            }
+
+            float leftoverDamage = damage % hpPerBar;
+            DecreaseUnit(leftoverDamage);
         }
 
         public void ReceiveRecovery(float recovery)
         {
-            int barCount = (int)(recovery / 10);
+            int barCount = (int)(recovery / hpPerBar);
             for (int i = 0; i < barCount; i++)
-            {
                 FullOneFillingUnit();
+        }
+
+        void DecreaseUnit(float decreaseAmount)
+        {
+            if (decreaseAmount <= 0) return;
+
+            var _decreaseAmount = decreaseAmount;
+            for (int i = healthBarUnits.Count - 1; i >= 0; i--)
+            {
+                var healthBar = healthBarUnits[i];
+                if (healthBar.Status == HealthBarUIUnit.FillStatus.Decreased ||
+                    healthBar.Status == HealthBarUIUnit.FillStatus.Full)
+                {
+                    var currentBarHP = GetHealth() % hpPerBar;
+                    if (currentBarHP == 0) currentBarHP = hpPerBar;
+                    currentBarHP -= _decreaseAmount;
+
+                    if (currentBarHP == 0)
+                    {
+                        healthBar.Empty();
+                        break;
+                    }
+                    else if (currentBarHP < 0)
+                    {
+                        healthBar.Empty();
+                        _decreaseAmount -= (GetHealth() % hpPerBar);
+                    }
+                    else
+                    {
+                        healthBar.Decrease(currentBarHP, hpPerBar);
+                        break;
+                    }
+                }
+
+
             }
         }
 
         void EmptyOneFullUnit()
         {
-            HealthBarUIUnit emptiedUnit = null;
-
             for (int i = healthBarUnits.Count - 1; i >= 0; i--)
             {
                 if (healthBarUnits[i].Status == HealthBarUIUnit.FillStatus.Full)
                 {
                     healthBarUnits[i].Empty();
                     healthBarUnits[i].transform.SetSiblingIndex(healthBarUnits.Count - 1);
-                    emptiedUnit = healthBarUnits[i];
-
+                    var emptiedUnit = healthBarUnits[i];
+                    healthBarUnits.Remove(emptiedUnit);
+                    healthBarUnits.Add(emptiedUnit);
                     break;
                 }
-            }
-
-            if(emptiedUnit != null)
-            {
-                healthBarUnits.Remove(emptiedUnit);
-                healthBarUnits.Add(emptiedUnit);
             }
         }
 

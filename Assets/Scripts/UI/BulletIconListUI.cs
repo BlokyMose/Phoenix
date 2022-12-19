@@ -14,7 +14,8 @@ namespace Phoenix
         [SerializeField]
         float animationDelay = 15f / 60f;
 
-        const int showFadedIconCount = 2;
+        [SerializeField]
+        int shownFadedIconCount = 2;
 
         List<BulletIconUIUnit> icons = new List<BulletIconUIUnit>();
 
@@ -29,6 +30,11 @@ namespace Phoenix
             fireController.OnNextBullet += NextBullet;
         }
 
+        public void Exit(FireController fireController)
+        {
+            fireController.OnNextBullet -= NextBullet;
+        }
+
         void SetupIcons(List<BulletProperties> bullets)
         {
             for (int i = bullets.Count - 1; i >= 0; i--)
@@ -38,7 +44,10 @@ namespace Phoenix
                 icons.Add(iconUI);
             }
 
-            for (int i = icons.Count - (showFadedIconCount + 1); i < icons.Count - 1; i++)
+            if (shownFadedIconCount + 1 > icons.Count)
+                shownFadedIconCount = icons.Count - 1;
+
+            for (int i = icons.Count - (shownFadedIconCount + 1); i < icons.Count - 1; i++)
             {
                 icons[i].PlayAnimation(BulletIconUIUnit.Mode.Faded);
             }
@@ -66,7 +75,7 @@ namespace Phoenix
                     newIconUI.transform.SetAsFirstSibling();
                     newIconUI.Init(iconLast.BulletProperties);
                     icons.Insert(0, newIconUI);
-                    icons.GetLast(showFadedIconCount + 1).PlayAnimation(BulletIconUIUnit.Mode.Faded);
+                    icons.GetLast(shownFadedIconCount + 1).PlayAnimation(BulletIconUIUnit.Mode.Faded);
 
                     yield return new WaitForSeconds(animationDelay);
 

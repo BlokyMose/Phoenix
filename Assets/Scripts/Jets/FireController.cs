@@ -14,13 +14,15 @@ namespace Phoenix
         JetPropertiesStatic jetProperties;
         public JetPropertiesStatic JetProperties { get { return jetProperties; } }
 
-
         [SerializeField]
         List<BulletProperties> bulletProperties = new List<BulletProperties>();
         public List<BulletProperties> BulletProperties => bulletProperties;
 
         [SerializeField]
         LayerMask bulletLayer;
+
+        [SerializeField]
+        BulletIconListUI bulletIconListUI;
 
         float fireCooldown;
 
@@ -35,16 +37,6 @@ namespace Phoenix
         public Action<BulletProperties> OnNextBullet;
 
 
-        private void OnDisable()
-        {
-            var brain = GetComponent<Brain>();
-            if (brain != null) 
-                Disable(brain);
-
-            var playerBrain = GetComponent<PlayerBrain>();
-            if (playerBrain != null)
-                playerBrain.DisconnectFromBulletList(this);
-        }
 
         public void Init(Brain brain)
         {
@@ -56,17 +48,34 @@ namespace Phoenix
             currentFireOrigin = 0;
             currentBulletIndex = 0;
 
+            if (bulletIconListUI != null)
+            {
+                bulletIconListUI.Init(this);
+            }
+
             if (brain is PlayerBrain)
             {
                 var playerBrain = brain as PlayerBrain;
-                playerBrain.ConnectToBulletList(this);
                 playerBrain.ConnectToCursorDisplayer(this);
             }
         }
 
-        public void Disable(Brain brain)
+        public void Exit(Brain brain)
         {
             brain.OnFireInput -= Fire;
+            brain.OnNextFireModeInput -= NextFireMode;
+            brain.OnNextBulletInput -= NextBullet;
+
+            if (bulletIconListUI != null)
+            {
+                bulletIconListUI.Exit(this);
+            }
+
+            if (brain is PlayerBrain)
+            {
+                var playerBrain = brain as PlayerBrain;
+                playerBrain.DisconnectFromCursorDisplayer(this);
+            }
         }
 
         void InstantiateJet()

@@ -11,6 +11,9 @@ namespace Phoenix
         float maxHealth = 50;
         public float MaxHealth => maxHealth;
 
+        [SerializeField]
+        HealthBarUI healthBarrierUI;
+
         HealthController healthController;
 
         float health;
@@ -32,10 +35,11 @@ namespace Phoenix
             if (healthController != null)
             {
                 healthController.OnDepleteBarrier += DepleteHealth;
+            }
 
-                var playerBrain = GetComponent<PlayerBrain>();
-                if (playerBrain != null)
-                    playerBrain.ConnectToHealthBarrierBar(this);
+            if (healthBarrierUI != null)
+            {
+                healthBarrierUI.Init(this);
             }
         }
 

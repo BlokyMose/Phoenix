@@ -16,9 +16,12 @@ MonoBehaviour:
   bulletMovement: {fileID: 11400000, guid: df01cc981f46e1442ab3862122ede9b3, type: 2}
   element: {fileID: 11400000, guid: 47a3d76f983b4e940a4c5d59daad01f2, type: 2}
   damage: 10
+  collisionMode: 0
+  lifeCount: 1
   lifeDuration: 6
   speed: 125
   pushForce: 0.25
   matchBulletPrefabCollider: 1
   colliderSize: {x: 0.05, y: 0.5}
   colliderOffset: {x: 0, y: 0.5}
+  icon: {fileID: 21300000, guid: a152a5e2aee69b145b6e7f4b3638c021, type: 3}

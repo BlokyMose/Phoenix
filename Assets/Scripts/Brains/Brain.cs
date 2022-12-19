@@ -38,11 +38,23 @@ namespace Phoenix
             Init();
         }
 
+        protected virtual void OnDisable()
+        {
+            Exit();
+        }
+
         public virtual void Init()
         {
             var fireController = GetComponent<FireController>();
             if (fireController != null)
                 fireController.Init(this);
+        }
+
+        public virtual void Exit()
+        {
+            var fireController = GetComponent<FireController>();
+            if (fireController != null)
+                fireController.Exit(this);
         }
     }
 }

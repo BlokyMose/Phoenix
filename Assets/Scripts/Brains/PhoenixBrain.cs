@@ -13,6 +13,9 @@ namespace Phoenix
         [SerializeField]
         Transform targetPos;
 
+        [SerializeField]
+        HealthBarUI healthBarUI;
+
         #endregion
 
 
@@ -30,6 +33,16 @@ namespace Phoenix
 
 
         #endregion
+
+        public override void Init()
+        {
+            base.Init();
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+        }
 
         private void Start()
         {
@@ -92,6 +105,11 @@ namespace Phoenix
             }
         }
 
+        public void ConnectToHealthBar(HealthController healthController)
+        {
+            if (healthBarUI != null)
+                healthBarUI.Init(healthController);
+        }
 
     }
 }

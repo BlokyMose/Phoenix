@@ -26,15 +26,6 @@ namespace Phoenix
 
         public bool InstatiateVCam { get { return instantiateVCam; }  set { instantiateVCam = value; } }
 
-        [SerializeField]
-        HealthBarUI healthBarUI;        
-        
-        [SerializeField]
-        HealthBarUI healthBarrierUI;
-
-        [SerializeField]
-        BulletIconListUI bulletIconListUI;
-
         #endregion
 
         #region [Vars: Properties]
@@ -89,41 +80,27 @@ namespace Phoenix
             base.Init();
         }
 
-        public void ConnectToHealthBar(HealthController healthController)
+        public override void Exit()
         {
-            if (healthBarUI != null)
-                healthBarUI.Init(healthController);
+            var jet = GetComponent<JetController>();
+            cursorDisplayer.Exit(ref OnPointerPosInput, ref OnFiring);
+            cursorDisplayer.OnCursorPosition -= (pos) => { OnCursorWorldPos?.Invoke(pos); };
+
+            base.Exit();
         }
 
-        public void ConnectToHealthBar(RecoveryController recoveryController)
-        {
-            if (healthBarUI != null)
-                healthBarUI.Init(recoveryController);
-        }
-
-        public void ConnectToHealthBarrierBar(HealthBarrierController barrierController)
-        {
-            if (healthBarrierUI != null)
-                healthBarrierUI.Init(barrierController);    
-        }
-
-        public void ConnectToBulletList(FireController fireController)
-        {
-            if (bulletIconListUI != null)
-                bulletIconListUI.Init(fireController);
-        }        
-        
         public void ConnectToCursorDisplayer(FireController fireController)
         {
             if (cursorDisplayer != null)
                 cursorDisplayer.Init(fireController);
+        }        
+        
+        public void DisconnectFromCursorDisplayer(FireController fireController)
+        {
+            if (cursorDisplayer != null)
+                cursorDisplayer.Exit(fireController);
         }
 
-        public void DisconnectFromBulletList(FireController fireController)
-        {
-            //if (bulletIconListUI != null)
-            //    bulletIconListUI.Init(fireController);
-        }
 
         Coroutine corAutomaticFireInput;
         public void SetupFireInputMode(FireInputMode fireInputMode)
@@ -186,19 +163,19 @@ namespace Phoenix
 
         public void OnPointerPos(InputAction.CallbackContext context)
         {
-            OnPointerPosInput(context.ReadValue<Vector2>());
+            OnPointerPosInput?.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnNextFireMode(InputAction.CallbackContext context)
         {
             if (context.started)
-                OnNextFireModeInput();
+                OnNextFireModeInput?.Invoke();
         }
 
         public void OnNextBullet(InputAction.CallbackContext context)
         {
             if (context.started)
-                OnNextBulletInput();
+                OnNextBulletInput?.Invoke();
         }
 
         #endregion

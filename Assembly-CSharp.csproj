@@ -185,6 +185,8 @@
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\AnimatorParamSetter.cs" />
+    <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -12,7 +12,6 @@ namespace Phoenix
 {
     public class HealthController : MonoBehaviour
     {
-
         #region [Classes]
 
         [Serializable]
@@ -134,6 +133,10 @@ namespace Phoenix
         List<HealthStage> healthStages = new List<HealthStage>();
 
         [SerializeField]
+        HealthBarUI healthBarUI;
+        public HealthBarUI HealthBarUI => healthBarUI;
+
+        [SerializeField]
         UnityEvent onDieAction = new UnityEvent();
 
         float health;
@@ -174,9 +177,8 @@ namespace Phoenix
 
             OnDie += () => onDieAction.Invoke();
 
-            var playerBrain = GetComponent<PlayerBrain>();
-            if (playerBrain != null)
-                playerBrain.ConnectToHealthBar(this);
+            if (healthBarUI != null)
+                healthBarUI.Init(this);
         }
 
         public void Init(ShieldProperties properties)

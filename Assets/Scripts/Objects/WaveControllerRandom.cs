@@ -91,6 +91,12 @@ namespace Phoenix
 
                 while (true)
                 {
+                    if (Time.timeScale == 0)
+                    {
+                        yield return null;
+                        continue;
+                    }
+
                     int finishedSpawnersCount = 0;
                     foreach (var spawnerAndData in spawnerAndDataList)
                     {
@@ -106,7 +112,7 @@ namespace Phoenix
 
                     if (finishedSpawnersCount >= spawnerAndDataList.Count)
                         InitRandomWave(spawnerAndDataList);
-                    
+
                     yield return null;
                 }
 
@@ -134,6 +140,7 @@ namespace Phoenix
 
                     SpawnerAndDataRandom NewSpawnerAndData(Spawner spawner, int startWaveIndex)
                     {
+
                         var spawnerAndData = new SpawnerAndDataRandom(spawner, new SpawnerDataRandom(spawner));
                         var startTimeAndMaxTime = GetStartAndEndTimeOfWaveIndex(startWaveIndex, spawnerAndData.spawner.Waves);
                         spawnerAndData.data.time = startTimeAndMaxTime.Item1;
@@ -146,6 +153,7 @@ namespace Phoenix
                             if (wave is WavePropertiesInitialRandom)
                                 (wave as WavePropertiesInitialRandom).ResetCache();
                         }
+
 
                         return spawnerAndData;
                     }

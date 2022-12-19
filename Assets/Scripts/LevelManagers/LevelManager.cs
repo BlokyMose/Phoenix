@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Phoenix
 {
@@ -120,6 +121,13 @@ namespace Phoenix
         [SerializeField]
         bool useVCamInScene = true;
 
+        [Header("UI")]
+        [SerializeField]
+        PauseMenu pauseMenu;
+
+        [SerializeField]
+        Object mainMenuScene;
+
         [Header("Stages")]
         [SerializeField]
         bool isLoopingStages = false;
@@ -177,6 +185,9 @@ namespace Phoenix
                 }
             }
 
+            pauseMenu = Instantiate(pauseMenu);
+            pauseMenu.Init(mainMenuScene);
+
             StartLevel();
 
             void OnStageCleared()
@@ -208,6 +219,11 @@ namespace Phoenix
                 }
 
             }
+        }
+
+        public void ShowPauseMenu()
+        {
+            pauseMenu.Show(true);
         }
     }
 }

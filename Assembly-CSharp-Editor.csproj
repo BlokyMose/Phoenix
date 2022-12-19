@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Editor\WaveControllerInspector.cs" />
     <Compile Include="Assets\Scripts\Editor\WaveControllerRandomInspector.cs" />
     <Compile Include="Assets\Scripts\Editor\WaveControllerEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\AnmatorParamSetterInspector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
