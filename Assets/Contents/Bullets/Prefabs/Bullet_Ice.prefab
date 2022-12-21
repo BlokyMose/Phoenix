@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 4973843392305255096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.236, y: 0.236, z: 0.236}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4228498689425315594}
   m_Father: {fileID: 0}
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8c24ef0a3cd7f524a81a93684f08eb60, type: 3}
-  m_Color: {r: 0.514151, g: 0.96569604, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 67d6ffa2ec0113b42844650b037b02c3, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -123,9 +123,9 @@ MonoBehaviour:
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.486911, g: 1, b: 1, a: 0.702}
-  size: 0.3508709
-  spotAngleInner: 168.3691
+  color: {r: 0.4973822, g: 0.12565444, b: 0.08900524, a: 0.585}
+  size: 0.35
+  spotAngleInner: 124.430954
   spotAngleOuter: 360
   coreSize: 0.5
   falloff: 0
@@ -223,7 +223,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7055663754575500804}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 1c0c8f97cd4a3f943a73b5ba748433e5, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 3d0536eaa960844478182ca76bac8d03, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -291,4 +291,4 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1

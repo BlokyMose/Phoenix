@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.VFX;
 
 namespace Phoenix
@@ -21,14 +22,20 @@ namespace Phoenix
         [SerializeField]
         VisualEffect vfx;
         public VisualEffect VFX => vfx;        
+
+        public enum InvokeMode { Always, BeforeLifeDuration }
+        [SerializeField]
+        InvokeMode vfxDieMode;
         
         [SerializeField]
         VisualEffect vfxDie;
         public VisualEffect VFXDie => vfxDie;
 
-        public enum VFXDieMode { Always, BeforeLifeDuration }
         [SerializeField]
-        VFXDieMode vfxDieMode;
+        InvokeMode onDieMode;
+
+        [SerializeField]
+        UnityEvent OnDieEvent = new UnityEvent();
 
         CapsuleCollider2D col;
         public CapsuleCollider2D Col => col;
@@ -86,14 +93,25 @@ namespace Phoenix
             {
                 switch (vfxDieMode)
                 {
-                    case VFXDieMode.Always: 
+                    case InvokeMode.Always: 
                         DoVFXDie();
                         break;
-                    case VFXDieMode.BeforeLifeDuration:
+                    case InvokeMode.BeforeLifeDuration:
                         if (deathTime < bulletProperties.LifeDuration)
                             DoVFXDie();
                         break;
                 }
+            }
+
+            switch (onDieMode)
+            {
+                case InvokeMode.Always:
+                    OnDieEvent.Invoke();
+                    break;
+                case InvokeMode.BeforeLifeDuration:
+                        if (deathTime < bulletProperties.LifeDuration)
+                            OnDieEvent.Invoke();
+                    break;
             }
 
 

@@ -25,8 +25,7 @@ namespace Phoenix
         [SerializeField]
         EventTrigger quitBut;
 
-        [SerializeField]
-        Object mainMenuScene;
+
 
         #endregion
 
@@ -34,12 +33,13 @@ namespace Phoenix
         Animator animator;
         int boo_show;
 
-        public void Init(Object mainMenuScene)
+        public Action OnResume;
+        public Action OnQuit;
+
+        public void Init()
         {
             var canvas = GetComponent<Canvas>();
             canvas.worldCamera = Camera.main;
-
-            this.mainMenuScene = mainMenuScene;
 
             canvasGroup = GetComponent<CanvasGroup>();
             animator = GetComponent<Animator>();
@@ -47,15 +47,15 @@ namespace Phoenix
 
             EventTrigger.Entry resumeEntry = new();
             resumeEntry.eventID = EventTriggerType.PointerClick;
-            resumeEntry.callback.AddListener((data) => { OnResume(); });
+            resumeEntry.callback.AddListener((data) => { Resume(); });
             resumeBut.triggers.Add(resumeEntry);
 
             EventTrigger.Entry settingsEntry = new();
-            settingsEntry.callback.AddListener((data) => { OnSettings(); });
+            settingsEntry.callback.AddListener((data) => { Settings(); });
             settingsBut.triggers.Add(settingsEntry);
 
             EventTrigger.Entry quitEntry = new();
-            quitEntry.callback.AddListener((data) => { OnQuit(); });
+            quitEntry.callback.AddListener((data) => { Quit(); });
             quitBut.triggers.Add(quitEntry);
 
             Show(false);
@@ -66,29 +66,20 @@ namespace Phoenix
             canvasGroup.interactable = isShowing;
             canvasGroup.blocksRaycasts = isShowing;
             animator.SetBool(boo_show, isShowing);
-
-            if (isShowing)
-            {
-                Time.timeScale = 0;
-            }
-            else
-            {
-                Time.timeScale = 1f;
-            }
         }
 
-        public void OnResume()
+        public void Resume()
         {
-            Show(false);
+            OnResume?.Invoke();
         }
 
-        public void OnSettings()
+        public void Settings()
         {
         }
 
-        public void OnQuit()
+        public void Quit()
         {
-            SceneManager.LoadScene(mainMenuScene.name);
+            OnQuit?.Invoke();
         }
     }
 }

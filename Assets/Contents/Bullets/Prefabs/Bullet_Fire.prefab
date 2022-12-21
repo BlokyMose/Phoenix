@@ -41,7 +41,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3565364256650844434}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 9b58c4a925b287a4fa715e2b80eb05d3, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: cfa670ff6cb9c8e4c912d0089b04f0bb, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -109,7 +109,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
 --- !u!1 &4973843392305255096
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,8 +187,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 93b9ae096245cd94c8fffac89d18cbd5, type: 3}
-  m_Color: {r: 0.8962264, g: 0.54214495, b: 0.29169634, a: 0.57254905}
+  m_Sprite: {fileID: 21300000, guid: 43a0da0ff1035e044b4e887d152cfb56, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4973843392305255096}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
   m_Name: 

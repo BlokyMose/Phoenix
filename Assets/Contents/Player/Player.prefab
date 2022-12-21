@@ -5482,12 +5482,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c11e9ea917ff2e4ebb0a3393722317b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorPackMenu: {fileID: 11400000, guid: 8a5109266bc6c4042b8b05b35287e700, type: 2}
   cursorDisplayerPrefab: {fileID: 7398357457490410111, guid: 07c24a861d698d348bc52f593ff02cd9, type: 3}
+  cursorDisplayerMenuPrefab: {fileID: 8933607600021937907, guid: bdf0310b4b295724683d3e87eb35af97, type: 3}
   instantiateVCam: 0
   vCamPrefab: {fileID: 1992904477449522971, guid: 135a2321919c0f84991d14e1517c6195, type: 3}
-  healthBarUI: {fileID: 0}
-  healthBarrierUI: {fileID: 0}
-  bulletIconListUI: {fileID: 0}
   fireInputMode: 0
 --- !u!114 &3682275774977892678
 MonoBehaviour:
@@ -5526,6 +5525,7 @@ MonoBehaviour:
   bulletLayer:
     serializedVersion: 2
     m_Bits: 2048
+  bulletIconListUI: {fileID: 0}
   components: {fileID: 149123074}
 --- !u!114 &987975872
 MonoBehaviour:
@@ -5551,6 +5551,7 @@ MonoBehaviour:
       colorIdle: {r: 0, g: 0, b: 0, a: 0}
       overrideColorDamaged: 0
       colorDamaged: {r: 0, g: 0, b: 0, a: 0}
+  healthBarUI: {fileID: 0}
   onDieAction:
     m_PersistentCalls:
       m_Calls: []
@@ -5581,3 +5582,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
+  healthBarrierUI: {fileID: 0}

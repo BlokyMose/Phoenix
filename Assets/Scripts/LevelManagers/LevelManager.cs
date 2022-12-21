@@ -1,9 +1,12 @@
 using Encore.Utility;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace Phoenix
@@ -125,8 +128,11 @@ namespace Phoenix
         [SerializeField]
         PauseMenu pauseMenu;
 
-        [SerializeField]
+        [SerializeField, OnValueChanged(nameof(OnValueChangedScene))]
         Object mainMenuScene;
+
+        [SerializeField, ReadOnly]
+        string mainMenuSceneName;
 
         [Header("Stages")]
         [SerializeField]
@@ -144,13 +150,31 @@ namespace Phoenix
         Cinemachine.CinemachineVirtualCamera vCam;
         Stage currentStage => stages[currentStageIndex];
         int currentStageIndex;
+        PlayerBrain player;
+        bool isPausing = false;
 
         #endregion
 
-        void Awake()
+
+        #region [Methods: Inspector]
+
+        void OnValueChangedScene()
+        {
+            if (mainMenuScene != null) mainMenuSceneName = mainMenuScene.name;
+        }
+
+        #endregion
+
+
+        protected virtual void Awake()
         {
             // TODO: remove this when GameManager is already control the initialization
             Init();
+        }
+
+        protected virtual void OnDisable()
+        {
+            Exit();
         }
 
         public virtual void Init()
@@ -186,7 +210,13 @@ namespace Phoenix
             }
 
             pauseMenu = Instantiate(pauseMenu);
-            pauseMenu.Init(mainMenuScene);
+            pauseMenu.Init();
+            pauseMenu.OnResume += Resume;
+            pauseMenu.OnQuit += Quit;
+
+            player = FindObjectOfType<PlayerBrain>();
+            player.Init(this);
+            player.OnQuitInput += TogglePause;
 
             StartLevel();
 
@@ -221,9 +251,43 @@ namespace Phoenix
             }
         }
 
-        public void ShowPauseMenu()
+        public virtual void Exit()
         {
+            pauseMenu.OnResume -= Resume;
+            pauseMenu.OnQuit -= Quit;
+            player.OnQuitInput -= TogglePause;
+        }
+
+        public void TogglePause()
+        {
+            isPausing = !isPausing;
+            if (isPausing)
+                Pause();
+            else
+                Resume();
+        }
+
+        public void Pause()
+        {
+            isPausing = true;
             pauseMenu.Show(true);
+            Time.timeScale = 0;
+            player.DisplayCursorMenu();
+
+        }
+
+        public void Resume()
+        {
+            isPausing = false;
+            pauseMenu.Show(false);
+            Time.timeScale = 1;
+            player.DisplayCursorGame();
+        }
+
+        public void Quit()
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene(mainMenuSceneName);
         }
     }
 }

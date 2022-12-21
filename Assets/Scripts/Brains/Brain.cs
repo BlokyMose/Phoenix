@@ -18,6 +18,7 @@ namespace Phoenix
         public Action<Vector2> OnCursorWorldPos;
         public Action OnNextFireModeInput;
         public Action OnNextBulletInput;
+        public Action OnQuitInput;
 
         #endregion
 
@@ -48,6 +49,11 @@ namespace Phoenix
             var fireController = GetComponent<FireController>();
             if (fireController != null)
                 fireController.Init(this);
+        }
+
+        public virtual void Init(LevelManager level)
+        {
+
         }
 
         public virtual void Exit()

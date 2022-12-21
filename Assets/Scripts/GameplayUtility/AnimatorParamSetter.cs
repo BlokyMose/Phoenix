@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Phoenix
@@ -12,97 +13,36 @@ namespace Phoenix
     public class AnimatorParamSetter : EventTrigger
     {
         [Serializable]
-        public class AnimatorEvent
+        public class AnimatorParameterEvent : GameplayUtilityClass.AnimatorParameter
         {
-            public enum DataType { Float, Int, Bool, Trigger }
-
             [SerializeField, HorizontalGroup("1"), LabelWidth(0.1f)]
             EventTriggerType triggerType;
             public EventTriggerType TriggerType => triggerType;
 
-
-            [SerializeField, HorizontalGroup("1"), LabelWidth(0.1f), SuffixLabel("name", true)]
-            string paramName;
-            public string ParamName => paramName;
-
-            [SerializeField, HorizontalGroup("2"), LabelWidth(0.1f)]
-            DataType dataType;
-            public DataType Type => dataType;
-
-            [SerializeField, HorizontalGroup("2"), LabelWidth(0.1f), SuffixLabel("value", true), ShowIf("@"+nameof(dataType)+"=="+nameof(DataType)+"."+nameof(DataType.Int))]
-            int intValue;
-            public int IntValue => intValue;
-
-            [SerializeField, HorizontalGroup("2"), LabelWidth(0.1f), SuffixLabel("value", true), ShowIf("@"+nameof(dataType)+"=="+nameof(DataType)+"."+nameof(DataType.Float))]
-            float floatValue;
-            public float FloatValue => floatValue;
-
-            [SerializeField, HorizontalGroup("2"), LabelWidth(0.1f), SuffixLabel("value", true), ShowIf("@"+nameof(dataType)+"=="+nameof(DataType)+"."+nameof(DataType.Bool))]
-            bool boolValue;
-            public bool BoolValue => boolValue;
-
-            int hash;
-
-            public void Init()
-            {
-                hash = Animator.StringToHash(paramName);
-            }
-
-            public AnimatorEvent(EventTriggerType triggerType, string paramName, int intValue)
+            public AnimatorParameterEvent(EventTriggerType triggerType, string paramName, int intValue) : base(paramName, intValue)
             {
                 this.triggerType = triggerType;
-                this.paramName = paramName;
-                this.dataType = DataType.Int;
-                this.intValue = intValue;
             }
 
-            public AnimatorEvent(EventTriggerType triggerType, string paramName, float floatValue)
+            public AnimatorParameterEvent(EventTriggerType triggerType, string paramName, float floatValue) : base(paramName, floatValue)
             {
                 this.triggerType = triggerType;
-                this.paramName = paramName;
-                this.dataType = DataType.Float;
-                this.floatValue = floatValue;
             }
 
-            public AnimatorEvent(EventTriggerType triggerType, string paramName, bool boolValue)
+            public AnimatorParameterEvent(EventTriggerType triggerType, string paramName, bool boolValue) : base(paramName, boolValue)
             {
                 this.triggerType = triggerType;
-                this.paramName = paramName;
-                this.dataType = DataType.Bool;
-                this.boolValue = boolValue;
             }
 
-            public AnimatorEvent(EventTriggerType triggerType, string paramName)
+            public AnimatorParameterEvent(EventTriggerType triggerType, string paramName) : base(paramName)
             {
                 this.triggerType = triggerType;
-                this.paramName = paramName;
-                this.dataType = DataType.Trigger;
             }
 
-            public void SetParam(Animator animator)
-            {
-                switch (dataType)
-                {
-                    case DataType.Float:
-                        animator.SetFloat(hash, floatValue);
-                        break;
-                    case DataType.Int:
-                        animator.SetInteger(hash, intValue);
-                        break;
-                    case DataType.Bool:
-                        animator.SetBool(hash, boolValue);
-                        break;
-                    case DataType.Trigger:
-                        animator.SetTrigger(hash);
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
 
         [SerializeField]
-        List<AnimatorEvent> events = new();
+        List<AnimatorParameterEvent> events = new();
 
         Animator animator;
 

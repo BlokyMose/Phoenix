@@ -41,7 +41,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2012091503101209333}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 62421c691cb56774c96e289fc6e29ca3, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 95f3e8c76716f8d4e8dcb20ef3460678, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4973843392305255096}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
   m_Name: 
@@ -233,8 +233,8 @@ MonoBehaviour:
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.18754141, g: 0.9950113, b: 0.16149399, a: 0.444}
-  size: 0.4
+  color: {r: 0.4973822, g: 0.12565444, b: 0.08900524, a: 0.585}
+  size: 0.35
   spotAngleInner: 124.430954
   spotAngleOuter: 360
   coreSize: 0.5

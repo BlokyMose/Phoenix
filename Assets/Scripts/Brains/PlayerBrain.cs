@@ -16,7 +16,13 @@ namespace Phoenix
         #region [Vars: Components]
 
         [SerializeField]
-        CursorDisplayer cursorDisplayerPrefab;
+        CursorPack cursorPackMenu;
+
+        [SerializeField]
+        CursorDisplayerAnimation cursorDisplayerPrefab;
+
+        [SerializeField]
+        CursorDisplayerMenu cursorDisplayerMenuPrefab;
 
         [SerializeField, Tooltip("Can be overridden by "+nameof(LevelManager))]
         bool instantiateVCam = true;
@@ -47,7 +53,9 @@ namespace Phoenix
 
         #region [Vars: Data Handlers]
 
-        CursorDisplayer cursorDisplayer;
+        CursorDisplayerAnimation cursorDisplayerGame;
+        CursorDisplayerMenu cursorDisplayerMenu;
+        bool isInitialized = false;
 
         #endregion
 
@@ -55,6 +63,9 @@ namespace Phoenix
 
         public override void Init()
         {
+            if (isInitialized) return;
+            isInitialized = true;
+
             var controls = new PhoenixControls();
             controls.Player.SetCallbacks(this);
             controls.Enable();
@@ -70,35 +81,62 @@ namespace Phoenix
             var jet = GetComponent<JetController>();
 
             Cursor.visible = false;
-            cursorDisplayer = Instantiate(cursorDisplayerPrefab);
+            cursorDisplayerGame = Instantiate(cursorDisplayerPrefab);
             if (jet != null)
-                cursorDisplayer.Init(ref OnPointerPosInput, ref OnFiring, jet.JetProperties);
-            cursorDisplayer.OnCursorPosition += (pos) => { OnCursorWorldPos?.Invoke(pos); };
+                cursorDisplayerGame.Init(ref OnPointerPosInput, ref OnFiring, jet.JetProperties);
+            cursorDisplayerGame.OnCursorPositionWorld += (pos) => { OnCursorWorldPos?.Invoke(pos); };
+
+            cursorDisplayerMenu = Instantiate(cursorDisplayerMenuPrefab);
+            cursorDisplayerMenu.Init(ref OnPointerPosInput, ref OnFiring, 1f, cursorPackMenu);
+            cursorDisplayerGame.Show(false);
+            cursorDisplayerMenu.Show(true);
 
             SetupFireInputMode(fireInputMode);
 
             base.Init();
         }
 
+        public override void Init(LevelManager levelManager)
+        {
+            Init();
+            cursorDisplayerGame.Show(true);
+            cursorDisplayerMenu.Show(false);
+        }
+
         public override void Exit()
         {
             var jet = GetComponent<JetController>();
-            cursorDisplayer.Exit(ref OnPointerPosInput, ref OnFiring);
-            cursorDisplayer.OnCursorPosition -= (pos) => { OnCursorWorldPos?.Invoke(pos); };
+            cursorDisplayerGame.Exit(ref OnPointerPosInput, ref OnFiring);
+            cursorDisplayerGame.OnCursorPositionWorld -= (pos) => { OnCursorWorldPos?.Invoke(pos); };
+            cursorDisplayerMenu.Exit(ref OnPointerPosInput, ref OnFiring);
 
             base.Exit();
         }
 
+        public void DisplayCursorGame()
+        {
+            cursorDisplayerGame.Show(true);
+            cursorDisplayerMenu.Show(false);
+
+        }
+
+        public void DisplayCursorMenu()
+        {
+            cursorDisplayerGame.Show(false);
+            cursorDisplayerMenu.Show(true);
+
+        }
+
         public void ConnectToCursorDisplayer(FireController fireController)
         {
-            if (cursorDisplayer != null)
-                cursorDisplayer.Init(fireController);
+            if (cursorDisplayerGame != null)
+                cursorDisplayerGame.Init(fireController);
         }        
         
         public void DisconnectFromCursorDisplayer(FireController fireController)
         {
-            if (cursorDisplayer != null)
-                cursorDisplayer.Exit(fireController);
+            if (cursorDisplayerGame != null)
+                cursorDisplayerGame.Exit(fireController);
         }
 
 
@@ -176,6 +214,12 @@ namespace Phoenix
         {
             if (context.started)
                 OnNextBulletInput?.Invoke();
+        }
+
+        public void OnQuit(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                OnQuitInput?.Invoke();
         }
 
         #endregion

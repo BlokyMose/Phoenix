@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Phoenix.FireComponents;
 
@@ -140,6 +141,7 @@ namespace Phoenix
                     bullet = bulletGO.AddComponent<BulletControllerTriggerEnter>();
                     break;
             }
+
             bullet.Init(currentBullet);
 
             currentFireOrigin++;

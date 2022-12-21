@@ -19,19 +19,19 @@ namespace Phoenix
         UnityEvent unityEvent;
 
 
-        void Awake()
+        protected virtual void Awake()
         {
             if (invokeIn == InvokeInMode.Awake)
                 Invoke();
         }
 
-        void Start()
+        protected virtual void Start()
         {
             if (invokeIn == InvokeInMode.Start)
                 Invoke();
         }
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             if (invokeIn == InvokeInMode.OnEnable)
                 Invoke();
@@ -39,12 +39,14 @@ namespace Phoenix
 
         void Invoke()
         {
-            StartCoroutine(Delay());
-            IEnumerator Delay()
-            {
-                yield return new WaitForSeconds(delay);
-                unityEvent.Invoke();
-            }
+            StartCoroutine(Invoking());
+
+        }
+
+        protected virtual IEnumerator Invoking()
+        {
+            yield return new WaitForSeconds(delay);
+            unityEvent.Invoke();
         }
     }
 }
