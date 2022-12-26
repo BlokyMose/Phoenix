@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static Phoenix.WaveController;
 using static Phoenix.WaveController.Spawner;
 
@@ -69,8 +70,10 @@ namespace Phoenix
                         if (timeInWave >= wave.GetDelay())
                         {
                             var timeAfterDelay = timeInWave - wave.GetDelay();
+
                             for (int subWaveIndex = 0; subWaveIndex < wave.GetCount(); subWaveIndex++)
                             {
+
                                 // Check which period of the wave timeAfterDelay is in
                                 if (timeAfterDelay > wave.GetPeriod() * subWaveIndex)
                                 {
@@ -81,6 +84,7 @@ namespace Phoenix
                                         return wave;
                                     }
                                 }
+
                             }
                         }
 
@@ -204,6 +208,9 @@ namespace Phoenix
         protected List<Spawner> spawners = new List<Spawner>();
         public List<Spawner> Spawners => spawners;
 
+        [SerializeField]
+        UnityEvent onEnd;
+
         protected Coroutine corSpawning;
 
         void OnEnable()
@@ -221,12 +228,18 @@ namespace Phoenix
             corSpawning = this.RestartCoroutine(Update());
             IEnumerator Update()
             {
+                var maxTime = 0f;
+                
                 List<SpawnerAndData> spawnerAndDataList = new();
                 foreach (var spawner in spawners)
+                {
                     spawnerAndDataList.Add(new SpawnerAndData(spawner, new SpawnerData(spawner)));
+                    maxTime = maxTime < spawner.TotalWavesDuration() ? spawner.TotalWavesDuration() : maxTime;
+                }
+
 
                 var time = 0f;
-
+                int round = 1;
                 while (true)
                 {
                     foreach (var spawnerAndData in spawnerAndDataList)
@@ -234,6 +247,12 @@ namespace Phoenix
                         var instantiableWave = spawnerAndData.spawner.GetInstantiableWaveAt(time, spawnerAndData.data);
                         if (instantiableWave != null)
                             InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);
+                    }
+
+                    if (maxTime * round < time)
+                    {
+                        onEnd.Invoke();
+                        round++;
                     }
 
                     time += Time.fixedDeltaTime;

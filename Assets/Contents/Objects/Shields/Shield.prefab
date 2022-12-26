@@ -41,7 +41,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8924010724555618001}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: e94a4710fbe3d9446876a0b21ab0f863, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 2f726d3c926adee469167fa466a5bf87, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -243,9 +243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb376d8227eb9b54aa0b9be98b7e09bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDestroySelf: 0
   maxHealth: 100
   healthStages: []
+  healthBarUI: {fileID: 0}
+  onDieAction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8924010724609777698
 MonoBehaviour:
   m_ObjectHideFlags: 0

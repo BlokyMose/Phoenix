@@ -6,12 +6,18 @@ using UnityEngine;
 
 namespace Phoenix
 {
+    [InlineEditor]
     public class LevelObjectActivator : MonoBehaviour
     {
-        [SerializeField, LabelText("Deactivate Self"), Tooltip("Prevent initalization before LevelManager is intialized")]
-        bool isDeactivateSelfAtAwake = false;
-        bool isInitialized = false;
+        [SerializeField, LabelText("Auto-Deactivate"), Tooltip("Prevent initalization before LevelManager is intialized")]
+        bool isDeactivateSelfAtAwake = true;
 
+        [SerializeField]
+        float delay = 0f;
+
+        public float Delay => delay;
+
+        bool isInitialized = false;
 
         Action onNextStage;
 

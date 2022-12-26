@@ -81,10 +81,12 @@ namespace Phoenix
             var jet = GetComponent<JetController>();
 
             Cursor.visible = false;
-            cursorDisplayerGame = Instantiate(cursorDisplayerPrefab);
             if (jet != null)
+            {
+                cursorDisplayerGame = Instantiate(cursorDisplayerPrefab);
                 cursorDisplayerGame.Init(ref OnPointerPosInput, ref OnFiring, jet.JetProperties);
-            cursorDisplayerGame.OnCursorPositionWorld += (pos) => { OnCursorWorldPos?.Invoke(pos); };
+                cursorDisplayerGame.OnCursorPositionWorld += (pos) => { OnCursorWorldPos?.Invoke(pos); };
+            }
 
             cursorDisplayerMenu = Instantiate(cursorDisplayerMenuPrefab);
             cursorDisplayerMenu.Init(ref OnPointerPosInput, ref OnFiring, 1f, cursorPackMenu);

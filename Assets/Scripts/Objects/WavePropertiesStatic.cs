@@ -44,7 +44,7 @@ namespace Phoenix
             get => period;
             set => period = value;
         }
-        public override float GetPeriod() => count;
+        public override float GetPeriod() => period;
 
         [SerializeField]
         protected int count = 5;

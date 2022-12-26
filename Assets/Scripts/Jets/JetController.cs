@@ -70,6 +70,7 @@ namespace Phoenix
         #region [Delegates]
 
         Func<Vector2> GetCursorWorldPosition;
+        Action<Vector2> OnMoveDirection;
 
         #endregion
 
@@ -91,12 +92,14 @@ namespace Phoenix
         {
             var brain = GetComponent<Brain>();
             if (brain!=null)
-                Disable(brain);
+                Exit(brain);
+
+            StopAllCoroutines();
         }
 
         public void Init(Brain brain)
         {
-            brain.OnMoveInput += (dir) => { moveDirection = dir; };
+            brain.OnMoveInput += SetMoveDirection;
             brain.OnCursorWorldPos += RotateToCursor;
         }
 
@@ -136,9 +139,9 @@ namespace Phoenix
             }
         }
 
-        public void Disable(Brain brain)
+        public void Exit(Brain brain)
         {
-            brain.OnMoveInput -= (dir) => { moveDirection = dir; };
+            brain.OnMoveInput -= SetMoveDirection;
             brain.OnCursorWorldPos -= RotateToCursor;
         }
 
@@ -151,7 +154,12 @@ namespace Phoenix
                 {
                     var jetGO = Instantiate(jetPropertiesStatic.JetPrefab, transform).gameObject;
                     jetGO.name = "Jet";
+                    jet = jetGO.transform;
                 }
+
+                var audioController = jet.GetComponent<JetAudioController>();
+                if (audioController != null)
+                    audioController.Init(ref OnMoveDirection);
             }
         }
 
@@ -160,6 +168,12 @@ namespace Phoenix
         protected virtual void FixedUpdate()
         {
             Move(moveDirection);
+        }
+
+        protected virtual void SetMoveDirection(Vector2 dir)
+        {
+            moveDirection = dir;
+            OnMoveDirection?.Invoke(dir);
         }
 
         protected virtual void RotateToCursor(Vector2 cursorPos)

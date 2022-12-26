@@ -25,25 +25,48 @@ namespace Phoenix
         public class Stage
         {
             public enum StageActiveMode { Active, Passive, Inactive }
-            public enum NextRequirement { All, One }
+            public enum NextRequirement { All, Any }
 
-            [SerializeField, Tooltip("- Active: activate & deactivate objects based on order \n- Passive: deactivate objects at start \n- Inactive: do nothing")]
+            [SerializeField, GUIColor(nameof(_GetActiveModeColor)), Tooltip("- Active: activate & deactivate objects based on order \n- Passive: deactivate objects at start \n- Inactive: do nothing")]
             StageActiveMode activeMode = StageActiveMode.Active;
             public StageActiveMode ActiveMode => activeMode;
 
-            [SerializeField]
-            NextRequirement next = NextRequirement.All;
+            [SerializeField, LabelText("Next Req."), Tooltip("Requirement proceed to the next stage:\n- All: all object has to be done \n- Any: one object has to be done")]
+            NextRequirement nextRequirement = NextRequirement.All;
 
             [SerializeField]
             List<LevelObjectActivator> objectActivators = new List<LevelObjectActivator>();
             public List<LevelObjectActivator> ObjectActivators => objectActivators;
 
+            LevelManager levelManager;
             int activatedObjectsCount = 0;
             bool isStageCleared = false;
             public Action OnStageCleared;
 
-            public void Init()
+
+            #region [Methods: Inspector]
+
+            Color _GetActiveModeColor()
             {
+                switch (activeMode)
+                {
+                    case StageActiveMode.Active:
+                        return Encore.Utility.ColorUtility.lightGreen;
+                    case StageActiveMode.Passive:
+                        return Encore.Utility.ColorUtility.orange;
+                    case StageActiveMode.Inactive:
+                        return Encore.Utility.ColorUtility.salmon;
+                    default:
+                        return Encore.Utility.ColorUtility.darkSlateGray;
+                }
+            }
+
+            #endregion
+
+
+            public void Init(LevelManager levelManager)
+            {
+                this.levelManager = levelManager;
                 foreach (var objectActivator in objectActivators)
                 {
                     objectActivator.Init(OnNextStage);
@@ -64,7 +87,13 @@ namespace Phoenix
             {
                 foreach (var objectActivator in objectActivators)
                 {
-                    objectActivator.Activate(true);
+                    levelManager.StartCoroutine(ActivatingAfter(objectActivator, objectActivator.Delay));
+                }
+
+                IEnumerator ActivatingAfter(LevelObjectActivator activator, float delay)
+                {
+                    yield return new WaitForSeconds(delay);
+                    activator.Activate(true);
                 }
             }
 
@@ -78,13 +107,13 @@ namespace Phoenix
 
             bool CanGoToNextStage()
             {
-                switch (next)
+                switch (nextRequirement)
                 {
                     case NextRequirement.All:
                         isStageCleared = activatedObjectsCount >= objectActivators.Count;
                         break;
 
-                    case NextRequirement.One:
+                    case NextRequirement.Any:
                         if (objectActivators.Count > 0)
                             isStageCleared = activatedObjectsCount > 0;
                         else
@@ -155,7 +184,6 @@ namespace Phoenix
 
         #endregion
 
-
         #region [Methods: Inspector]
 
         void OnValueChangedScene()
@@ -183,7 +211,10 @@ namespace Phoenix
             {
                 playerBrain = FindObjectOfType<PlayerBrain>();
                 if (playerBrain == null)
+                {
                     Debug.LogWarning("usePlayerInScene is True, but there is no PlayerBrain found");
+                    return;
+                }
             }
             else
             {
@@ -205,7 +236,7 @@ namespace Phoenix
                 if (stage.ActiveMode != Stage.StageActiveMode.Inactive)
                 {
                     stage.OnStageCleared += OnStageCleared;
-                    stage.Init();
+                    stage.Init(this);
                 }
             }
 
@@ -255,7 +286,9 @@ namespace Phoenix
         {
             pauseMenu.OnResume -= Resume;
             pauseMenu.OnQuit -= Quit;
-            player.OnQuitInput -= TogglePause;
+
+            if (player != null)
+                player.OnQuitInput -= TogglePause;
         }
 
         public void TogglePause()

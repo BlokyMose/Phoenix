@@ -28,7 +28,7 @@ namespace Phoenix
             onFiring += OnFiring;
             this.speed = speed;
 
-            cursor = Instantiate(cursorPrefab, transform);
+            cursor = Instantiate(cursorPrefab != null ? cursorPrefab : new GameObject(), transform);
             cursor.transform.localScale = new Vector3(cursorScale, cursorScale, cursorScale);
 
             StartCoroutine(UpdatingCursorPosition());

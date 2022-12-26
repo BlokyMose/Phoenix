@@ -15,7 +15,7 @@ MonoBehaviour:
   jetPrefab: {fileID: 0}
   mode: 0
   moveSpeed: 15
-  maxVelocity: 8
+  maxVelocity: 11.84
   cursorSpeed: 0.2
   linearDrag: 1
   rps: 4
