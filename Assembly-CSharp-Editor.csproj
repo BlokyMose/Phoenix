@@ -973,14 +973,6 @@
       <Project>{BB1197B9-0A4F-7D15-8D71-668B2C6ADE7B}</Project>
       <Name>Sirenix.OdinInspector.CompatibilityLayer.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="SimpleTableUI.csproj">
-      <Project>{AAD4E488-F2C8-A20B-DA12-59902A8684D6}</Project>
-      <Name>SimpleTableUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="SimpleTableUI_Editor.csproj">
-      <Project>{0720F424-DE93-39AC-A6EE-A42F44FAAF59}</Project>
-      <Name>SimpleTableUI_Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="Sirenix.OdinInspector.CompatibilityLayer.csproj">
       <Project>{9C414C6E-6A3A-AB2C-A489-5C5F102EF201}</Project>
       <Name>Sirenix.OdinInspector.CompatibilityLayer</Name>
