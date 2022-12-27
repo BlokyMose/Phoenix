@@ -1,3 +1,4 @@
+using Encore.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,8 @@ namespace Phoenix
 {
     public class AutoInvoke : MonoBehaviour
     {
-        public enum InvokeInMode { Awake, Start, OnEnable }
-
         [SerializeField]
-        InvokeInMode invokeIn = InvokeInMode.Awake;
+        UnityInitialMethod invokeIn = UnityInitialMethod.Awake;
 
         [SerializeField]
         float delay = 0;
@@ -21,19 +20,19 @@ namespace Phoenix
 
         protected virtual void Awake()
         {
-            if (invokeIn == InvokeInMode.Awake)
+            if (invokeIn == UnityInitialMethod.Awake)
                 Invoke();
         }
 
         protected virtual void Start()
         {
-            if (invokeIn == InvokeInMode.Start)
+            if (invokeIn == UnityInitialMethod.Start)
                 Invoke();
         }
 
         protected virtual void OnEnable()
         {
-            if (invokeIn == InvokeInMode.OnEnable)
+            if (invokeIn == UnityInitialMethod.OnEnable)
                 Invoke();
         }
 

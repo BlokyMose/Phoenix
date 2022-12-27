@@ -11,6 +11,12 @@ Library
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+# Custom addition by Ray
+Assembly-CSharp.csproj
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp-Editor-firstpass.csproj
+Assembly-CSharp-firstpass.csproj
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/

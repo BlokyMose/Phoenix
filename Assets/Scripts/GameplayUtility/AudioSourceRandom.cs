@@ -31,12 +31,24 @@ namespace Phoenix
             [HorizontalGroup("Pitch"), LabelText("+/-"), LabelWidth(25)]
             public float pitchRandomRange = 0.15f;
 
-            public void Play(AudioSource audioSource)
+            [HorizontalGroup("Delay", 0.66f)]
+            public float delay = 0f;
+
+            [HorizontalGroup("Delay"), LabelText("+/-"), LabelWidth(25)]
+            public float delayRandomRange = 0f;
+
+            public IEnumerator Play(AudioSource audioSource)
             {
+                var _delay = Random.Range(delay - delayRandomRange, delay + delayRandomRange);
+                yield return new WaitForSeconds(_delay);
                 audioSource.pitch = Random.Range(pitch - pitchRandomRange, pitch + pitchRandomRange);
                 audioSource.PlayOneShot(clips.GetRandom(), Random.Range(volume - volumeRandomRange, volume + volumeRandomRange));
             }
         }
+
+
+        [SerializeField, Range(0,1)]
+        float playProbability = 1f;
 
         [SerializeField]
         List<AudioPack> audioPacks = new();
@@ -59,11 +71,17 @@ namespace Phoenix
         [FoldoutGroup("Audio Source"), SerializeField]
         bool bypassReverbZones;
 
-        [FoldoutGroup("Audio Source"), SerializeField]
+        [HorizontalGroup("Audio Source/Awake"), SerializeField, LabelText("Play On")]
         bool playOnAwake = true;
 
-        [FoldoutGroup("Audio Source"), SerializeField]
+        [HorizontalGroup("Audio Source/Awake", 80f), SerializeField, LabelWidth(1f)]
+        UnityInitialMethod invokeIn = UnityInitialMethod.Awake;
+
+        [FoldoutGroup("Audio Source"), SerializeField]  
         bool loop;
+
+        [FoldoutGroup("Audio Source"), SerializeField, ShowIf(nameof(loop))]
+        float loopPeriod = 3f;
 
         [FoldoutGroup("Audio Source"), SerializeField, Range(0,256)]
         int priority = 128;
@@ -90,8 +108,35 @@ namespace Phoenix
             audioSource = GetComponent<AudioSource>();
             SyncAudioSourceProperties();
 
-            if (playOnAwake)
-                Play();
+            if (playOnAwake && invokeIn == UnityInitialMethod.Awake)
+            {
+                if (loop)
+                    PlayLoop();
+                else
+                    Play();
+            }
+        }
+
+        void OnEnable()
+        {
+            if (playOnAwake && invokeIn == UnityInitialMethod.OnEnable)
+            {
+                if (loop)
+                    PlayLoop();
+                else
+                    Play();
+            }
+        }
+
+        void Start()
+        {
+            if (playOnAwake && invokeIn == UnityInitialMethod.Start)
+            {
+                if (loop)
+                    PlayLoop();
+                else
+                    Play();
+            }
         }
 
         [FoldoutGroup("Audio Source"), Button("Sync")]
@@ -118,13 +163,40 @@ namespace Phoenix
         }
 
         [HorizontalGroup("Buttons"), Button, PropertyOrder(-1)]
-        void Play()
+        public void Play()
         {
 #if UNITY_EDITOR
             audioSource = GetComponent<AudioSource>();
 #endif
-            foreach (var pack in audioPacks)
-                pack.Play(audioSource);
+            var probability = Random.Range(0f, 1f);
+            if (probability <= playProbability)
+                foreach (var pack in audioPacks)
+                    StartCoroutine(pack.Play(audioSource));
         }
+
+        public void PlayLoop()
+        {
+            StartCoroutine(Looping());
+            IEnumerator Looping()
+            {
+                Play();
+
+                var time = 0f;
+                while (true)
+                {
+                    if (time > loopPeriod)
+                    {
+                        Play();
+                        time = 0f;
+                    }
+
+                    time += Time.deltaTime;
+                    yield return null;
+                }
+            }
+
+        }
+
+
     }
 }

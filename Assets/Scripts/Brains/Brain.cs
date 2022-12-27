@@ -46,8 +46,7 @@ namespace Phoenix
 
         public virtual void Init()
         {
-            var fireController = GetComponent<FireController>();
-            if (fireController != null)
+            if (TryGetComponent<FireController>(out var fireController))
                 fireController.Init(this);
         }
 

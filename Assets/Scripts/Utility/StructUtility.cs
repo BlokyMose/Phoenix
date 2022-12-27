@@ -76,5 +76,9 @@ namespace Encore.Utility
         public void AddRow(float add) => height += add;
 
         public Vector2 Vector2 => new Vector2(width, height);
+
     }
+
+    public enum UnityInitialMethod { Awake, Start, OnEnable }
+
 }

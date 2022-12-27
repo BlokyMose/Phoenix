@@ -16,6 +16,9 @@ namespace Phoenix
         [SerializeField]
         HealthBarUI healthBarUI;
 
+        [SerializeField]
+        AudioSourceRandom audioSourceRandom;
+
         #endregion
 
 
@@ -34,6 +37,11 @@ namespace Phoenix
 
         #endregion
 
+        private void Start()
+        {
+            Begin();
+        }
+
         public override void Init()
         {
             base.Init();
@@ -41,17 +49,20 @@ namespace Phoenix
 
         public override void Exit()
         {
+            StopAllCoroutines();
             base.Exit();
         }
 
-        private void Start()
+        private void Begin()
         {
+            audioSourceRandom.Play();
+
             StartCoroutine(Firing());
             IEnumerator Firing()
             {
                 while (true)
                 {
-                    OnFireInput();
+                    OnFireInput?.Invoke();
                     yield return null;
                 }
             }
@@ -103,6 +114,7 @@ namespace Phoenix
 
                 }
             }
+
         }
 
         public void ConnectToHealthBar(HealthController healthController)

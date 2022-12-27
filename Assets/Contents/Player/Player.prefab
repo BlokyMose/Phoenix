@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 149123076}
   - component: {fileID: 149123074}
   - component: {fileID: 2993527656762759324}
+  - component: {fileID: 60756686}
   m_Layer: 9
   m_Name: Jet
   m_TagString: Untagged
@@ -192,7 +193,7 @@ AudioSource:
   m_GameObject: {fileID: 149123073}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 7935348441469265869, guid: 9ac9a19f77df95d4fad1506815ae6c7d, type: 2}
+  OutputAudioMixerGroup: {fileID: -2188104902220533747, guid: 9ac9a19f77df95d4fad1506815ae6c7d, type: 2}
   m_audioClip: {fileID: 8300000, guid: 9de61a8a42ad4fb40a736dc121434cf4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.33
@@ -279,6 +280,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &60756686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149123073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0446d48fbe52f342b5c6993861f465f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pitchMultiplerSpeed: 2
+  volumeRange: {x: 0.5, y: 1.33}
 --- !u!1 &176772194
 GameObject:
   m_ObjectHideFlags: 0
