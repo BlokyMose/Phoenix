@@ -87,7 +87,7 @@ namespace Phoenix
             {
                 foreach (var objectActivator in objectActivators)
                 {
-                    levelManager.StartCoroutine(ActivatingAfter(objectActivator, objectActivator.Delay));
+                    levelManager.StartCoroutine(ActivatingAfter(objectActivator, objectActivator.DelayActivation));
                 }
 
                 IEnumerator ActivatingAfter(LevelObjectActivator activator, float delay)
@@ -101,7 +101,13 @@ namespace Phoenix
             {
                 foreach (var objectActivator in objectActivators)
                 {
-                    objectActivator.Activate(false);
+                    levelManager.StartCoroutine(DectivatingAfter(objectActivator, objectActivator.DelayDeactivation));
+                }
+
+                IEnumerator DectivatingAfter(LevelObjectActivator activator, float delay)
+                {
+                    yield return new WaitForSeconds(delay);
+                    activator.Activate(false);
                 }
             }
 
@@ -155,7 +161,12 @@ namespace Phoenix
 
         [Header("UI")]
         [SerializeField]
+        PauseMenu pauseMenuPrefab;
         PauseMenu pauseMenu;
+
+        [SerializeField]
+        GameOverMenu gameOverMenuPrefab;
+        GameOverMenu gameOverMenu;
 
         [SerializeField, OnValueChanged(nameof(OnValueChangedScene))]
         Object mainMenuScene;
@@ -175,12 +186,13 @@ namespace Phoenix
 
         #region [Vars: Data Handlers]
 
-        PlayerBrain playerBrain;
+        PlayerBrain player;
+        public PlayerBrain Player => player;
         Cinemachine.CinemachineVirtualCamera vCam;
         Stage currentStage => stages[currentStageIndex];
         int currentStageIndex;
-        PlayerBrain player;
         bool isPausing = false;
+        bool isGameOver = false;
 
         #endregion
 
@@ -207,10 +219,12 @@ namespace Phoenix
 
         public virtual void Init()
         {
+            #region [Player]
+
             if (usePlayerInScene)
             {
-                playerBrain = FindObjectOfType<PlayerBrain>();
-                if (playerBrain == null)
+                player = FindObjectOfType<PlayerBrain>();
+                if (player == null)
                 {
                     Debug.LogWarning("usePlayerInScene is True, but there is no PlayerBrain found");
                     return;
@@ -218,18 +232,31 @@ namespace Phoenix
             }
             else
             {
-                playerBrain = Instantiate(playerPrefab);
-                playerBrain.transform.position = startPoint.point.position;
-                playerBrain.transform.rotation = startPoint.point.rotation;
+                player = Instantiate(playerPrefab);
+                player.transform.position = startPoint.point.position;
+                player.transform.rotation = startPoint.point.rotation;
             }
+
+            player.Init(this);
+            player.OnQuitInput += TogglePause;
+            if (player.TryGetComponent<HealthController>(out var playerHealthController))
+                playerHealthController.OnDie += ShowGameOverMenu;
+
+            #endregion
+
+            #region [Camera]
 
             if (useVCamInScene)
             {
-                playerBrain.InstatiateVCam = false;
+                player.InstatiateVCam = false;
                 vCam = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
                 if (vCam == null)
                     Debug.LogWarning("useVCamInScene is True, but there is no VCam found");
             }
+
+            #endregion
+
+            #region [Stages]
 
             foreach (var stage in stages)
             {
@@ -240,14 +267,29 @@ namespace Phoenix
                 }
             }
 
-            pauseMenu = Instantiate(pauseMenu);
+            #endregion
+
+            #region [Pause Menu]
+
+            pauseMenu = Instantiate(pauseMenuPrefab);
             pauseMenu.Init();
             pauseMenu.OnResume += Resume;
+            pauseMenu.OnRestart += Restart;
             pauseMenu.OnQuit += Quit;
 
-            player = FindObjectOfType<PlayerBrain>();
-            player.Init(this);
-            player.OnQuitInput += TogglePause;
+            #endregion
+
+
+            #region [Dialogue Canvas]
+
+            var dialogueCanvases = new List<DialogueCanvasController>(FindObjectsOfType<DialogueCanvasController>(true));
+            foreach (var canvas in dialogueCanvases)
+            {
+                canvas.Init(this);
+            }
+
+            #endregion
+
 
             StartLevel();
 
@@ -278,21 +320,33 @@ namespace Phoenix
                         break;
                     }
                 }
-
             }
         }
 
         public virtual void Exit()
         {
             pauseMenu.OnResume -= Resume;
+            pauseMenu.OnRestart -= Restart;
             pauseMenu.OnQuit -= Quit;
 
+            if (gameOverMenu != null)
+            {
+                gameOverMenu.OnRestart -= Restart;
+                gameOverMenu.OnMainMenu -= Quit;
+            }
+
             if (player != null)
+            {
                 player.OnQuitInput -= TogglePause;
+                if (player.TryGetComponent<HealthController>(out var playerHealthController))
+                    playerHealthController.OnDie -= ShowGameOverMenu;
+            }
         }
 
         public void TogglePause()
         {
+            if (isGameOver) return;
+
             isPausing = !isPausing;
             if (isPausing)
                 Pause();
@@ -300,8 +354,26 @@ namespace Phoenix
                 Resume();
         }
 
+        public void ShowGameOverMenu()
+        {
+            if (isGameOver) return;
+
+            isGameOver = true;
+
+            player.DisplayCursorGame();
+
+            gameOverMenu = Instantiate(gameOverMenuPrefab);
+            gameOverMenu.Init();
+            gameOverMenu.OnRestart += Restart;
+            gameOverMenu.OnMainMenu += Quit;
+
+            player.DisplayCursorMenu();
+        }
+
         public void Pause()
         {
+            if (pauseMenu == null) return;
+
             isPausing = true;
             pauseMenu.Show(true);
             Time.timeScale = 0;
@@ -311,10 +383,18 @@ namespace Phoenix
 
         public void Resume()
         {
+            if (pauseMenu == null) return;
+
             isPausing = false;
             pauseMenu.Show(false);
             Time.timeScale = 1;
             player.DisplayCursorGame();
+        }
+
+        public void Restart()
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         public void Quit()

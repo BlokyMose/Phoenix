@@ -64,6 +64,7 @@ namespace Phoenix
         protected GameObject jetGO;
         protected Vector2 moveDirection;
         protected float reduceVelocityMultipler;
+        protected bool isActive = true;
 
         #endregion
 
@@ -101,6 +102,8 @@ namespace Phoenix
         {
             brain.OnMoveInput += SetMoveDirection;
             brain.OnCursorWorldPos += RotateToCursor;
+            if (brain.TryGetComponent<HealthController>(out var healthController))
+                healthController.OnDie += Deactivate;
         }
 
         private void Init()
@@ -143,6 +146,9 @@ namespace Phoenix
         {
             brain.OnMoveInput -= SetMoveDirection;
             brain.OnCursorWorldPos -= RotateToCursor;
+            if (brain.TryGetComponent<HealthController>(out var healthController))
+                healthController.OnDie += Deactivate;
+
         }
 
         void InstantiateJet()
@@ -167,6 +173,8 @@ namespace Phoenix
 
         protected virtual void FixedUpdate()
         {
+            if (!isActive) return;
+
             Move(moveDirection);
         }
 
@@ -221,6 +229,11 @@ namespace Phoenix
         {
             if (rb.velocity.magnitude < jetPropertiesStatic.MaxVelocity)
                 rb.AddForce((jetPropertiesStatic.MoveSpeed * Time.deltaTime * moveDirection) - (rb.velocity*reduceVelocityMultipler), ForceMode2D.Impulse);
+        }
+
+        protected virtual void Deactivate()
+        {
+            isActive = false;
         }
 
     }

@@ -17,6 +17,7 @@ namespace Phoenix
         protected float speed;
         protected RectTransform rect;
         protected CanvasGroup canvasGroup;
+        protected bool isShow;
 
         public virtual void Init(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring, float speed, GameObject cursorPrefab)
         {
@@ -36,6 +37,7 @@ namespace Phoenix
 
         public void Show(bool isShow)
         {
+            this.isShow = isShow;
             canvasGroup.alpha = isShow ? 1 : 0;
         }
 
@@ -45,7 +47,7 @@ namespace Phoenix
             cursor.transform.position = newPos * rect.localScale;
         }
 
-        public void Exit(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring)
+        public virtual void Exit(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring)
         {
             onPointerPos -= OnPointerPos;
             onFiring -= OnFiring;

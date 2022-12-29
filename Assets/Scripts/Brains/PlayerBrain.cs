@@ -119,14 +119,12 @@ namespace Phoenix
         {
             cursorDisplayerGame.Show(true);
             cursorDisplayerMenu.Show(false);
-
         }
 
         public void DisplayCursorMenu()
         {
             cursorDisplayerGame.Show(false);
             cursorDisplayerMenu.Show(true);
-
         }
 
         public void ConnectToCursorDisplayer(FireController fireController)
@@ -226,6 +224,11 @@ namespace Phoenix
 
         #endregion
 
+        #region [Methods: Brain]
+
+
+
+        #endregion
 
     }
 }

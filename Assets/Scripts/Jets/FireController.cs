@@ -10,6 +10,7 @@ namespace Phoenix
 {
     public class FireController : MonoBehaviour
     {
+        #region [Vars: Properties]
 
         [SerializeField]
         JetPropertiesStatic jetProperties;
@@ -25,19 +26,24 @@ namespace Phoenix
         [SerializeField]
         BulletIconListUI bulletIconListUI;
 
+        [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!" + nameof(components)), PropertyOrder(-1)]
+        FireComponents components;
+
+        #endregion
+
+        #region [Vars: Data Handlers]
+
         float fireCooldown;
 
         int currentFireModeIndex;
         int currentFireOrigin;
         int currentBulletIndex;
         BulletProperties currentBullet => bulletProperties[currentBulletIndex];
+        bool isActive = true;
 
-        [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!" + nameof(components)), PropertyOrder(-1)]
-        FireComponents components;
+        #endregion
 
         public Action<BulletProperties> OnNextBullet;
-
-
 
         public void Init(Brain brain)
         {
@@ -48,6 +54,10 @@ namespace Phoenix
             currentFireModeIndex = 0;
             currentFireOrigin = 0;
             currentBulletIndex = 0;
+
+            if (brain.TryGetComponent<HealthController>(out var healthController))
+                healthController.OnDie += Deactivate;
+
 
             if (bulletIconListUI != null)
             {
@@ -66,6 +76,10 @@ namespace Phoenix
             brain.OnFireInput -= Fire;
             brain.OnNextFireModeInput -= NextFireMode;
             brain.OnNextBulletInput -= NextBullet;
+
+            if (brain.TryGetComponent<HealthController>(out var healthController))
+                healthController.OnDie += Deactivate;
+
 
             if (bulletIconListUI != null)
             {
@@ -104,11 +118,13 @@ namespace Phoenix
 
         public void NextFireMode()
         {
+            if (!isActive) return;
             currentFireModeIndex = (currentFireModeIndex + 1) % components.FireModes.Count;
         }
 
         public void NextBullet()
         {
+            if (!isActive) return;
             currentBulletIndex = (currentBulletIndex + 1) % bulletProperties.Count;
             OnNextBullet?.Invoke(currentBullet);
         }
@@ -118,9 +134,9 @@ namespace Phoenix
             fireCooldown -= Time.deltaTime;
         }
 
-
         void Fire()
         {
+            if (!isActive) return;
             if (fireCooldown > 0) return;
 
             fireCooldown = 1 / jetProperties.RPS;
@@ -171,6 +187,11 @@ namespace Phoenix
                     break;
 
             }
+        }
+
+        void Deactivate()
+        {
+            isActive = false;
         }
     }
 }

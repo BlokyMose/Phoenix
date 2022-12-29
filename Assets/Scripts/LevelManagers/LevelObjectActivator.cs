@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Phoenix
 {
@@ -13,9 +14,16 @@ namespace Phoenix
         bool isDeactivateSelfAtAwake = true;
 
         [SerializeField]
-        float delay = 0f;
+        float delayActivation = 0f;
+        public float DelayActivation => delayActivation;
 
-        public float Delay => delay;
+        [SerializeField]
+        float delayDeactivation = 0f;
+        public float DelayDeactivation => delayDeactivation;
+
+        [SerializeField]
+        UnityEvent onActivated;
+
 
         bool isInitialized = false;
 
@@ -38,6 +46,8 @@ namespace Phoenix
         public void Activate(bool isActive)
         {
             gameObject.SetActive(isActive);
+            if (isActive)
+                onActivated.Invoke();
         }
 
         public void NextStage()

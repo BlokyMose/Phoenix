@@ -144,6 +144,7 @@ namespace Phoenix
         bool isUsingHealthStages = true;
         HealthStage currentHealthStage => healthStages[currentHealthStageIndex];
         int currentHealthStageIndex = 0;
+        bool isDead = false;
 
         public Action<float> OnDamaged;
         public Action<float> OnRecovery;
@@ -260,6 +261,9 @@ namespace Phoenix
 
         public void Die()
         {
+            if (isDead) return;
+
+            isDead = true;
             OnDie.Invoke();
         }
 

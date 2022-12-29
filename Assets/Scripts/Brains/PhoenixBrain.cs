@@ -7,7 +7,6 @@ namespace Phoenix
 {
     public class PhoenixBrain : Brain
     {
-
         #region [Vars: Components]
 
         [SerializeField]
@@ -20,7 +19,6 @@ namespace Phoenix
         AudioSourceRandom audioSourceRandom;
 
         #endregion
-
 
         #region [Vars: Properties]
 
@@ -55,6 +53,7 @@ namespace Phoenix
 
         private void Begin()
         {
+            base.Init();
             audioSourceRandom.Play();
 
             StartCoroutine(Firing());

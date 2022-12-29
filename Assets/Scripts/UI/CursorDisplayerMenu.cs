@@ -8,6 +8,9 @@ namespace Phoenix
 {
     public class CursorDisplayerMenu : CursorDisplayer
     {
+        [SerializeField]
+        AudioSourceRandom clickAudioSource;
+
         CursorPack cursorPack;
         Image cursorImage;
 
@@ -17,6 +20,8 @@ namespace Phoenix
             var emptyGO = new GameObject("Cursor");
             base.Init(ref onPointerPos, ref onFiring, speed, emptyGO);
 
+            onFiring += PlayClickSFX;
+
             cursorImage = cursor.AddComponent<Image>();
             cursorImage.rectTransform.pivot = new Vector2(
                 cursorPack.Normal.pivot.x/cursorPack.Normal.rect.width, 
@@ -24,6 +29,19 @@ namespace Phoenix
                 );
 
             cursorImage.sprite = cursorPack.Normal;
+        }
+
+        public override void Exit(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring)
+        {
+            base.Exit(ref onPointerPos, ref onFiring);
+            onFiring -= PlayClickSFX;
+        }
+
+
+        void PlayClickSFX(bool isFiring)
+        {
+            if (isShow && isFiring)
+                clickAudioSource.Play();
         }
 
         protected override void OnFiring(bool isFiring)
