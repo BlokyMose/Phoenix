@@ -231,7 +231,11 @@ namespace Phoenix
                 rb.AddForce((jetPropertiesStatic.MoveSpeed * Time.deltaTime * moveDirection) - (rb.velocity*reduceVelocityMultipler), ForceMode2D.Impulse);
         }
 
-        protected virtual void Deactivate()
+        public virtual void Activate()
+        {
+            isActive = true;
+        }
+        public virtual void Deactivate()
         {
             isActive = false;
         }

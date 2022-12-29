@@ -137,6 +137,7 @@
     <Compile Include="Assets\Scripts\GameplayUtility\RotateByVelocity.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFlicker.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Extensions.cs" />
+    <Compile Include="Assets\Scripts\UI\DialogueCanvasController.cs" />
     <Compile Include="Assets\Settings\InputActions\PhoenixInput.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiPitchRandomizer.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Assets\Scripts\Utility\StructUtility.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JetAutoMovementSteps.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\UI\DialogueBubbleController.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_TileMouseButton.cs" />
     <Compile Include="Assets\Scripts\Elements\ElementSwitcher.cs" />
     <Compile Include="Assets\Scripts\Objects\ShieldController.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="Assets\Scripts\Hiroto\Movement.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\AsOneInput.cs" />
     <Compile Include="Assets\Scripts\Jets\JetPropertiesStatic.cs" />
+    <Compile Include="Assets\Scripts\Characters\Character.cs" />
     <Compile Include="Assets\Scripts\Jets\JetControllerAuto.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesStatic.cs" />
@@ -197,9 +200,7 @@
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\UI\DialogueCanvasController.cs" />
-    <Compile Include="Assets\Scripts\UI\DialogueBubbleController.cs" />
-    <Compile Include="Assets\Scripts\Characters\Character.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\AutoAnimatorParamSetterRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

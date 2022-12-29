@@ -1,4 +1,5 @@
 using Encore.Utility;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace Phoenix
         {
             public enum CharacterPos { Left, Right }
 
-            [SerializeField]
+            [SerializeField, LabelWidth(0.1f)]
             Character character;
             public Character Character => character;
 
-            [SerializeField]
+            [SerializeField, Multiline, LabelWidth(0.1f)]
             string text;
             public string Text => text;
 
@@ -135,6 +136,7 @@ namespace Phoenix
                 Hide();
             }
         }
+
         public void Hide()
         {
             if (!isShowing) return;

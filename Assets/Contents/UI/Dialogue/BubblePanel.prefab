@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8891945892769062821}
   - component: {fileID: 8891945892769062820}
   - component: {fileID: 8891945892769062822}
+  - component: {fileID: 5700964916138823899}
   m_Layer: 5
   m_Name: BubblePanel
   m_TagString: Untagged
@@ -87,6 +88,32 @@ MonoBehaviour:
   nameText: {fileID: 8891945893253837893}
   dialogueText: {fileID: 8891945893906482582}
   highlightImage: {fileID: 8891945894001495519}
+--- !u!114 &5700964916138823899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8891945892769062818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7a4893eaa43de429573f253a44f529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invokeIn: 0
+  delay: 0
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  parameters:
+  - paramName: int_mode
+    dataType: 1
+    numberRandomMode: 0
+    intRandomList: 
+    intRandomBetween: {x: 0, y: 4}
+    floatRandomList: []
+    floatRandomBetween: {x: 0, y: 0}
+    boolTrueChance: 0
 --- !u!1 &8891945893253837890
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,8 +357,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

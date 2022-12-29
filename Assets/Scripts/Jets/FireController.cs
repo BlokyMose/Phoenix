@@ -189,7 +189,12 @@ namespace Phoenix
             }
         }
 
-        void Deactivate()
+        public void Activate()
+        {
+            isActive = true;
+        }
+
+        public void Deactivate()
         {
             isActive = false;
         }

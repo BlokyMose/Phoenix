@@ -13,7 +13,7 @@ namespace Phoenix
     public class AnimatorParamSetter : EventTrigger
     {
         [Serializable]
-        public class AnimatorParameterEvent : GameplayUtilityClass.AnimatorParameter
+        public class AnimatorParameterEvent : GameplayUtilityClass.AnimatorParameterStatic
         {
             [SerializeField, HorizontalGroup("1"), LabelWidth(0.1f)]
             EventTriggerType triggerType;

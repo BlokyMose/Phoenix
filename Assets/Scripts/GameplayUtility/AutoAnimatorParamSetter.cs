@@ -11,7 +11,7 @@ namespace Phoenix
     public class AutoAnimatorParamSetter : AutoInvoke
     {
         [SerializeField]
-        List<GameplayUtilityClass.AnimatorParameter> parameters = new List<GameplayUtilityClass.AnimatorParameter>();
+        List<GameplayUtilityClass.AnimatorParameterStatic> parameters = new List<GameplayUtilityClass.AnimatorParameterStatic>();
 
         Animator animator;
 

@@ -119,12 +119,14 @@ namespace Phoenix
         {
             cursorDisplayerGame.Show(true);
             cursorDisplayerMenu.Show(false);
+            ActivateGameplayComponents();
         }
 
         public void DisplayCursorMenu()
         {
             cursorDisplayerGame.Show(false);
             cursorDisplayerMenu.Show(true);
+            DeactivateGameplayComponents();
         }
 
         public void ConnectToCursorDisplayer(FireController fireController)
@@ -224,9 +226,25 @@ namespace Phoenix
 
         #endregion
 
-        #region [Methods: Brain]
+        #region [Methods]
 
+        public void ActivateGameplayComponents()
+        {
+            if (TryGetComponent<FireController>(out var fireController))
+                fireController.Activate();
 
+            if (TryGetComponent<JetController>(out var jetController))
+                jetController.Activate();
+        }
+
+        public void DeactivateGameplayComponents()
+        {
+            if (TryGetComponent<FireController>(out var fireController))
+                fireController.Deactivate();
+
+            if (TryGetComponent<JetController>(out var jetController))
+                jetController.Deactivate();
+        }
 
         #endregion
 

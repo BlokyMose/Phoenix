@@ -155,6 +155,27 @@ MonoBehaviour:
   - character: {fileID: 11400000, guid: ad61979dcb037014996eff4a8168d8aa, type: 2}
     text: Kill the Phoenix dang it
     characterPos: 0
+  - character: {fileID: 11400000, guid: ad61979dcb037014996eff4a8168d8aa, type: 2}
+    text: AAAAAAA
+    characterPos: 0
+  - character: {fileID: 11400000, guid: ad61979dcb037014996eff4a8168d8aa, type: 2}
+    text: ER
+    characterPos: 0
+  onHidden:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 626058043}
+        m_TargetAssemblyTypeName: Phoenix.LevelObjectActivator, Assembly-CSharp
+        m_MethodName: NextStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   bubblesParent: {fileID: 4422967321204987176}
   characterPosLeft: {fileID: 4422967321301833787}
   characterPosRight: {fileID: 4422967320348339023}
@@ -172,13 +193,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDeactivateSelfAtAwake: 1
-  delay: 0
+  delayActivation: 0
+  delayDeactivation: 2
   onActivated:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1238560836789104260}
         m_TargetAssemblyTypeName: Phoenix.DialogueCanvasController, Assembly-CSharp
-        m_MethodName: Next
+        m_MethodName: BeginDialogue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -630,7 +652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891945892769062818, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8891945892769062819, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
       propertyPath: m_Pivot.x
@@ -736,6 +758,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8891945893906482582, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
+      propertyPath: m_text
+      value: wwwwww
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891945894000764074, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 8891945894001495516, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -743,6 +773,14 @@ PrefabInstance:
     - target: {fileID: 8891945894001495516, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891945894001495519, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7700757
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891945894001495519, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9137255
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e71b93c6c472d794099ac58066926c4e, type: 3}
