@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4908705036284689998}
   - component: {fileID: 4861833271429712464}
   - component: {fileID: 1868500924363166965}
+  - component: {fileID: 4862959295018585092}
+  - component: {fileID: 806892847313879770}
   m_Layer: 0
   m_Name: VFX_Boom
   m_TagString: Untagged
@@ -81,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc18757950cd6240a7eae615c5b6be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playProbability: 1
   audioPacks:
   - clips:
     - {fileID: 8300000, guid: e9c249c9d073d2647b12578e32521b62, type: 3}
@@ -89,6 +92,8 @@ MonoBehaviour:
     volumeRandomRange: 0
     pitch: 1
     pitchRandomRange: 0.15
+    delay: 0
+    delayRandomRange: 0
   - clips:
     - {fileID: 8300000, guid: 5efe8055aad00eb4abfc8d129b1d5050, type: 3}
     - {fileID: 8300000, guid: 4afeff9c916760d49bb9e01cb66d4126, type: 3}
@@ -98,6 +103,8 @@ MonoBehaviour:
     volumeRandomRange: 0.1
     pitch: 1
     pitchRandomRange: 0.15
+    delay: 0
+    delayRandomRange: 0
   audioClip: {fileID: 0}
   output: {fileID: -2188104902220533747, guid: 9ac9a19f77df95d4fad1506815ae6c7d, type: 2}
   mute: 0
@@ -105,7 +112,9 @@ MonoBehaviour:
   bypassListenerEffect: 0
   bypassReverbZones: 0
   playOnAwake: 1
+  invokeIn: 0
   loop: 0
+  loopPeriod: 3
   priority: 128
   volume: 0.776
   pitch: 1.39
@@ -208,6 +217,48 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4862959295018585092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908705036284689993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb040e27637abf4d8bfe45d536d8a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 2
+--- !u!114 &806892847313879770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908705036284689993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61ffdb8e8d1fbeb4780e2cc44e4e2f64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invokeIn: 0
+  delay: 0
+  onInvoke:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4862959295018585092}
+        m_TargetAssemblyTypeName: Phoenix.DestroySelf, Assembly-CSharp
+        m_MethodName: Invoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4908705036371684969
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invokeIn: 0
   delay: 0
-  unityEvent:
+  onInvoke:
     m_PersistentCalls:
       m_Calls: []
   sprites:
@@ -413,7 +464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invokeIn: 0
   delay: 0
-  unityEvent:
+  onInvoke:
     m_PersistentCalls:
       m_Calls: []
   sprites:
@@ -519,7 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invokeIn: 0
   delay: 0
-  unityEvent:
+  onInvoke:
     m_PersistentCalls:
       m_Calls: []
   sprites:

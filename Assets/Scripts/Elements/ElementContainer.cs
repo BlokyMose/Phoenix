@@ -25,7 +25,8 @@ namespace Phoenix
         {
             onSwitchElement += (newElement) => 
             { 
-                this.element = newElement; OnNewElement?.Invoke(element); 
+                this.element = newElement; 
+                OnNewElement?.Invoke(element); 
             };
         }
 

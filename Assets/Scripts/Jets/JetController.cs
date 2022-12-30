@@ -80,16 +80,13 @@ namespace Phoenix
         protected virtual void Awake()
         {
             Init();
-        }
 
-        protected virtual void OnEnable()
-        {
             var brain = GetComponent<Brain>();
             if (brain != null)
                 Init(brain);
         }
 
-        protected virtual void OnDisable()
+        protected virtual void OnDestroy()
         {
             var brain = GetComponent<Brain>();
             if (brain!=null)

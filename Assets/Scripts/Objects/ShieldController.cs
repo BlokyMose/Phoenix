@@ -3,9 +3,11 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.VFX;
+using Color = UnityEngine.Color;
 using ColorUtility = Encore.Utility.ColorUtility;
 
 namespace Phoenix
@@ -21,66 +23,64 @@ namespace Phoenix
     {
         #region [Classes]
 
-        [System.Serializable]
-        public class VFXHealthStage
+        [Serializable]
+        public class HealthStageVFX : HealthController.HealthStage
         {
+            const string COLOR = "color", MODE = "mode";
+
             [SerializeField]
-            float atHealth = 100;
-            public float AtHealth => atHealth;
+            bool isMatchingElement = true;
 
-            Color colorOriginal = new Color(1, 1, 1, 1);
-            public Color ColorOriginal
-            {
-                get => colorOriginal;
-                set { colorOriginal = value; }
-            }
+            [SerializeField]
+            VisualEffect vfx;
 
-            [HorizontalGroup("colorIdle", width: 0.05f)]
-            [SerializeField, LabelWidth(0.1f)]
-            bool overrideColorIdle = false;
-            public bool OverrideColorIdle
-            {
-                get => overrideColorIdle;
-                set { overrideColorIdle = value; }
-            }
-
-            [HorizontalGroup("colorIdle", width: 0.95f)]
-            [SerializeField, ColorUsage(true,true), EnableIf(nameof(overrideColorIdle))]
-            Color colorIdle = new Color(1, 1, 1, 1);
-            public Color ColorIdle => overrideColorIdle ? colorIdle : colorOriginal;
-
-
-            [HorizontalGroup("colorDamaged", width: 0.05f)]
-            [SerializeField, LabelWidth(0.1f)]
-            bool overrideColorDamaged = false;
-            public bool OverrideColorDamaged
-            {
-                get => overrideColorDamaged;
-                set { overrideColorDamaged = value; }
-            }
-
-            [HorizontalGroup("colorDamaged", width: 0.95f)]
-            [SerializeField, ColorUsage(true, true), EnableIf(nameof(overrideColorDamaged))]
-            Color colorDamaged = new Color(0.8f, 0.2f, 0.2f, 0.5f);
-            public Color ColorDamaged => overrideColorDamaged ? colorDamaged : colorOriginal;
+            public override Color ColorIdle => isMatchingElement && currentElement != null ? currentElement.Color : colorIdle;
+            public override Color ColorDamaged => isMatchingElement && currentElement != null ? currentElement.ColorDim : colorDamaged;
+            public override Color ColorRecovery => isMatchingElement && currentElement != null ? currentElement.ColorBright : colorRecovery;
 
             [SerializeField]
             int vfxMode = 0;
             public int VFXMode => vfxMode;
 
-            public VFXHealthStage(float atHealth, Vector4 colorOriginal, bool overrideColorIdle, Vector4 colorIdle, bool overrideColorDamaged, Vector4 colorDamaged,  int vfxMode)
+            public HealthStageVFX(float atHealth, Vector4 colorIdle, Vector4 colorDamaged, Vector4 colorRecovery, List<SpriteSet> spriteSets,  int vfxMode) 
+                : base(atHealth, colorIdle, colorDamaged, colorRecovery, spriteSets)
             {
-                this.atHealth = atHealth;
-                this.colorOriginal = colorOriginal;
-                this.overrideColorIdle = overrideColorIdle;
-                this.colorIdle = colorIdle;
-                this.overrideColorDamaged = overrideColorDamaged;
-                this.colorDamaged = colorDamaged;
                 this.vfxMode = vfxMode;
             }
+
+            public override void Init(ref Action<Element> onNewElement)
+            {
+                base.Init(ref onNewElement);
+            }
+
+            protected override void OnNewElement(Element element)
+            {
+                base.OnNewElement(element);
+                ApplyIdle();
+            }
+
+            public override void ApplyIdle()
+            {
+                base.ApplyIdle();
+                vfx.SetVector4(COLOR, ColorIdle);
+
+            }
+
+            public override void ApplyDamaged()
+            {
+                base.ApplyDamaged();
+                vfx.SetVector4(COLOR, ColorDamaged);
+                vfx.SetInt(MODE, VFXMode);
+
+            }
+
+            public override void ApplyRecovery()
+            {
+                base.ApplyRecovery();
+                vfx.SetVector4(COLOR, ColorRecovery);
+                vfx.SetInt(MODE, VFXMode);
+            }
         }
-
-
 
         #endregion
 
@@ -88,30 +88,12 @@ namespace Phoenix
 
         Transform targetFollow;
 
-        [SerializeField, HideInInspector]
-        HealthController healthController;
-
-        [SerializeField, HideInInspector]
-        ElementContainer elementContainer;
 
         [SerializeField]
         FollowMode followMode = FollowMode.Position;
 
-
-        [Header("VFX")]
-        [SerializeField]
-        VisualEffect vfx;
-
-        [SerializeField]
-        bool useElementAsColorIdle = true;
-
         [SerializeField, ListDrawerSettings(HideAddButton = true)]
-        List<VFXHealthStage> healthStages = new List<VFXHealthStage>();
-
-        [Header("SpriteRenderers")]
-        [SerializeField]
-        List<SpriteRenderer> srs = new List<SpriteRenderer>();
-
+        List<HealthStageVFX> healthStages = new();
 
         Collider2D col;
 
@@ -119,104 +101,62 @@ namespace Phoenix
 
         #region [Vars: Data Handlers]
 
-        const string COLOR = "color", MODE = "mode";
         Coroutine corDamageAnimation;
-        VFXHealthStage currentHealthStage => healthStages[currentHealthStageIndex];
+        HealthStageVFX currentHealthStage => healthStages[currentHealthStageIndex];
         int currentHealthStageIndex = 0;
 
         #endregion
 
         public Action OnDie;
 
+        private void OnDestroy()
+        {
+            Exit();
+        }
+
         public void Init(Transform targetFollow, ShieldProperties properties, List<SpriteRenderer> srs)
         {
             this.targetFollow = targetFollow;
 
-            this.srs = srs;
-
-            #region [Get/Add components]
-
             col = GetComponent<Collider2D>();
 
-            if (healthController == null)
-            {
-                healthController = GetComponent<HealthController>();
-                if (healthController == null && properties != null)
-                    healthController = gameObject.AddComponent<HealthController>();
-            }
-
-            if (elementContainer == null)
-            {
-                elementContainer = GetComponent<ElementContainer>();
-                if (elementContainer == null && properties != null)
-                    elementContainer = gameObject.AddComponent<ElementContainer>();
-            }
-
-            #endregion
-
-            #region [Setup components]
-
-            if (healthController != null)
+            if (TryGetComponent<HealthController>(out var healthController))
             {
                 healthController.Init(properties);
 
-                // Setup Health Stahes
+                // Setup Health Stages
                 if (healthStages.Count == 0)
                     AddNewHealthStageToList();
                 else
                     ArrangeHealthStagesFromHighest();
 
-                // Setup the HealthStages' colors
-                if (useElementAsColorIdle && elementContainer != null)
-                {
-                    SetStagesColorOriginalAndCannotOverrideColodIdle(elementContainer.Element.Color);
-                }
-                else
-                {
-                    SetStagesColorOriginal(vfx.GetVector4(COLOR));
-                }
-
-                vfx.SetVector4(COLOR, currentHealthStage.ColorIdle);
+                //vfx.SetVector4(COLOR, currentHealthStage.ColorIdle);
 
                 // Setup delegates
                 healthController.OnDamaged += (damage) => { OnReceiveDamage(healthController.Health); };
                 healthController.OnDie += Die;
-
             }
 
-            if (elementContainer != null)
+            if (TryGetComponent<ElementContainer>(out var elementContainer))
             {
                 elementContainer.Init(properties);
-                elementContainer.OnNewElement += OnNewElement; //TODO 
-            }
-            
-            void OnNewElement(Element element)
-            {
-                SetStagesColorOriginalAndCannotOverrideColodIdle(element.Color);
-            }
-
-            #endregion
-
-            void SetStagesColorOriginalAndCannotOverrideColodIdle(Color color)
-            {
                 foreach (var stage in healthStages)
-                {
-                    stage.ColorOriginal = color;
-                    stage.OverrideColorIdle = false;
-                }
-                SetColor(currentHealthStage.ColorIdle);
+                    stage.Init(ref elementContainer.OnNewElement);
             }
 
-            void SetStagesColorOriginal(Color color)
-            {
-                foreach (var stage in healthStages)
-                {
-                    stage.ColorOriginal = color;
-                }
-                SetColor(currentHealthStage.ColorIdle);
-            }
+            foreach (var stage in healthStages)
+                foreach (var sr in srs)
+                    stage.SpriteSets.Add(new HealthController.HealthStage.SpriteSet(sr, true));
         }
 
+        void Exit()
+        {
+            if (TryGetComponent<ElementContainer>(out var elementContainer))
+            {
+                foreach (var stage in healthStages)
+                    stage.Exit(ref elementContainer.OnNewElement);
+            }
+        }
 
         void FixedUpdate()
         {
@@ -238,7 +178,7 @@ namespace Phoenix
 
         void ArrangeHealthStagesFromHighest()
         {
-            var newList = new List<VFXHealthStage>();
+            var newList = new List<HealthStageVFX>();
             for (int i = healthStages.Count - 1; i >= 0; i--)
             {
                 var top = healthStages[0];
@@ -263,7 +203,6 @@ namespace Phoenix
             if (currentHealthStageIndex < healthStages.Count-1 && healthStages[currentHealthStageIndex+1].AtHealth >= health)
             {
                 currentHealthStageIndex++;
-                vfx.SetInt(MODE, currentHealthStage.VFXMode);
             }
 
             corDamageAnimation = this.RestartCoroutine(AnimatingDamagedColor());
@@ -271,9 +210,9 @@ namespace Phoenix
 
             IEnumerator AnimatingDamagedColor()
             {
-                SetColor(currentHealthStage.ColorDamaged);
+                currentHealthStage.ApplyDamaged();
                 yield return new WaitForSeconds(0.125f);
-                SetColor(currentHealthStage.ColorIdle);
+                currentHealthStage.ApplyIdle();
             }
         }
 
@@ -293,42 +232,40 @@ namespace Phoenix
             }
         }
 
-        void SetColor(Color color)
-        {
-            vfx.SetVector4(COLOR, color);
-            foreach (var sr in srs)
-                sr.color = color;
-        }
-
         #region [Methods: Inspector]
 
         [Button("Add Health Stage"), GUIColor("@Encore.Utility.ColorUtility.paleGreen")]
         void AddNewHealthStageToList()
         {
             var colorIdle = new Color();
-            if (vfx!=null&& vfx.HasVector4(COLOR))
-                colorIdle = vfx.GetVector4(COLOR);
+            //if (vfx!=null&& vfx.HasVector4(COLOR))
+            //    colorIdle = vfx.GetVector4(COLOR);
 
-            var maxHealth = (healthController != null) ? healthController.MaxHealth : 100f;
-            healthStages.Add(new VFXHealthStage(maxHealth, colorIdle, true, colorIdle, true, colorIdle, 0));
+            healthStages.Add(new HealthStageVFX(
+                atHealth: 100f, 
+                colorIdle: colorIdle, 
+                colorDamaged: Color.red, 
+                colorRecovery: Color.green, 
+                spriteSets: new(), 
+                vfxMode: 0));
         }
 
 
-        [Button("Add Health Component"), HideIf(nameof(healthController))]
-        void AddHealthController()
-        {
-            healthController = gameObject.GetComponent<HealthController>();
-            if (healthController == null)
-                healthController = gameObject.AddComponent<HealthController>();
-        }
+        //[Button("Add Health Component"), HideIf(nameof(healthController))]
+        //void AddHealthController()
+        //{
+        //    healthController = gameObject.GetComponent<HealthController>();
+        //    if (healthController == null)
+        //        healthController = gameObject.AddComponent<HealthController>();
+        //}
 
-        [Button("Add Element Container"), HideIf(nameof(elementContainer))]
-        void AddElementContainer()
-        {
-            elementContainer = gameObject.GetComponent<ElementContainer>();
-            if (elementContainer == null)
-                elementContainer = gameObject.AddComponent<ElementContainer>();
-        }
+        //[Button("Add Element Container"), HideIf(nameof(elementContainer))]
+        //void AddElementContainer()
+        //{
+        //    elementContainer = gameObject.GetComponent<ElementContainer>();
+        //    if (elementContainer == null)
+        //        elementContainer = gameObject.AddComponent<ElementContainer>();
+        //}
 
         #endregion
 

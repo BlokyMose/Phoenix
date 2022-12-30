@@ -39,12 +39,16 @@ namespace Phoenix
 
             if (healthBarrierUI != null)
             {
-                healthBarrierUI.Init(this);
+                healthBarrierUI.Init(this); 
             }
         }
 
+        private void OnDestroy()
+        {
+            Exit();
+        }
 
-        void OnDisable()
+        void Exit()
         {
             if (healthController != null)
             {

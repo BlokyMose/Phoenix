@@ -75,10 +75,14 @@ namespace Phoenix
         Vector2 colliderOffset = new Vector2(0, 0.5f);
         public Vector2 ColliderOffset => colliderOffset;
 
-        [Header("Icon")]
+        [Header("UI")]
         [SerializeField]
         Sprite icon;
         public Sprite Icon => icon;
+
+        [SerializeField]
+        DamageCanvasController damageCanvasController;
+        public DamageCanvasController DamageCanvasController => damageCanvasController;
 
         void AssignDefaultBulletPrefab()
         {

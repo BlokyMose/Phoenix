@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Phoenix
@@ -68,7 +69,7 @@ namespace Phoenix
             bulletComponents.Init(bulletProperties, ref OnDie);
 
             var healthController = GetComponent<HealthController>();
-            healthController.Init(1);
+            healthController.Init(0);
             healthController.OnDie += DestroySelf; 
 
             #region [Setup RB2D]
@@ -174,8 +175,18 @@ namespace Phoenix
 
             var otherElementContainer = otherHealthController.GetComponent<ElementContainer>();
             var otherElement = otherElementContainer != null ? otherElementContainer.Element : null;
-            otherHealthController.ReceiveDamage(GetProcessedDamage(bulletProperties.Damage, otherElement));
+            var damage = GetProcessedDamage(bulletProperties.Damage, otherElement);
+            var otherHealth = otherHealthController.ReceiveDamage(damage);
+            if (otherHealth > 0)
+                CreateDamageCanvas(damage, bulletProperties.Element.Color);
+        }
 
+        void CreateDamageCanvas(float damage, Color color)
+        {
+            if (bulletProperties.DamageCanvasController == null) return;
+
+            var damageCanvas = Instantiate(bulletProperties.DamageCanvasController, transform.position, Quaternion.identity, null);
+            damageCanvas.Init(damage, color);
         }
 
     }

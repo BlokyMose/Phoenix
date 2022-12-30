@@ -213,7 +213,7 @@ namespace Phoenix
 
         protected Coroutine corSpawning;
 
-        void OnEnable()
+        void Awake()
         {
             Init();
         }
@@ -223,10 +223,12 @@ namespace Phoenix
             StartSpawning();
         }
 
-        protected virtual void StartSpawning()
+        public virtual void StartSpawning()
         {
-            corSpawning = this.RestartCoroutine(Update());
-            IEnumerator Update()
+            corSpawning = this.RestartCoroutine(Spawning());
+        }
+
+        protected virtual IEnumerator Spawning()
             {
                 var maxTime = 0f;
                 
@@ -260,7 +262,6 @@ namespace Phoenix
                 }
 
             }
-        }
 
         protected virtual void InstantiateWavePrefab(WaveProperties wave, Transform transform)
         {

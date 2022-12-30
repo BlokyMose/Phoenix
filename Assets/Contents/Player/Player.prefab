@@ -5651,7 +5651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb376d8227eb9b54aa0b9be98b7e09bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 50
   healthStages:
   - atHealth: 100
     colorIdle: {r: 1, g: 1, b: 1, a: 1}

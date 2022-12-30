@@ -38,6 +38,14 @@ namespace Phoenix
         Color color = Color.white;
         public Color Color => color;
 
+        [SerializeField, ColorUsage(true, true)]
+        Color colorDim = Color.white;
+        public Color ColorDim => colorDim;
+
+        [SerializeField, ColorUsage(true, true)]
+        Color colorBright = Color.white;
+        public Color ColorBright => colorBright;
+
         [SerializeField, ListDrawerSettings(Expanded = true)]
         List<Rule> rules = new List<Rule>();
         public List<Rule> Rules => rules;

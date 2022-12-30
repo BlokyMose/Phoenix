@@ -15,14 +15,14 @@ namespace Phoenix
         float delay = 0;
 
         [SerializeField]
-        UnityEvent unityEvent;
+        UnityEvent onInvoke;
 
 
         protected virtual void Awake()
         {
             if (invokeIn == UnityInitialMethod.Awake)
                 Invoke();
-        }
+        } 
 
         protected virtual void Start()
         {
@@ -45,7 +45,7 @@ namespace Phoenix
         protected virtual IEnumerator Invoking()
         {
             yield return new WaitForSeconds(delay);
-            unityEvent.Invoke();
+            onInvoke.Invoke();
         }
     }
 }

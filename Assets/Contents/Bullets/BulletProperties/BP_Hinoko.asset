@@ -25,3 +25,4 @@ MonoBehaviour:
   colliderSize: {x: 0.05, y: 0.5}
   colliderOffset: {x: 0, y: 0.5}
   icon: {fileID: 21300000, guid: a152a5e2aee69b145b6e7f4b3638c021, type: 3}
+  damageCanvasController: {fileID: 455179471, guid: a82b8e94831ac7642a1be046b4cb31bf, type: 3}

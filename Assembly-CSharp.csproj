@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Hiroto\ziguzagu.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
     <Compile Include="Assets\Scripts\Brains\PlayerBrain.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\AutoAnimatorParamSetterRandom.cs" />
     <Compile Include="Assets\Scripts\Hiroto\EaseValue.cs" />
     <Compile Include="Assets\Scripts\Jets\JetProperties.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementBoomerang.cs" />
@@ -200,7 +201,8 @@
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\GameplayUtility\AutoAnimatorParamSetterRandom.cs" />
+    <Compile Include="Assets\Scripts\UI\MinimapController.cs" />
+    <Compile Include="Assets\Scripts\UI\DamageCanvasController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

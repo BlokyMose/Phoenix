@@ -16,9 +16,13 @@ MonoBehaviour:
   bulletMovement: {fileID: 11400000, guid: 99288b97c05646a4a9de62b4597766ff, type: 2}
   element: {fileID: 11400000, guid: 7b76e525b318af74c88ca56543ac4144, type: 2}
   damage: 10
+  collisionMode: 0
+  lifeCount: 1
   lifeDuration: 4
   speed: 750
   pushForce: 1
   matchBulletPrefabCollider: 1
   colliderSize: {x: 1, y: 1}
   colliderOffset: {x: 0, y: 0.5}
+  icon: {fileID: 0}
+  damageCanvasController: {fileID: 455179471, guid: a82b8e94831ac7642a1be046b4cb31bf, type: 3}

@@ -34,16 +34,13 @@ namespace Phoenix
             if (!foundSameElement)
                 currentElementIndex = -1;
 
-        }
-
-        private void OnEnable()
-        {
             var brain = GetComponent<Brain>();
             if (brain != null)
                 Init(brain);
+
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             var brain = GetComponent<Brain>();
             if (brain != null)
@@ -58,7 +55,6 @@ namespace Phoenix
 
         public void Init(Brain brain)
         {
-
             OnElementSwitched?.Invoke(elements[currentElementIndex]);
         }
 

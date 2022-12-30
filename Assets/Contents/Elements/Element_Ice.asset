@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: Ice
   color: {r: 0, g: 1, b: 0.93225074, a: 1}
+  colorDim: {r: 0, g: 0.59599996, b: 0.55626667, a: 1}
+  colorBright: {r: 0.5680001, g: 2, b: 1.9045334, a: 1}
   rules:
   - element: {fileID: 11400000, guid: 47a3d76f983b4e940a4c5d59daad01f2, type: 2}
     damageMultiplication: 2

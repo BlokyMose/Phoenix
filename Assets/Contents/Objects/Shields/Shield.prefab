@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3819339464879142343}
   - component: {fileID: 2286367386409076923}
   m_Layer: 6
-  m_Name: VFX_1
+  m_Name: VFX_BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 8924010724555618014}
   - component: {fileID: 8924010724555618015}
   m_Layer: 6
-  m_Name: VFX
+  m_Name: VFX_Cracks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +225,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!1 &8924010724609777720
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,10 +236,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8924010724609777702}
   - component: {fileID: 8924010724609777703}
-  - component: {fileID: 8924010724609777700}
-  - component: {fileID: 8924010724609777699}
   - component: {fileID: 8924010724609777698}
   - component: {fileID: 8924010724609777697}
+  - component: {fileID: 8924010724609777700}
+  - component: {fileID: 8924010724609777699}
   - component: {fileID: 8068946203950466217}
   m_Layer: 6
   m_Name: Shield
@@ -317,55 +317,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8924010724609777700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8924010724609777720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5290d88843668e40aefa751cc58b442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthController: {fileID: 8924010724609777699}
-  elementContainer: {fileID: 0}
-  followMode: 7
-  vfx: {fileID: 8924010724555618014}
-  useElementAsColorIdle: 1
-  healthStages:
-  - atHealth: 100
-    overrideColorIdle: 1
-    colorIdle: {r: 0.69109946, g: 2, b: 2, a: 1}
-    overrideColorDamaged: 1
-    colorDamaged: {r: 0.7490196, g: 0.25882354, b: 0.3057116, a: 0.69411767}
-    vfxMode: 0
-  - atHealth: 50
-    overrideColorIdle: 1
-    colorIdle: {r: 1.7623036, g: 1.0762786, b: 0.61819035, a: 0.69411767}
-    overrideColorDamaged: 1
-    colorDamaged: {r: 2, g: 0.7037848, b: 0.69109946, a: 1}
-    vfxMode: 0
-  srs: []
---- !u!114 &8924010724609777699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8924010724609777720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb376d8227eb9b54aa0b9be98b7e09bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthStages: []
-  healthBarUI: {fileID: 0}
-  onDieAction:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8924010724609777698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +346,54 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7b76e525b318af74c88ca56543ac4144, type: 2}
   - {fileID: 11400000, guid: 47a3d76f983b4e940a4c5d59daad01f2, type: 2}
   - {fileID: 11400000, guid: 1af67dd9530c1a34b93a2b55eec488a7, type: 2}
+--- !u!114 &8924010724609777700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924010724609777720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5290d88843668e40aefa751cc58b442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followMode: 7
+  healthStages:
+  - atHealth: 100
+    colorIdle: {r: 1, g: 1, b: 1, a: 1}
+    colorDamaged: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 0.69411767}
+    colorRecovery: {r: 0.6367924, g: 1, b: 0.7051609, a: 1}
+    spriteSets: []
+    isMatchingElement: 1
+    vfx: {fileID: 8924010724555618014}
+    vfxMode: 0
+  - atHealth: 50
+    colorIdle: {r: 1, g: 1, b: 1, a: 0.69411767}
+    colorDamaged: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 1}
+    colorRecovery: {r: 0.4575472, g: 1, b: 0.519657, a: 1}
+    spriteSets: []
+    isMatchingElement: 1
+    vfx: {fileID: 8924010724555618014}
+    vfxMode: 1
+--- !u!114 &8924010724609777699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924010724609777720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb376d8227eb9b54aa0b9be98b7e09bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  healthStages: []
+  healthBarUI: {fileID: 0}
+  onDieAction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!60 &8068946203950466217
 PolygonCollider2D:
   m_ObjectHideFlags: 0

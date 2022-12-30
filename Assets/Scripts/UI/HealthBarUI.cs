@@ -31,6 +31,13 @@ namespace Phoenix
             healthController.OnRecovery += ReceiveRecovery;
         }
 
+        public void Exit(HealthController healthController)
+        {
+            GetHealth -= () => { return healthController.Health; };
+            healthController.OnDamaged -= ReceiveDamage;
+            healthController.OnRecovery -= ReceiveRecovery;
+        }
+
         public void Init(RecoveryController recoveryController)
         {
             recoveryController.OnRecovering += FillUnit;

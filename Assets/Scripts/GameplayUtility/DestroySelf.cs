@@ -16,12 +16,7 @@ namespace Phoenix
 
         public void Invoke()
         {
-            StartCoroutine(Delay());
-            IEnumerator Delay()
-            {
-                yield return new WaitForSeconds(delay);
-                Destroy(gameObject);
-            }
+            Destroy(gameObject, delay);
         }
     }
 }

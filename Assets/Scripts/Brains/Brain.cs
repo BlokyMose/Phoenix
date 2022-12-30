@@ -39,7 +39,7 @@ namespace Phoenix
             Init();
         }
 
-        protected virtual void OnDisable()
+        protected virtual void OnDestroy()
         {
             Exit();
         }

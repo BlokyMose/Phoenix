@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementName: Leaf
   color: {r: 0, g: 1, b: 0.17519307, a: 1}
+  colorDim: {r: 0, g: 0.504, b: 0.08894114, a: 1}
+  colorBright: {r: 0.454, g: 2, b: 0.7268234, a: 1}
   rules:
   - element: {fileID: 11400000, guid: 47a3d76f983b4e940a4c5d59daad01f2, type: 2}
     damageMultiplication: 1

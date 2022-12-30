@@ -30,9 +30,9 @@ namespace Phoenix
         public InitialParameters InitialParams => initialParameters;
         float time;
         object cachedData;
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
             movement.ModifyJetControllerAuto(this, out cachedData);
             initialParameters = new InitialParameters(transform.localEulerAngles, transform.position);
         }

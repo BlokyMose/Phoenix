@@ -78,10 +78,7 @@ namespace Phoenix
         int currentWaveIndex = 0;
         int currentSequence = 0;
 
-        protected override void StartSpawning()
-        {
-            corSpawning = this.RestartCoroutine(Update());
-            IEnumerator Update()
+        protected override IEnumerator Spawning()
             {
                 List<SpawnerAndDataRandom> spawnerAndDataList = new();
                 foreach (var spawner in spawners)
@@ -199,7 +196,6 @@ namespace Phoenix
                     return new Tuple<float, float>(startTime, endTime);
                 }
             }
-        }
 
         protected override void InstantiateWavePrefab(WaveProperties wave, Transform transform)
         {
