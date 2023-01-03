@@ -163,12 +163,13 @@ namespace Phoenix
             public virtual Color ColorRecovery => colorRecovery;
 
             [SerializeField]
-            protected List<SpriteSet> spriteSets = new List<SpriteSet>();
+            protected List<SpriteSet> spriteSets = new();
             public List<SpriteSet> SpriteSets => spriteSets;
 
             #endregion
 
             protected Element currentElement;
+            protected const float DELAY= 0.125f;
 
             public HealthStage(float atHealth, Color colorIdle, Color colorDamaged, Color colorRecovery, List<SpriteSet> spriteSets)
             {
@@ -201,6 +202,20 @@ namespace Phoenix
             protected virtual void OnNewElement(Element element)
             {
                 currentElement = element;
+            }
+
+            public virtual IEnumerator PlayDamagedThenIdle(float delay = DELAY)
+            {
+                ApplyDamaged();
+                yield return new WaitForSeconds(delay);
+                ApplyIdle();
+            }
+
+            public virtual IEnumerator PlayRecoverThenIdle(float delay = DELAY)
+            {
+                ApplyRecovery();
+                yield return new WaitForSeconds(delay);
+                ApplyIdle();
             }
 
             public virtual void ApplyIdle()
@@ -294,6 +309,9 @@ namespace Phoenix
             if (isUsingHealthStages && TryGetComponent<ElementContainer>(out var elementContainer))
                 foreach (var stage in healthStages)
                     stage.Init(ref elementContainer.OnNewElement);
+
+            if (TryGetComponent<CameraFXController>(out var cameraFX))
+                cameraFX.Init(this);
         }
 
         void Exit()
@@ -306,7 +324,13 @@ namespace Phoenix
             if (isUsingHealthStages && TryGetComponent<ElementContainer>(out var elementContainer))
                 foreach (var stage in healthStages)
                     stage.Exit(ref elementContainer.OnNewElement);
+
+            if (TryGetComponent<CameraFXController>(out var cameraFX))
+                cameraFX.Exit(this);
+
         }
+
+
 
 
         Coroutine corAnimatingHealth;
@@ -333,18 +357,9 @@ namespace Phoenix
             if (isUsingHealthStages)
             {
                 if (currentHealthStageIndex < healthStages.Count - 1 && healthStages[currentHealthStageIndex + 1].AtHealth >= health)
-                {
                     currentHealthStageIndex++;
-                    currentHealthStage.ApplyIdle();
-                }
 
-                corAnimatingHealth = this.RestartCoroutine(AnimatingDamaged());
-                IEnumerator AnimatingDamaged()
-                {
-                    currentHealthStage.ApplyDamaged();
-                    yield return new WaitForSeconds(0.125f);
-                    currentHealthStage.ApplyIdle();
-                }
+                corAnimatingHealth = this.RestartCoroutine(currentHealthStage.PlayDamagedThenIdle());
             }
 
             if (health <= 0)
@@ -363,23 +378,15 @@ namespace Phoenix
 
             if (isUsingHealthStages)
             {
-                if (currentHealthStageIndex > 0 && healthStages[currentHealthStageIndex - 1].AtHealth < health)
-                {
+                if (currentHealthStageIndex > 0 && currentHealthStage.AtHealth < health)
                     currentHealthStageIndex--;
-                    currentHealthStage.ApplyIdle();
-                }
 
-                corAnimatingHealth = this.RestartCoroutine(AnimatingDamaged());
-                IEnumerator AnimatingDamaged()
-                {
-                    currentHealthStage.ApplyRecovery();
-                    yield return new WaitForSeconds(0.125f);
-                    currentHealthStage.ApplyIdle();
-                }
+                corAnimatingHealth = this.RestartCoroutine(currentHealthStage.PlayRecoverThenIdle());
             }
 
             if (health > maxHealth)
                 health = maxHealth;
+
         }
 
         public void Die()

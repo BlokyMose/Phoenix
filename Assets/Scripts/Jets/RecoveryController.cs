@@ -17,31 +17,47 @@ namespace Phoenix
         HealthController healthController;
         public Action OnStartRecovering;
         /// <summary>(time, cooldown)</summary>
-        public Action<float, float> OnRecovering;
+        public Action<float, float, float> OnRecovering;
         public Action OnRecovered;
 
-        void Start()
+        void Awake()
         {
             Init();
         }
 
-        public void Init()
+        private void OnDestroy()
         {
-            healthController = GetComponent<HealthController>();
-            if (healthController != null)
+            Exit();
+        }
+
+        void Init()
+        {
+            if (TryGetComponent(out healthController))
             {
-                healthController.OnDamaged += (damage) =>
-                {
-                    if (damage > 0)
-                    {
-                        StartRecovering();
-                    }
-                };
+                healthController.OnDamaged += OnDamaged;
 
                 if (healthController.HealthBarUI!=null)
                     healthController.HealthBarUI.Init(this);
             }
         }
+
+        void Exit()
+        {
+            if (TryGetComponent(out healthController))
+            {
+                healthController.OnDamaged -= OnDamaged;
+
+                if (healthController.HealthBarUI != null)
+                    healthController.HealthBarUI.Exit(this);
+            }
+        }
+
+        void OnDamaged(float damage)
+        {
+            if (damage > 0)
+                StartRecovering();
+        }
+
 
         void StartRecovering()
         {
@@ -53,15 +69,19 @@ namespace Phoenix
             corDelayingRecovery = StartCoroutine(Recovering());
             IEnumerator Recovering()
             {
+                var _recoverHealth = healthController.Health + recoverHealth > healthController.MaxHealth
+                    ? healthController.Health + recoverHealth - healthController.MaxHealth
+                    : recoverHealth;
+
                 var time = 0f;
                 while (time < recoveryCooldown)
                 {
                     time += Time.deltaTime;
-                    OnRecovering?.Invoke(time,recoveryCooldown);
+                    OnRecovering?.Invoke(_recoverHealth, time,recoveryCooldown);
                     yield return null;
                 }
 
-                Recover(recoverHealth);
+                Recover(_recoverHealth);
             }
         }
 
@@ -78,9 +98,7 @@ namespace Phoenix
         void TryStartRecovering()
         {
             if(healthController.Health < healthController.MaxHealth)
-            {
                 StartRecovering();
-            }
         }
     }
 }

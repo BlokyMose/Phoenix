@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\GameplayUtility\InstantiateGO.cs" />
     <Compile Include="Assets\Scripts\Hiroto\BuletPointManager.cs" />
     <Compile Include="Assets\Scripts\Objects\ShieldProperties.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\CameraShaker.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Default.cs" />
     <Compile Include="Assets\Scripts\Utility\BoxCollider2DUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_CharacterController.cs" />
@@ -96,10 +97,12 @@
     <Compile Include="Assets\Scripts\GameplayUtility\AutoSwitchSprite.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoopScript.cs" />
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
+    <Compile Include="Assets\Scripts\UI\MinimapController.cs" />
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
     <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverMenu.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
+    <Compile Include="Assets\Scripts\UI\DamageCanvasController.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovement.cs" />
     <Compile Include="Assets\Scripts\Jets\FireController.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AutoInvoke.cs" />
@@ -201,8 +204,8 @@
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\UI\MinimapController.cs" />
-    <Compile Include="Assets\Scripts\UI\DamageCanvasController.cs" />
+    <Compile Include="Assets\Scripts\CameraFX\CameraFXController.cs" />
+    <Compile Include="Assets\Scripts\CameraFX\CameraShakeProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

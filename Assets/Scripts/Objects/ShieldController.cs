@@ -63,6 +63,7 @@ namespace Phoenix
             {
                 base.ApplyIdle();
                 vfx.SetVector4(COLOR, ColorIdle);
+                vfx.SetInt(MODE, VFXMode);
 
             }
 
@@ -70,15 +71,12 @@ namespace Phoenix
             {
                 base.ApplyDamaged();
                 vfx.SetVector4(COLOR, ColorDamaged);
-                vfx.SetInt(MODE, VFXMode);
-
             }
 
             public override void ApplyRecovery()
-            {
+            {   
                 base.ApplyRecovery();
                 vfx.SetVector4(COLOR, ColorRecovery);
-                vfx.SetInt(MODE, VFXMode);
             }
         }
 
@@ -201,19 +199,9 @@ namespace Phoenix
         public void OnReceiveDamage(float health)
         {
             if (currentHealthStageIndex < healthStages.Count-1 && healthStages[currentHealthStageIndex+1].AtHealth >= health)
-            {
                 currentHealthStageIndex++;
-            }
 
-            corDamageAnimation = this.RestartCoroutine(AnimatingDamagedColor());
-
-
-            IEnumerator AnimatingDamagedColor()
-            {
-                currentHealthStage.ApplyDamaged();
-                yield return new WaitForSeconds(0.125f);
-                currentHealthStage.ApplyIdle();
-            }
+            corDamageAnimation = this.RestartCoroutine(currentHealthStage.PlayDamagedThenIdle());
         }
 
         public void Die()

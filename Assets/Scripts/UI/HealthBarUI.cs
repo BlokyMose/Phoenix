@@ -43,6 +43,11 @@ namespace Phoenix
             recoveryController.OnRecovering += FillUnit;
         }
 
+        public void Exit(RecoveryController recoveryController)
+        {
+            recoveryController.OnRecovering -= FillUnit;
+        }
+
         public void Init(HealthBarrierController barrierController)
         {
             GetHealth += () => barrierController.Health;
@@ -81,6 +86,7 @@ namespace Phoenix
         public void ReceiveRecovery(float recovery)
         {
             int barCount = (int)(recovery / hpPerBar);
+
             for (int i = 0; i < barCount; i++)
                 FullOneFillingUnit();
         }
@@ -149,14 +155,19 @@ namespace Phoenix
             }
         }
 
-        void FillUnit(float time, float duration)
+        void FillUnit(float recovery, float time, float duration)
         {
+            int barCount = (int)(recovery / hpPerBar);
+
             for (int i = 0; i < healthBarUnits.Count; i++)
             {
                 if (healthBarUnits[i].Status == HealthBarUIUnit.FillStatus.Empty || healthBarUnits[i].Status == HealthBarUIUnit.FillStatus.Filling)
                 {
                     healthBarUnits[i].Fill(time,duration);
-                    break;
+                    
+                    barCount--;
+                    if (barCount <= 0)
+                        break;
                 }
 
             }

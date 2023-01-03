@@ -5456,6 +5456,7 @@ GameObject:
   - component: {fileID: 987975872}
   - component: {fileID: 1336316366}
   - component: {fileID: 1336316374}
+  - component: {fileID: 193317359}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -5653,16 +5654,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   healthStages:
-  - atHealth: 100
+  - atHealth: 50
     colorIdle: {r: 1, g: 1, b: 1, a: 1}
     colorDamaged: {r: 1, g: 0.504717, b: 0.504717, a: 1}
+    colorRecovery: {r: 0.4309445, g: 0.8584906, b: 0.41709685, a: 1}
     spriteSets:
     - sr: {fileID: 149123078}
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 0fef20582f160994680e9a3222bbcb05, type: 3}
+      isMatchingElement: 0
       overrideColorIdle: 0
       colorIdle: {r: 0, g: 0, b: 0, a: 0}
       overrideColorDamaged: 0
       colorDamaged: {r: 0, g: 0, b: 0, a: 0}
+      overrideColorRecovery: 0
+      colorRecovery: {r: 0, g: 0, b: 0, a: 0}
+  - atHealth: 30
+    colorIdle: {r: 0.8867924, g: 0.6734603, b: 0.6734603, a: 1}
+    colorDamaged: {r: 1, g: 0.504717, b: 0.504717, a: 1}
+    colorRecovery: {r: 0.4309445, g: 0.8584906, b: 0.41709685, a: 1}
+    spriteSets:
+    - sr: {fileID: 149123078}
+      sprite: {fileID: 21300000, guid: a7c9bbd4ca2157641aa0eb82756e9a14, type: 3}
+      isMatchingElement: 0
+      overrideColorIdle: 0
+      colorIdle: {r: 0, g: 0, b: 0, a: 0}
+      overrideColorDamaged: 0
+      colorDamaged: {r: 0, g: 0, b: 0, a: 0}
+      overrideColorRecovery: 0
+      colorRecovery: {r: 0, g: 0, b: 0, a: 0}
+  - atHealth: 10
+    colorIdle: {r: 0.7830189, g: 0.4321378, b: 0.4321378, a: 1}
+    colorDamaged: {r: 1, g: 0.504717, b: 0.504717, a: 1}
+    colorRecovery: {r: 0.4309445, g: 0.8584906, b: 0.41709685, a: 1}
+    spriteSets:
+    - sr: {fileID: 149123078}
+      sprite: {fileID: 21300000, guid: 37519c669607e6e4693fc55aa2ed27e3, type: 3}
+      isMatchingElement: 0
+      overrideColorIdle: 0
+      colorIdle: {r: 0, g: 0, b: 0, a: 0}
+      overrideColorDamaged: 0
+      colorDamaged: {r: 0, g: 0, b: 0, a: 0}
+      overrideColorRecovery: 0
+      colorRecovery: {r: 0, g: 0, b: 0, a: 0}
   healthBarUI: {fileID: 0}
   onDieAction:
     m_PersistentCalls:
@@ -5679,8 +5712,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d949a3c002028ed4e9e0360cf910a47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryCooldown: 15
-  recoverHealth: 50
+  recoveryCooldown: 10
+  recoverHealth: 10
 --- !u!114 &1336316374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5693,5 +5726,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ffeb98aa32e794f9e3e8713fbf1964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 10
   healthBarrierUI: {fileID: 0}
+--- !u!114 &193317359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682275774977892730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fc5e04ba994b246ba8091d96fd4bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camShakeDamaged: {fileID: 11400000, guid: af9d6f8bd05ca154abaa413f7c52c684, type: 2}
+  volumeDamaged: {fileID: 11400000, guid: 33b7e52959382854398ef5cd24f44265, type: 2}
+  layer:
+    serializedVersion: 2
+    m_Bits: 128
+  volumeInDuration: 0.25
+  volumeOutDuration: 0.75
+  volumeWeight: 0.3
