@@ -31,11 +31,13 @@ namespace Phoenix
         {
             health = maxHealth;
 
-            healthController = GetComponent<HealthController>();
-            if (healthController != null)
+            if (TryGetComponent<HealthController>(out healthController))
             {
                 healthController.OnDepleteBarrier += DepleteHealth;
             }
+
+            if (TryGetComponent<CameraFXController>(out var cameraFX))
+                cameraFX.Init(this);
 
             if (healthBarrierUI != null)
             {
@@ -54,6 +56,10 @@ namespace Phoenix
             {
                 healthController.OnDepleteBarrier -= DepleteHealth;
             }
+
+            if (TryGetComponent<CameraFXController>(out var cameraFX))
+                cameraFX.Exit(this);
+
         }
 
         float DepleteHealth(float damage)

@@ -161,6 +161,9 @@ namespace Phoenix
 
         [Header("UI")]
         [SerializeField]
+        LoadingCanvasController loadingCanvasPrefab;
+
+        [SerializeField]
         PauseMenu pauseMenuPrefab;
         PauseMenu pauseMenu;
 
@@ -193,6 +196,7 @@ namespace Phoenix
         int currentStageIndex;
         bool isPausing = false;
         bool isGameOver = false;
+        bool isLoading = false;
 
         #endregion
 
@@ -271,14 +275,16 @@ namespace Phoenix
 
             #region [Pause Menu]
 
-            pauseMenu = Instantiate(pauseMenuPrefab);
-            pauseMenu.Init();
-            pauseMenu.OnResume += Resume;
-            pauseMenu.OnRestart += Restart;
-            pauseMenu.OnQuit += Quit;
+            if (pauseMenuPrefab != null)
+            {
+                pauseMenu = Instantiate(pauseMenuPrefab);
+                pauseMenu.Init();
+                pauseMenu.OnResume += Resume;
+                pauseMenu.OnRestart += Restart;
+                pauseMenu.OnQuit += Quit;
+            }
 
             #endregion
-
 
             #region [Dialogue Canvas]
 
@@ -290,6 +296,13 @@ namespace Phoenix
 
             #endregion
 
+            #region [Exit Loading Canvas]
+
+            var loadingCanvas = FindObjectOfType<LoadingCanvasController>();
+            if (loadingCanvas != null)
+                loadingCanvas.Exit();
+
+            #endregion
 
             StartLevel();
 
@@ -325,9 +338,12 @@ namespace Phoenix
 
         public virtual void Exit()
         {
-            pauseMenu.OnResume -= Resume;
-            pauseMenu.OnRestart -= Restart;
-            pauseMenu.OnQuit -= Quit;
+            if (pauseMenu != null)
+            {
+                pauseMenu.OnResume -= Resume;
+                pauseMenu.OnRestart -= Restart;
+                pauseMenu.OnQuit -= Quit;
+            }
 
             if (gameOverMenu != null)
             {
@@ -393,14 +409,30 @@ namespace Phoenix
 
         public void Restart()
         {
-            Time.timeScale = 1;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            LoadScene(SceneManager.GetActiveScene().name);
         }
 
         public void Quit()
         {
+            LoadScene(mainMenuSceneName);
+        }
+
+        public void LoadScene(Object scene)
+        {
+            if (SceneManager.GetSceneByName(scene.name) != null)
+                LoadScene(scene.name);
+            else
+                Debug.Log(nameof(scene.name) + " is not a scene",this);
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            if (isLoading) return;
+
+            isLoading = true;
             Time.timeScale = 1;
-            SceneManager.LoadScene(mainMenuSceneName);
+            var loadingCanvas = Instantiate(loadingCanvasPrefab, null);
+            loadingCanvas.Init(() => { SceneManager.LoadScene(sceneName); });
         }
     }
 }

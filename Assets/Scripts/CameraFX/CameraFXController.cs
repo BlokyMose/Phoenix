@@ -14,19 +14,16 @@ namespace Phoenix
         CameraShakeProperties camShakeDamaged;
 
         [SerializeField]
-        VolumeProfile volumeDamaged;
+        VolumeProperties volumeDamaged;
+
+        [SerializeField]
+        VolumeProperties volumeDamagedBarrier;
 
         [SerializeField]
         LayerMask layer = 7;
 
-        [SerializeField]
-        float volumeInDuration = 0.25f;
-
-        [SerializeField]
-        float volumeOutDuration = 0.75f;
-
-        [SerializeField]
-        float volumeWeight = 0.25f;
+        [SerializeField, Tooltip("damage value to match the volume's max weight")]
+        float maxDamage = 30f;
 
         GameObject go;
         CinemachineImpulseSource impulse;
@@ -40,12 +37,22 @@ namespace Phoenix
 
         public void Init(HealthController healthController)
         {
-            healthController.OnDamaged += (damage) => DamageFX();
+            healthController.OnDamaged += DamageFX;
         }
 
         public void Exit(HealthController healthController)
         {
-            healthController.OnDamaged -= (damage) => DamageFX();
+            healthController.OnDamaged -= DamageFX;
+        }
+
+        public void Init(HealthBarrierController healthBarrier)
+        {
+            healthBarrier.OnDamaged += DamageBarrierFX;
+        }
+
+        public void Exit(HealthBarrierController healthBarrier)
+        {
+            healthBarrier.OnDamaged -= DamageBarrierFX;
         }
 
         public void Init()
@@ -60,11 +67,18 @@ namespace Phoenix
             volume.isGlobal = true;
         }
 
-        [Button]
-        public void DamageFX()
+        public void DamageFX(float damage)
         {
-            Shake(camShakeDamaged, 0f);
-            corVolume ??= StartCoroutine(ApplyVolume(volumeDamaged, volumeInDuration, volumeOutDuration, volumeWeight));
+            var weight = damage / maxDamage;
+            Shake(camShakeDamaged, weight); ;
+            corVolume ??= StartCoroutine(ApplyVolume(volumeDamaged, weight));
+        }
+
+        public void DamageBarrierFX(float damage)
+        {
+            var weight = damage / maxDamage;
+            Shake(camShakeDamaged, weight); ;
+            corVolume ??= StartCoroutine(ApplyVolume(volumeDamagedBarrier, weight));
         }
 
         public void Shake(CameraShakeProperties properties, float strength = 0)
@@ -97,10 +111,18 @@ namespace Phoenix
             impulse.GenerateImpulse(forceRandom);
         }
 
+        IEnumerator ApplyVolume(VolumeProperties properties, float weight)
+        {
+            yield return ApplyVolume(properties.Volume, properties.InDuration, properties.OutDuration, weight);
+        }
+
         IEnumerator ApplyVolume(VolumeProfile profile, float inDuration, float outDuration, float weight)
         {
             volume.profile = profile;
             volume.weight = 0f;
+
+            if (weight > 1f) weight = 1f;
+            else if (weight < 0f) weight = 0f;
 
             var time = 0f;
             while (time < inDuration)

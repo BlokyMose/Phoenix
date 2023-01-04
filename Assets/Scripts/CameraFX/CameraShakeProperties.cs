@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Phoenix
 {
     [InlineEditor]
-    [CreateAssetMenu(menuName ="SO/Camera Shake Properties")]
+    [CreateAssetMenu(menuName ="SO/Camera FX/Camera Shake Properties")]
     public class CameraShakeProperties : ScriptableObject
     {
         [SerializeField]

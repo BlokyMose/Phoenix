@@ -115,18 +115,20 @@ namespace Phoenix
             base.Exit();
         }
 
-        public void DisplayCursorGame()
+        public void DisplayCursorGame(bool activateGameplayComponents = true)
         {
             cursorDisplayerGame.Show(true);
             cursorDisplayerMenu.Show(false);
-            ActivateGameplayComponents();
+            if(activateGameplayComponents)
+                ActivateGameplayComponents();
         }
 
-        public void DisplayCursorMenu()
+        public void DisplayCursorMenu(bool deactivateGameplayComponents = true)
         {
             cursorDisplayerGame.Show(false);
             cursorDisplayerMenu.Show(true);
-            DeactivateGameplayComponents();
+            if(deactivateGameplayComponents)
+                DeactivateGameplayComponents();
         }
 
         public void ConnectToCursorDisplayer(FireController fireController)

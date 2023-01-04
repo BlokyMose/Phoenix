@@ -5726,7 +5726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ffeb98aa32e794f9e3e8713fbf1964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 50
   healthBarrierUI: {fileID: 0}
 --- !u!114 &193317359
 MonoBehaviour:
@@ -5741,10 +5741,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camShakeDamaged: {fileID: 11400000, guid: af9d6f8bd05ca154abaa413f7c52c684, type: 2}
-  volumeDamaged: {fileID: 11400000, guid: 33b7e52959382854398ef5cd24f44265, type: 2}
+  volumeDamaged: {fileID: 11400000, guid: 3db499a1594e43b4ca5f87595cff4997, type: 2}
+  volumeDamagedBarrier: {fileID: 11400000, guid: e6a2da835d3f996439e25a8bc81d1361, type: 2}
   layer:
     serializedVersion: 2
     m_Bits: 128
-  volumeInDuration: 0.25
-  volumeOutDuration: 0.75
-  volumeWeight: 0.3
+  maxDamage: 30

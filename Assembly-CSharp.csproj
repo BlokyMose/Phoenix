@@ -166,6 +166,7 @@
     <Compile Include="Assets\Scripts\Elements\ElementSwitcher.cs" />
     <Compile Include="Assets\Scripts\Objects\ShieldController.cs" />
     <Compile Include="Assets\Scripts\Jets\FireComponents.cs" />
+    <Compile Include="Assets\Scripts\CameraFX\CameraFXController.cs" />
     <Compile Include="Assets\Scripts\Utility\CoroutineUtility.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiBeamScript.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Utils.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Assets\Scripts\Hiroto\BackBottun.cs" />
     <Compile Include="Assets\Scripts\Utility\ComponentUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample2.cs" />
+    <Compile Include="Assets\Scripts\CameraFX\CameraShakeProperties.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelPhoenix.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_GameManager.cs" />
@@ -204,8 +206,9 @@
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\CameraFX\CameraFXController.cs" />
-    <Compile Include="Assets\Scripts\CameraFX\CameraShakeProperties.cs" />
+    <Compile Include="Assets\Scripts\CameraFX\VolumeProperties.cs" />
+    <Compile Include="Assets\Scripts\UI\LoadingCanvasController.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\LevelMainMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

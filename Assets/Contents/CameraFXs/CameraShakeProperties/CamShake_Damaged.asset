@@ -20,6 +20,6 @@ MonoBehaviour:
   velocityMin: {x: 0.12, y: 0.14}
   velocityMax: {x: 0.135, y: 0.16}
   velocityRange: {x: 0.33, y: 0.366}
-  forceMin: 0.275
-  forceMax: 0.315
+  forceMin: 0.3
+  forceMax: 0.33
   forceRange: 0.05
