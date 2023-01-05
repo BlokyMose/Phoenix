@@ -105,6 +105,7 @@ namespace Phoenix
 
                 public void ApplyIdle(Color defaultColorIdle, Element element = null)
                 {
+                    if (sr == null) return;
                     if (sprite != null)
                         sr.sprite = sprite;
 
@@ -118,8 +119,9 @@ namespace Phoenix
 
                 public void ApplyDamaged(Color defaultColorDamaged, Element element = null)
                 {
+                    if (sr == null) return;
                     if (sprite != null)
-                        sr.sprite = sprite;
+                            sr.sprite = sprite;
 
                     if(isMatchingElement && element != null)
                         sr.color = element.ColorDim;
@@ -131,6 +133,7 @@ namespace Phoenix
 
                 public void ApplyRecovery(Color defaultColorRecovery, Element element = null)
                 {
+                    if (sr == null) return;
                     if (sprite != null)
                         sr.sprite = sprite;
 

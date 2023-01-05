@@ -213,36 +213,28 @@ namespace Phoenix
 
         protected Coroutine corSpawning;
 
-        void Awake()
-        {
-            Init();
-        }
-
-        void Init()
-        {
-            StartSpawning();
-        }
-
         public virtual void StartSpawning()
         {
             corSpawning = this.RestartCoroutine(Spawning());
         }
 
         protected virtual IEnumerator Spawning()
-            {
-                var maxTime = 0f;
+        {
+            var maxTime = 0f;
                 
-                List<SpawnerAndData> spawnerAndDataList = new();
-                foreach (var spawner in spawners)
-                {
-                    spawnerAndDataList.Add(new SpawnerAndData(spawner, new SpawnerData(spawner)));
-                    maxTime = maxTime < spawner.TotalWavesDuration() ? spawner.TotalWavesDuration() : maxTime;
-                }
+            List<SpawnerAndData> spawnerAndDataList = new();
+            foreach (var spawner in spawners)
+            {
+                spawnerAndDataList.Add(new SpawnerAndData(spawner, new SpawnerData(spawner)));
+                maxTime = maxTime < spawner.TotalWavesDuration() ? spawner.TotalWavesDuration() : maxTime;
+            }
 
 
-                var time = 0f;
-                int round = 1;
-                while (true)
+            var time = 0f;
+            int round = 1;
+            while (true)
+            {
+                if (Time.timeScale > 0f)
                 {
                     foreach (var spawnerAndData in spawnerAndDataList)
                     {
@@ -258,10 +250,12 @@ namespace Phoenix
                     }
 
                     time += Time.fixedDeltaTime;
-                    yield return null;
                 }
 
+                yield return null;
             }
+
+        }
 
         protected virtual void InstantiateWavePrefab(WaveProperties wave, Transform transform)
         {

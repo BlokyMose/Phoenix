@@ -100,7 +100,10 @@ namespace Phoenix
             brain.OnMoveInput += SetMoveDirection;
             brain.OnCursorWorldPos += RotateToCursor;
             if (brain.TryGetComponent<HealthController>(out var healthController))
+            {
                 healthController.OnDie += Deactivate;
+                healthController.OnDie += DeactivateJetCollider;
+            }
         }
 
         private void Init()
@@ -144,7 +147,10 @@ namespace Phoenix
             brain.OnMoveInput -= SetMoveDirection;
             brain.OnCursorWorldPos -= RotateToCursor;
             if (brain.TryGetComponent<HealthController>(out var healthController))
-                healthController.OnDie += Deactivate;
+            {
+                healthController.OnDie -= Deactivate;
+                healthController.OnDie -= DeactivateJetCollider;
+            }
 
         }
 
@@ -155,10 +161,12 @@ namespace Phoenix
                 var jet = transform.Find("Jet");
                 if (jet == null)
                 {
-                    var jetGO = Instantiate(jetPropertiesStatic.JetPrefab, transform).gameObject;
+                    jetGO = Instantiate(jetPropertiesStatic.JetPrefab, transform).gameObject;
                     jetGO.name = "Jet";
                     jet = jetGO.transform;
                 }
+                else
+                    jetGO = jet.gameObject;
 
                 var audioController = jet.GetComponent<JetAudioController>();
                 if (audioController != null)
@@ -232,11 +240,24 @@ namespace Phoenix
         {
             isActive = true;
         }
+
         public virtual void Deactivate()
         {
             isActive = false;
         }
 
+        public virtual void DeactivateJetCollider()
+        {
+            if(jetGO.TryGetComponent<Collider2D>(out var col))
+            {
+                col.enabled = false;
+            }
+        }
+
+        public virtual void DestroyJetGO()
+        {
+            Destroy(jetGO);
+        }
     }
 }
 

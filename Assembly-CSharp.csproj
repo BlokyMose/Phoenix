@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\Elements\ElementContainer.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefault.cs" />
     <Compile Include="Assets\Scripts\Utility\QuitGame.cs" />
+    <Compile Include="Assets\Scripts\CameraFX\VolumeProperties.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoadSceneOnClick.cs" />
     <Compile Include="Assets\Scripts\DeleteMe.cs" />
     <Compile Include="Assets\Scripts\UI\CursorPack.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiBeamStatic.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerBulletManager.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveController.cs" />
+    <Compile Include="Assets\Scripts\UI\LoadingCanvasController.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarUIUnit.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementMagnet.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\Enemy.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Assets\Scripts\Objects\ShieldController.cs" />
     <Compile Include="Assets\Scripts\Jets\FireComponents.cs" />
     <Compile Include="Assets\Scripts\CameraFX\CameraFXController.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\LevelMainMenu.cs" />
     <Compile Include="Assets\Scripts\Utility\CoroutineUtility.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiBeamScript.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Utils.cs" />
@@ -206,9 +209,6 @@
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\CameraFX\VolumeProperties.cs" />
-    <Compile Include="Assets\Scripts\UI\LoadingCanvasController.cs" />
-    <Compile Include="Assets\Scripts\LevelManagers\LevelMainMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
