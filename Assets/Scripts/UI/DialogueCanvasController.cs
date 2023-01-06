@@ -68,6 +68,7 @@ namespace Phoenix
         readonly float destroyDelay = 2f;
         int boo_show;
         bool isShowing = false;
+        bool canNext = false;
 
         public void Init(LevelManager levelManager, List<Monologue> dialogue)
         {
@@ -101,25 +102,34 @@ namespace Phoenix
 
         void Exit()
         {
-            levelManager.Player.OnFiring += (isFiring) => { if(isFiring) Next(); };
+            levelManager.Player.OnFiring -= (isFiring) => { if(isFiring) Next(); };
         }
 
         public void BeginDialogue()
         {
-            isShowing = true;
+            if (isShowing) return;
 
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
+            StartCoroutine(Delay(1f));
+            IEnumerator Delay(float delay)
+            {
+                yield return new WaitForSeconds(delay);
 
-            levelManager.Player.DisplayCursorMenu();
-            currentIndex = 0;
-            currentBubble = CreateBubble(currentMonologue);
-            SetCharacterSprite(currentMonologue.Character.Sprite, currentMonologue.CharPos);
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+
+                levelManager.Player.DisplayCursorMenu();
+                currentIndex = 0;
+                currentBubble = CreateBubble(currentMonologue);
+                SetCharacterSprite(currentMonologue.Character.Sprite, currentMonologue.CharPos);
+
+                isShowing = true;
+                canNext = true;
+            }
         }
 
         public void Next()
         {
-            if (!isShowing) return;
+            if (!canNext) return;
 
             if (currentIndex < dialogue.Count - 1)
             {
@@ -142,6 +152,7 @@ namespace Phoenix
             if (!isShowing) return;
 
             isShowing = false;
+            canNext = false;
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
             levelManager.Player.DisplayCursorGame();

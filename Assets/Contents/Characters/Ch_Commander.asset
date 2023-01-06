@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Ch_Commander
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 69b3bc7bbc3d6e942a8a5ed02e1412f0, type: 3}
+  characterIcon: {fileID: 21300000, guid: b0e58ac647c3e1f4e85676e5b6603222, type: 3}
   characterName: Commander
   color: {r: 1, g: 0.89851844, b: 0, a: 1}

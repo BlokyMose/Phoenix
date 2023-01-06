@@ -30,21 +30,25 @@ namespace Phoenix
 
         public override void Move(BulletController bullet, Transform target)
         {
-            var direction = Vector2.zero;
-            var margin = Vector2.Distance(bullet.transform.position, target.transform.position);
-            if (margin < loseAccuracyDistance)
+            var direction = (Vector2)bullet.transform.up;
+
+            if (target != null)
             {
-                direction = bullet.transform.up;
-                if(movementAfterReachedTarget!=null)
-                    bullet.BulletMovement = movementAfterReachedTarget;
+                var margin = Vector2.Distance(bullet.transform.position, target.transform.position);
+                if (margin < loseAccuracyDistance)
+                {
+                    if (movementAfterReachedTarget != null)
+                        bullet.BulletMovement = movementAfterReachedTarget;
+                }
+                else
+                {
+                    direction = (Vector2)(target.position - bullet.transform.position).normalized;
+                    Vector3 relative = bullet.transform.InverseTransformPoint(target.position);
+                    var angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+                    bullet.transform.Rotate(0, 0, -angle);
+                }
             }
-            else
-            {
-                direction = (Vector2)(target.position - bullet.transform.position).normalized;
-                Vector3 relative = bullet.transform.InverseTransformPoint(target.position);
-                var angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
-                bullet.transform.Rotate(0, 0, -angle);
-            }
+
             bullet.RigidBody.AddForce((bullet.BulletProperties.Speed * Time.deltaTime * direction) - bullet.RigidBody.velocity, ForceMode2D.Impulse);
         }
     }

@@ -11,6 +11,9 @@ namespace Phoenix
         Sprite sprite;
         public Sprite Sprite => sprite;
 
+        [SerializeField]
+        Sprite characterIcon;
+        public Sprite CharacterIcon => characterIcon;
 
         [SerializeField]
         string characterName;

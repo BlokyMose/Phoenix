@@ -102,7 +102,7 @@ namespace Phoenix
             if (brain.TryGetComponent<HealthController>(out var healthController))
             {
                 healthController.OnDie += Deactivate;
-                healthController.OnDie += DeactivateJetCollider;
+                healthController.OnDie += DestroyJetGO;
             }
         }
 
@@ -149,7 +149,7 @@ namespace Phoenix
             if (brain.TryGetComponent<HealthController>(out var healthController))
             {
                 healthController.OnDie -= Deactivate;
-                healthController.OnDie -= DeactivateJetCollider;
+                healthController.OnDie -= DestroyJetGO;
             }
 
         }

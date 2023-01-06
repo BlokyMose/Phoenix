@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
@@ -74,6 +75,8 @@ namespace Phoenix
 
                 void OnNextStage()
                 {
+                    if (levelManager.IsGameOver) return;
+
                     activatedObjectsCount++;
                     if (CanGoToNextStage())
                     {
@@ -160,6 +163,7 @@ namespace Phoenix
         bool useVCamInScene = true;
 
         [Header("UI")]
+
         [SerializeField]
         LoadingCanvasController loadingCanvasPrefab;
 
@@ -184,6 +188,9 @@ namespace Phoenix
         [SerializeField]
         List<Stage> stages = new List<Stage>();
 
+        [Header("Events")]
+        [SerializeField]
+        UnityEvent onGameOver;
 
         #endregion
 
@@ -196,6 +203,7 @@ namespace Phoenix
         int currentStageIndex;
         bool isPausing = false;
         bool isGameOver = false;
+        public bool IsGameOver => isGameOver;
         bool isLoading = false;
 
         #endregion
@@ -304,6 +312,7 @@ namespace Phoenix
 
             #endregion
 
+
             StartLevel();
 
             void OnStageCleared()
@@ -384,6 +393,7 @@ namespace Phoenix
             gameOverMenu.OnMainMenu += Quit;
 
             player.DisplayCursorMenu();
+            onGameOver.Invoke();
         }
 
         public void Pause()
