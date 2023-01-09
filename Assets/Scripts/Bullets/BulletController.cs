@@ -57,6 +57,8 @@ namespace Phoenix
         Func<float,Element, float> GetProcessedDamage;
         Action OnDie;
 
+        public Action OnKill;
+
         #endregion
 
         public virtual void Init(BulletProperties bulletProperties)
@@ -179,6 +181,8 @@ namespace Phoenix
             var otherHealth = otherHealthController.ReceiveDamage(damage);
             if (otherHealth > 0)
                 CreateDamageCanvas(damage, bulletProperties.Element.Color);
+            else
+                OnKill?.Invoke();
         }
 
         void CreateDamageCanvas(float damage, Color color)

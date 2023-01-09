@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Phoenix
 {
-    public class LoadingCanvasController : MonoBehaviour
+    public class LoadingCanvas : MonoBehaviour
     {
         [SerializeField]
         Animator animator;

@@ -16,6 +16,8 @@ namespace Phoenix
         [Serializable]
         public class AudioPack
         {
+            public string packName = "";
+
             [LabelText("Possible Clips")]
             public List<AudioClip> clips = new List<AudioClip>();
 
@@ -43,6 +45,17 @@ namespace Phoenix
                 yield return new WaitForSeconds(_delay);
                 audioSource.pitch = Random.Range(pitch - pitchRandomRange, pitch + pitchRandomRange);
                 audioSource.PlayOneShot(clips.GetRandom(), Random.Range(volume - volumeRandomRange, volume + volumeRandomRange));
+            }
+
+            public IEnumerator PlayAllClips(AudioSource audioSource)
+            {
+                var _delay = Random.Range(delay - delayRandomRange, delay + delayRandomRange);
+                yield return new WaitForSeconds(_delay);
+                foreach (var clip in clips)
+                {
+                    audioSource.pitch = Random.Range(pitch - pitchRandomRange, pitch + pitchRandomRange);
+                    audioSource.PlayOneShot(clip, Random.Range(volume - volumeRandomRange, volume + volumeRandomRange));
+                }
             }
         }
 
@@ -197,6 +210,30 @@ namespace Phoenix
 
         }
 
+        public void PlayOneClipFromPack(string packName)
+        {
+            foreach (var pack in audioPacks)
+            {
+                if(pack.packName == packName)
+                {
+                    StartCoroutine(pack.Play(audioSource));
+                    break;
+                }
 
+            }
+        }
+
+        public void PlayAllClipsFromPack(string packName)
+        {
+            foreach (var pack in audioPacks)
+            {
+                if (pack.packName == packName)
+                {
+                    StartCoroutine(pack.PlayAllClips(audioSource));
+                    break;
+                }
+
+            }
+        }
     }
 }

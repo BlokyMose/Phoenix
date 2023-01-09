@@ -81,8 +81,8 @@ namespace Phoenix
         public Sprite Icon => icon;
 
         [SerializeField]
-        DamageCanvasController damageCanvasController;
-        public DamageCanvasController DamageCanvasController => damageCanvasController;
+        DamageCanvas damageCanvasController;
+        public DamageCanvas DamageCanvasController => damageCanvasController;
 
         void AssignDefaultBulletPrefab()
         {

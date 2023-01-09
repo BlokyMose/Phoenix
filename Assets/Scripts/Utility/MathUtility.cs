@@ -90,6 +90,14 @@ namespace Encore.Utility
                 for (int n = 0; n < allNumbers.Count; n++)
                     allNumbers[n] = allNumbers[n] / divider;
             }
+
+        }
+
+        public static string SecondsToTimeString(float seconds)
+        {
+            int minutes = (int)seconds / 60; // calculate the number of minutes
+            int sec = (int)seconds % 60; // calculate the number of seconds
+            return $"{minutes:D2}:{sec:D2}"; // return the time string in the format "mm:ss"
         }
     }
 }

@@ -248,6 +248,12 @@ namespace Phoenix
                 jetController.Deactivate();
         }
 
+        public void DeactivateJetCollider()
+        {
+            if (TryGetComponent<JetController>(out var jetController))
+                jetController.DeactivateJetCollider();
+        }
+
         #endregion
 
     }

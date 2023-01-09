@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static Phoenix.MinimapController;
+using static Phoenix.Minimap;
 
 namespace Phoenix
 {
-    public class MinimapController : MonoBehaviour
+    public class Minimap : MonoBehaviour, iTimer
     {
         [Serializable]
         public class TimeEvent
@@ -63,7 +63,7 @@ namespace Phoenix
         public enum TrackerLineOrientation { Horizontal, Vertical }
 
         [SerializeField, SuffixLabel("sec", true)]
-        float timer = 5f;
+        float duration = 5f;
 
         [Header("Components")]
         [SerializeField]
@@ -93,6 +93,24 @@ namespace Phoenix
 
         bool isPlaying = false;
         int boo_beeping, boo_arrived, flo_beepingSpeed;
+        float time = 0f;
+
+        public float Duration
+        {
+            get => duration;
+            set => duration = value;
+        }
+
+        public float TimeElapsed
+        {
+            get => time;
+            set => time = value;
+        }
+
+        public float TimeRemaining
+        {
+            get => duration - time;
+        }
 
         public void Init()
         {
@@ -104,12 +122,12 @@ namespace Phoenix
             isPlaying = true;
 
             foreach (var timeEvent in timeEvents)
-                timeEvent.Init(timer);
+                timeEvent.Init(this.duration);
 
             StartCoroutine(Moving());
             IEnumerator Moving()
             {
-                var time = 0f;
+                time = 0f;
                 var originPos = movingObject.transform.position;
                 var trackerLineLengthMax = 0f;
                 switch (trackerLineOrientation)
@@ -128,22 +146,22 @@ namespace Phoenix
                 destinationAnimator.SetBool(boo_beeping, false);
                 destinationAnimator.SetBool(boo_arrived, false);
 
-                while (time < timer)
+                while (time < this.duration)
                 {
-                    if (isPlaying && Time.timeScale > 0f)
+                    if (isPlaying && UnityEngine.Time.timeScale > 0f)
                     {
                         movingObject.transform.position = 
-                            (destination.transform.position * time / timer) + (originPos * (timer-time)/timer);
+                            (destination.transform.position * time / this.duration) + (originPos * (this.duration - time) / this.duration);
 
-                        mapCover.fillAmount = time / timer;
+                        mapCover.fillAmount = time / this.duration;
 
                         switch (trackerLineOrientation)
                         {
                             case TrackerLineOrientation.Horizontal:
-                                trackerLine.sizeDelta = new Vector2(trackerLineLengthMax * (timer-time) / timer, trackerLine.sizeDelta.y);
+                                trackerLine.sizeDelta = new Vector2(trackerLineLengthMax * (this.duration - time) / this.duration, trackerLine.sizeDelta.y);
                                 break;
                             case TrackerLineOrientation.Vertical:
-                                trackerLine.sizeDelta = new Vector2(trackerLine.sizeDelta.x, trackerLineLengthMax * (timer - time) / timer);
+                                trackerLine.sizeDelta = new Vector2(trackerLine.sizeDelta.x, trackerLineLengthMax * (this.duration - time) / this.duration);
                                 break;
                         }
 
@@ -151,13 +169,13 @@ namespace Phoenix
                             if(timeEvent.Time < time && !timeEvent.IsInvoked)
                                 timeEvent.Invoke();
 
-                        if (time / timer > beepingAfter)
+                        if (time / this.duration > beepingAfter)
                         {
                             destinationAnimator.SetBool(boo_beeping, true);
-                            destinationAnimator.SetFloat(flo_beepingSpeed, (time - timer * beepingAfter) / (timer - timer * beepingAfter) + 1f);
+                            destinationAnimator.SetFloat(flo_beepingSpeed, (time - this.duration * beepingAfter) / (this.duration - this.duration * beepingAfter) + 1f);
                         }
 
-                        time += Time.deltaTime;
+                        time += UnityEngine.Time.deltaTime;
                     }
                     yield return null;
                 }

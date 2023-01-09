@@ -99,12 +99,12 @@
     <Compile Include="Assets\Scripts\GameplayUtility\AutoSwitchSprite.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoopScript.cs" />
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
-    <Compile Include="Assets\Scripts\UI\MinimapController.cs" />
+    <Compile Include="Assets\Scripts\UI\Minimap.cs" />
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
     <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverMenu.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
-    <Compile Include="Assets\Scripts\UI\DamageCanvasController.cs" />
+    <Compile Include="Assets\Scripts\UI\DamageCanvas.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovement.cs" />
     <Compile Include="Assets\Scripts\Jets\FireController.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AutoInvoke.cs" />
@@ -113,7 +113,7 @@
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiBeamStatic.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerBulletManager.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveController.cs" />
-    <Compile Include="Assets\Scripts\UI\LoadingCanvasController.cs" />
+    <Compile Include="Assets\Scripts\UI\LoadingCanvas.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarUIUnit.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementMagnet.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\Enemy.cs" />
@@ -144,7 +144,7 @@
     <Compile Include="Assets\Scripts\GameplayUtility\RotateByVelocity.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFlicker.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Extensions.cs" />
-    <Compile Include="Assets\Scripts\UI\DialogueCanvasController.cs" />
+    <Compile Include="Assets\Scripts\UI\DialogueCanvas.cs" />
     <Compile Include="Assets\Settings\InputActions\PhoenixInput.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiPitchRandomizer.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
@@ -159,12 +159,13 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Rat.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\InstantiateVFX.cs" />
+    <Compile Include="Assets\Scripts\UI\SideDialogueCanvas.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AnimationEventBroadcaster.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveControllerRandom.cs" />
     <Compile Include="Assets\Scripts\Utility\StructUtility.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JetAutoMovementSteps.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelManager.cs" />
-    <Compile Include="Assets\Scripts\UI\DialogueBubbleController.cs" />
+    <Compile Include="Assets\Scripts\UI\DialogueBubble.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_TileMouseButton.cs" />
     <Compile Include="Assets\Scripts\Elements\ElementSwitcher.cs" />
     <Compile Include="Assets\Scripts\Objects\ShieldController.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Assets\Scripts\UI\CursorDisplayer.cs" />
     <Compile Include="Assets\Scripts\Hiroto\BackBottun.cs" />
     <Compile Include="Assets\Scripts\Utility\ComponentUtility.cs" />
+    <Compile Include="Assets\Scripts\UI\SideDialogueBubble.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample2.cs" />
     <Compile Include="Assets\Scripts\CameraFX\CameraShakeProperties.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
@@ -210,8 +212,11 @@
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\UI\SideDialogueBubbleController.cs" />
-    <Compile Include="Assets\Scripts\UI\SideDialogueCanvasController.cs" />
+    <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\Level.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\LevelGradingRules.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\iTimer.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -11,7 +11,7 @@ using Encore.Utility;
 namespace Phoenix
 {
     [RequireComponent(typeof(Animator))]
-    public class SideDialogueCanvasController : MonoBehaviour
+    public class SideDialogueCanvas : MonoBehaviour
     {
         [Serializable]
         public class Monologue
@@ -49,12 +49,12 @@ namespace Phoenix
         Transform bubblesParent;
 
         [SerializeField]
-        SideDialogueBubbleController bubbleControllerPrefab;
+        SideDialogueBubble bubbleControllerPrefab;
 
         Animator animator;
         int currentIndex;
         Monologue currentMonologue => dialogue[currentIndex];
-        SideDialogueBubbleController currentBubble;
+        SideDialogueBubble currentBubble;
         readonly float destroyDelay = 2f;
         int boo_show;
         bool isShowing = false;
@@ -120,7 +120,7 @@ namespace Phoenix
             }
         }
 
-        SideDialogueBubbleController CreateBubble(Monologue monologue)
+        SideDialogueBubble CreateBubble(Monologue monologue)
         {
             var bubble = Instantiate(bubbleControllerPrefab, bubblesParent);
             bubble.transform.SetSiblingIndex(0);

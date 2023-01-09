@@ -12,7 +12,7 @@ namespace Phoenix
 {
     [RequireComponent(typeof(CanvasGroup))]
     [RequireComponent(typeof(Animator))]
-    public class DialogueCanvasController : MonoBehaviour
+    public class DialogueCanvas : MonoBehaviour
     {
         [Serializable]
         public class Monologue
@@ -57,14 +57,14 @@ namespace Phoenix
         Image characterPosRight;
 
         [SerializeField]
-        DialogueBubbleController bubbleControllerPrefab;
+        DialogueBubble bubbleControllerPrefab;
 
         Animator animator;
         CanvasGroup canvasGroup;
         LevelManager levelManager;
         int currentIndex;
         Monologue currentMonologue => dialogue[currentIndex];
-        DialogueBubbleController currentBubble;
+        DialogueBubble currentBubble;
         readonly float destroyDelay = 2f;
         int boo_show;
         bool isShowing = false;
@@ -161,7 +161,7 @@ namespace Phoenix
             Exit();
         }
 
-        DialogueBubbleController CreateBubble(Monologue monologue)
+        DialogueBubble CreateBubble(Monologue monologue)
         {
             var bubble = Instantiate(bubbleControllerPrefab, bubblesParent);
             bubble.transform.SetSiblingIndex(0);

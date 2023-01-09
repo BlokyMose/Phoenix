@@ -29,6 +29,9 @@ namespace Phoenix
         [SerializeField, InlineButton(nameof(InstantiateJet), "Show", ShowIf = "@!" + nameof(components)), PropertyOrder(-1)]
         FireComponents components;
 
+        [SerializeField]
+        bool isTrackingKillCount = false;
+
         #endregion
 
         #region [Vars: Data Handlers]
@@ -44,6 +47,7 @@ namespace Phoenix
         #endregion
 
         public Action<BulletProperties> OnNextBullet;
+        public Action OnKill;
 
         public void Init(Brain brain)
         {
@@ -159,6 +163,8 @@ namespace Phoenix
             }
 
             bullet.Init(currentBullet);
+            if (isTrackingKillCount)
+                bullet.OnKill += OnBulletKills;
 
             currentFireOrigin++;
 
@@ -187,6 +193,11 @@ namespace Phoenix
                     break;
 
             }
+        }
+
+        void OnBulletKills()
+        {
+            OnKill?.Invoke();
         }
 
         public void Activate()

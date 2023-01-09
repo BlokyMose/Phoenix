@@ -10,7 +10,7 @@ using static Phoenix.HealthController;
 namespace Phoenix
 {
     [RequireComponent(typeof(Animator))]
-    public class DamageCanvasController : MonoBehaviour
+    public class DamageCanvas : MonoBehaviour
     {
         [Serializable]
         public class DamageLevelUI

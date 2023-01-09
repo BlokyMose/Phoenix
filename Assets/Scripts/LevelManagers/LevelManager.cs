@@ -16,6 +16,8 @@ namespace Phoenix
     {
         #region [Classes]
 
+        public enum ScreenMode { Loading, Play, Pause, GameOver, Win }
+
         [Serializable]
         public class StartPoint
         {
@@ -75,7 +77,7 @@ namespace Phoenix
 
                 void OnNextStage()
                 {
-                    if (levelManager.IsGameOver) return;
+                    if (levelManager.Screen != ScreenMode.Play) return;
 
                     activatedObjectsCount++;
                     if (CanGoToNextStage())
@@ -149,6 +151,12 @@ namespace Phoenix
 
         #region [Vars: Properties]
 
+        [SerializeField]
+        Level level;
+
+        [SerializeField]
+        LevelGradingRules gradingRules;
+
         [Header("Player")]
         [SerializeField]
         bool usePlayerInScene = true;
@@ -162,10 +170,14 @@ namespace Phoenix
         [SerializeField]
         bool useVCamInScene = true;
 
-        [Header("UI")]
-
+        [Header("Gameplay")]
         [SerializeField]
-        LoadingCanvasController loadingCanvasPrefab;
+        GameObject timerGO;
+        iTimer timer;
+
+        [Header("UI")]
+        [SerializeField]
+        LoadingCanvas loadingCanvasPrefab;
 
         [SerializeField]
         PauseMenu pauseMenuPrefab;
@@ -175,11 +187,12 @@ namespace Phoenix
         GameOverMenu gameOverMenuPrefab;
         GameOverMenu gameOverMenu;
 
-        [SerializeField, OnValueChanged(nameof(OnValueChangedScene))]
-        Object mainMenuScene;
+        [SerializeField]
+        WinCanvas winCanvasPrefab;
+        WinCanvas winCanvas;
 
-        [SerializeField, ReadOnly]
-        string mainMenuSceneName;
+        [SerializeField]
+        Level mainMenu;
 
         [Header("Stages")]
         [SerializeField]
@@ -191,6 +204,8 @@ namespace Phoenix
         [Header("Events")]
         [SerializeField]
         UnityEvent onGameOver;
+        [SerializeField]
+        UnityEvent onWin;
 
         #endregion
 
@@ -201,18 +216,19 @@ namespace Phoenix
         Cinemachine.CinemachineVirtualCamera vCam;
         Stage currentStage => stages[currentStageIndex];
         int currentStageIndex;
-        bool isPausing = false;
-        bool isGameOver = false;
-        public bool IsGameOver => isGameOver;
-        bool isLoading = false;
+        LevelGradingRules.Score score = new();
+        ScreenMode screenMode = ScreenMode.Play;
+        public ScreenMode Screen => screenMode;
 
         #endregion
 
-        #region [Methods: Inspector]
 
-        void OnValueChangedScene()
+        #region [Inspector Methods]
+
+        void OnValidate()
         {
-            if (mainMenuScene != null) mainMenuSceneName = mainMenuScene.name;
+            if (timerGO != null && timerGO.GetComponent<iTimer>() == null)
+                timerGO = null;
         }
 
         #endregion
@@ -252,7 +268,20 @@ namespace Phoenix
             player.Init(this);
             player.OnQuitInput += TogglePause;
             if (player.TryGetComponent<HealthController>(out var playerHealthController))
+            {
                 playerHealthController.OnDie += ShowGameOverMenu;
+                playerHealthController.OnDamaged += OnPlayerDamaged;
+            }
+
+            if (player.TryGetComponent<HealthBarrierController>(out var playerHealthBarrier))
+            {
+                playerHealthBarrier.OnDamaged += OnPlayerDamaged;
+            }
+
+            if (player.TryGetComponent<FireController>(out var playerFireController))
+            {
+                playerFireController.OnKill += OnPlayerKills;
+            }
 
             #endregion
 
@@ -296,7 +325,7 @@ namespace Phoenix
 
             #region [Dialogue Canvas]
 
-            var dialogueCanvases = new List<DialogueCanvasController>(FindObjectsOfType<DialogueCanvasController>(true));
+            var dialogueCanvases = new List<DialogueCanvas>(FindObjectsOfType<DialogueCanvas>(true));
             foreach (var canvas in dialogueCanvases)
             {
                 canvas.Init(this);
@@ -306,9 +335,17 @@ namespace Phoenix
 
             #region [Exit Loading Canvas]
 
-            var loadingCanvas = FindObjectOfType<LoadingCanvasController>();
+            var loadingCanvas = FindObjectOfType<LoadingCanvas>();
             if (loadingCanvas != null)
                 loadingCanvas.Exit();
+
+            #endregion
+
+            #region [Timer]
+
+            if (timer != null)
+                timer = timerGO.GetComponent<iTimer>();
+            timer ??= gameObject.AddComponent<Timer>();
 
             #endregion
 
@@ -333,6 +370,8 @@ namespace Phoenix
 
             void StartLevel()
             {
+                screenMode = ScreenMode.Play;
+
                 for (int i = 0; i < stages.Count; i++)
                 {
                     if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
@@ -342,6 +381,8 @@ namespace Phoenix
                         break;
                     }
                 }
+
+
             }
         }
 
@@ -364,26 +405,46 @@ namespace Phoenix
             {
                 player.OnQuitInput -= TogglePause;
                 if (player.TryGetComponent<HealthController>(out var playerHealthController))
+                {
                     playerHealthController.OnDie -= ShowGameOverMenu;
+                    playerHealthController.OnDamaged -= OnPlayerDamaged;
+                }
+
+                if (player.TryGetComponent<HealthBarrierController>(out var playerHealthBarrier))
+                {
+                    playerHealthBarrier.OnDamaged -= OnPlayerDamaged;
+                }
+
+                if (player.TryGetComponent<FireController>(out var playerFireController))
+                {
+                    playerFireController.OnKill -= OnPlayerKills;
+                }
             }
+        }
+
+        void OnPlayerDamaged(float damage)
+        {
+            score.damaged += damage;
+        }
+
+        void OnPlayerKills()
+        {
+            score.killCount++;
         }
 
         public void TogglePause()
         {
-            if (isGameOver) return;
-
-            isPausing = !isPausing;
-            if (isPausing)
+            if (screenMode == ScreenMode.Play)
                 Pause();
-            else
+            else if (screenMode == ScreenMode.Pause)
                 Resume();
         }
 
         public void ShowGameOverMenu()
         {
-            if (isGameOver) return;
+            if (screenMode == ScreenMode.GameOver || screenMode == ScreenMode.Win) return;
 
-            isGameOver = true;
+            screenMode = ScreenMode.GameOver;
 
             player.DisplayCursorGame();
 
@@ -396,11 +457,30 @@ namespace Phoenix
             onGameOver.Invoke();
         }
 
+        public void ShowWinCanvas()
+        {
+            if (screenMode == ScreenMode.Win || screenMode == ScreenMode.GameOver) return;
+            screenMode = ScreenMode.Win;
+            score.timeRemaining = (int) timer.TimeRemaining;
+            score.timeElapsed = (int) timer.TimeElapsed;
+
+            player.DisplayCursorGame();
+            
+            winCanvas = Instantiate(winCanvasPrefab);
+            winCanvas.Init(level, gradingRules, score);
+            winCanvas.OnRestart += Restart;
+            winCanvas.OnMainMenu += Quit;
+
+            player.DisplayCursorMenu();
+            player.DeactivateJetCollider();
+            onWin.Invoke();
+        }
+
         public void Pause()
         {
             if (pauseMenu == null) return;
 
-            isPausing = true;
+            screenMode = ScreenMode.Pause;
             pauseMenu.Show(true);
             Time.timeScale = 0;
             player.DisplayCursorMenu();
@@ -411,7 +491,7 @@ namespace Phoenix
         {
             if (pauseMenu == null) return;
 
-            isPausing = false;
+            screenMode = ScreenMode.Play;
             pauseMenu.Show(false);
             Time.timeScale = 1;
             player.DisplayCursorGame();
@@ -424,7 +504,7 @@ namespace Phoenix
 
         public void Quit()
         {
-            LoadScene(mainMenuSceneName);
+            LoadScene(mainMenu.SceneName);
         }
 
         public void LoadScene(Object scene)
@@ -437,9 +517,9 @@ namespace Phoenix
 
         public void LoadScene(string sceneName)
         {
-            if (isLoading) return;
+            if (screenMode == ScreenMode.Loading) return;
 
-            isLoading = true;
+            screenMode = ScreenMode.Loading;
             Time.timeScale = 1;
             var loadingCanvas = Instantiate(loadingCanvasPrefab, null);
             loadingCanvas.Init(() => { SceneManager.LoadScene(sceneName); });

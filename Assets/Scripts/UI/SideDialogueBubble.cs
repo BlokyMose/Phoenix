@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Phoenix
 {
-    public class SideDialogueBubbleController : MonoBehaviour
+    public class SideDialogueBubble : MonoBehaviour
     {
         [SerializeField]
         TextMeshProUGUI dialogueText;

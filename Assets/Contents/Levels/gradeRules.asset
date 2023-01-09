@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e01ac768fa63844a239f34bbbf2b47, type: 3}
+  m_Name: gradeRules
+  m_EditorClassIdentifier: 
+  scoringRules:
+    killPoint: 10
+    damagedPoint: -10
+    timeRemainingPoint: 10
+  grades:
+  - gradeName: S
+    atPoint: 1000
+    seal: {fileID: 21300000, guid: 76d2068941b23ae40af7d74c49ded48c, type: 3}
+  - gradeName: A
+    atPoint: 800
+    seal: {fileID: 21300000, guid: d60d62529c6ccfe4a846956e95248492, type: 3}
+  - gradeName: B
+    atPoint: 600
+    seal: {fileID: 21300000, guid: 77169b801295ea4418740771dfc5f370, type: 3}
+  - gradeName: C
+    atPoint: 0
+    seal: {fileID: 21300000, guid: 9e337c611c99c9442b6cb0a3cbe641fb, type: 3}

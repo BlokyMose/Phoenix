@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Phoenix
 {
     [RequireComponent(typeof(Animator))]
-    public class DialogueBubbleController : MonoBehaviour
+    public class DialogueBubble : MonoBehaviour
     {
         [SerializeField]
         TextMeshProUGUI nameText;
