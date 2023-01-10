@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 14d5b2aa9e078ec44b7a3a73b5af33ca
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Corporate Logo ver3
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3e964b241c90fb04ebf4319929c83fde, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

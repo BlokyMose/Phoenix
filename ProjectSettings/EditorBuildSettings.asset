@@ -12,15 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Ray/Level_Phoenix_Ray.unity
     guid: c5da2ead5e1971e468a0dbf9c4779ec6
   - enabled: 1
-    path: Assets/Scenes/Report.unity
+    path: Assets/Scenes/Hiroto/Report.unity
     guid: 1744c53e8aec6364bbe2a1b38ac7148a
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/Hiroto/Menu.unity
     guid: ebcda540ce6ef2f498dca7e67b2216cd
   - enabled: 1
-    path: Assets/Scenes/Option.unity
+    path: Assets/Scenes/Hiroto/Option.unity
     guid: 91e1b8c64f52c0d4fa80a963906ce499
   - enabled: 1
-    path: Assets/Scenes/Oeration.unity
+    path: Assets/Scenes/Hiroto/Operation.unity
     guid: 69cc850a606c69f458f7d80589b40142
   m_configObjects: {}
