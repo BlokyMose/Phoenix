@@ -30,26 +30,29 @@ namespace Phoenix
             Exit();
         }
 
-        void Init()
+        public void Init()
         {
             if (TryGetComponent(out healthController))
             {
                 healthController.OnDamaged += OnDamaged;
+                healthController.OnDie += Exit;
 
                 if (healthController.HealthBarUI!=null)
                     healthController.HealthBarUI.Init(this);
             }
         }
 
-        void Exit()
+        public void Exit()
         {
             if (TryGetComponent(out healthController))
             {
                 healthController.OnDamaged -= OnDamaged;
+                healthController.OnDie -= Exit;
 
                 if (healthController.HealthBarUI != null)
                     healthController.HealthBarUI.Exit(this);
             }
+            StopAllCoroutines();
         }
 
         void OnDamaged(float damage)

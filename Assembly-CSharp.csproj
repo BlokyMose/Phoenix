@@ -63,13 +63,13 @@
     <Compile Include="Assets\Scripts\Utility\QuitGame.cs" />
     <Compile Include="Assets\Scripts\CameraFX\VolumeProperties.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoadSceneOnClick.cs" />
-    <Compile Include="Assets\Scripts\DeleteMe.cs" />
     <Compile Include="Assets\Scripts\UI\CursorPack.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHoming.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Enemy.cs" />
     <Compile Include="Assets\Scripts\Hiroto\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletProperties.cs" />
     <Compile Include="Assets\Scripts\Hiroto\OerationButtun.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\Timer.cs" />
     <Compile Include="Assets\Scripts\Utility\ListUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
     <Compile Include="Assets\Scripts\Hiroto\OptionButtun.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Default.cs" />
     <Compile Include="Assets\Scripts\Utility\BoxCollider2DUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_CharacterController.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\iTimer.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletControllerTriggerEnter.cs" />
     <Compile Include="Assets\Scripts\Utility\MathUtility.cs" />
     <Compile Include="Assets\Scripts\Brains\ShieldBotBrain.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Assets\Scripts\Jets\FireController.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AutoInvoke.cs" />
     <Compile Include="Assets\Scripts\Jets\JetController.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\LevelGradingRules.cs" />
     <Compile Include="Assets\Scripts\Utility\CalcUtility.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiBeamStatic.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerBulletManager.cs" />
@@ -201,6 +203,7 @@
     <Compile Include="Assets\Scripts\Characters\Character.cs" />
     <Compile Include="Assets\Scripts\Jets\JetControllerAuto.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\Level.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesStatic.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\GameplayUtilityClass.cs" />
@@ -211,12 +214,9 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconListUI.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
-    <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
     <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
-    <Compile Include="Assets\Scripts\LevelManagers\Level.cs" />
-    <Compile Include="Assets\Scripts\LevelManagers\LevelGradingRules.cs" />
-    <Compile Include="Assets\Scripts\LevelManagers\iTimer.cs" />
-    <Compile Include="Assets\Scripts\GameplayUtility\Timer.cs" />
+    <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
+    <Compile Include="Assets\Scripts\Elements\ElementContainerSR.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

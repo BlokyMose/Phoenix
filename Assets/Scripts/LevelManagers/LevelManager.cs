@@ -12,6 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace Phoenix
 {
+    [DisallowMultipleComponent]
     public abstract class LevelManager: MonoBehaviour
     {
         #region [Classes]
@@ -343,8 +344,7 @@ namespace Phoenix
 
             #region [Timer]
 
-            if (timer != null)
-                timer = timerGO.GetComponent<iTimer>();
+            timer ??= timerGO.GetComponent<iTimer>();
             timer ??= gameObject.AddComponent<Timer>();
 
             #endregion
@@ -461,6 +461,7 @@ namespace Phoenix
         {
             if (screenMode == ScreenMode.Win || screenMode == ScreenMode.GameOver) return;
             screenMode = ScreenMode.Win;
+
             score.timeRemaining = (int) timer.TimeRemaining;
             score.timeElapsed = (int) timer.TimeElapsed;
 
@@ -475,6 +476,7 @@ namespace Phoenix
             player.DeactivateJetCollider();
             onWin.Invoke();
         }
+
 
         public void Pause()
         {

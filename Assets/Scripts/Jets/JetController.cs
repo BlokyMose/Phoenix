@@ -14,6 +14,15 @@ namespace Phoenix
     {
         #region [Classes]
 
+        [Flags]
+        public enum AfterDieMode
+        {
+            Nothing = 0,
+            DeactivateJet = 1,
+            DeactivateCol = 2,
+            DestroyGO = 4
+        }
+
         [Serializable]
         public class RotationSettings
         {
@@ -55,6 +64,9 @@ namespace Phoenix
 
         [SerializeField]
         RotationSettings rotationSettings = new RotationSettings();
+
+        [SerializeField]
+        AfterDieMode afterDie;
 
         #endregion
 
@@ -101,8 +113,7 @@ namespace Phoenix
             brain.OnCursorWorldPos += RotateToCursor;
             if (brain.TryGetComponent<HealthController>(out var healthController))
             {
-                healthController.OnDie += Deactivate;
-                healthController.OnDie += DestroyJetGO;
+                healthController.OnDie += Die;
             }
         }
 
@@ -148,8 +159,7 @@ namespace Phoenix
             brain.OnCursorWorldPos -= RotateToCursor;
             if (brain.TryGetComponent<HealthController>(out var healthController))
             {
-                healthController.OnDie -= Deactivate;
-                healthController.OnDie -= DestroyJetGO;
+                healthController.OnDie -= Die;
             }
 
         }
@@ -234,6 +244,16 @@ namespace Phoenix
         {
             if (rb.velocity.magnitude < jetPropertiesStatic.MaxVelocity)
                 rb.AddForce((jetPropertiesStatic.MoveSpeed * Time.deltaTime * moveDirection) - (rb.velocity*reduceVelocityMultipler), ForceMode2D.Impulse);
+        }
+
+        void Die()
+        {
+            if (afterDie.HasFlag(AfterDieMode.DeactivateJet))
+                Deactivate();
+            if (afterDie.HasFlag(AfterDieMode.DeactivateCol))
+                DeactivateJetCollider();
+            if (afterDie.HasFlag(AfterDieMode.DestroyGO))
+                DestroyJetGO();
         }
 
         public virtual void Activate()

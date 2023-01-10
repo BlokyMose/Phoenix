@@ -33,19 +33,14 @@ namespace Phoenix
 
             if (!foundSameElement)
                 currentElementIndex = -1;
-
-            var brain = GetComponent<Brain>();
-            if (brain != null)
-                Init(brain);
-
         }
 
-        private void OnDestroy()
+        void OnDestroy()
         {
-            var brain = GetComponent<Brain>();
-            if (brain != null)
-                Disable(brain);
+            var elementContainer = GetComponent<ElementContainer>();
+            elementContainer.Exit(ref OnElementSwitched);
         }
+
 
         public void SwitchToNextElement()
         {
@@ -53,14 +48,5 @@ namespace Phoenix
             OnElementSwitched?.Invoke(elements[currentElementIndex]);
         }
 
-        public void Init(Brain brain)
-        {
-            OnElementSwitched?.Invoke(elements[currentElementIndex]);
-        }
-
-        public void Disable(Brain brain)
-        {
-
-        }
     }
 }

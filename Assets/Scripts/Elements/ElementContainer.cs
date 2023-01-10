@@ -14,6 +14,11 @@ namespace Phoenix
 
         public Action<Element> OnNewElement;
 
+        protected virtual void Awake()
+        {
+            
+        }
+
         public void Init(Element element, ref Func<float,Element,float> getProcessedDamage)
         {
             this.element = element;
@@ -23,16 +28,23 @@ namespace Phoenix
 
         public void Init(ref Action<Element> onSwitchElement)
         {
-            onSwitchElement += (newElement) => 
-            { 
-                this.element = newElement; 
-                OnNewElement?.Invoke(element); 
-            };
+            onSwitchElement += SetNewElement;
+        }
+
+        public void Exit(ref Action<Element> onSwitchElement)
+        {
+            onSwitchElement += SetNewElement;
         }
 
         public void Init(ShieldProperties properties)
         {
             element = properties.Element;
+        }
+
+        public void SetNewElement(Element newElement)
+        {
+            element = newElement;
+            OnNewElement?.Invoke(element);
         }
     }
 }

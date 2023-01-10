@@ -1,3 +1,4 @@
+using Encore.Utility;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +17,9 @@ namespace Phoenix
         HealthBarUI healthBarUI;
 
         [SerializeField]
-        AudioSourceRandom audioSourceRandom;
+        AudioSourceRandom audioSource;
+
+        ElementSwitcher elementSwitcher;
 
         #endregion
 
@@ -28,59 +31,62 @@ namespace Phoenix
         [SerializeField]
         Vector2 stayDurationRange = new Vector2(1, 2);
 
+        [SerializeField]
+        float switchElementEvery = 5f;
+
         #endregion
 
         #region [Vars: Data Handlers]
 
+        Coroutine corUpdate;
 
         #endregion
-
-        private void Start()
-        {
-            Begin();
-        }
 
         public override void Init()
         {
             base.Init();
-        }
+            elementSwitcher = GetComponent<ElementSwitcher>();
+            audioSource = GetComponent<AudioSourceRandom>();
 
-        public override void Exit()
-        {
-            StopAllCoroutines();
-            base.Exit();
-        }
-
-        private void Begin()
-        {
-            base.Init();
-            audioSourceRandom.Play();
-
-            StartCoroutine(Firing());
-            IEnumerator Firing()
+            if(TryGetComponent<HealthController>(out var health))
             {
+                health.OnDie += EscapeAway;
+            }
+        }
+
+        void Start()
+        {
+            audioSource.Play();
+
+            corUpdate = this.RestartCoroutine(Update());
+            IEnumerator Update()
+            {
+                var time = 0f;
+                var switchElementAt = switchElementEvery;
+                bool isSettingNewPos = false;
+                
                 while (true)
+                {
+                    Fire();
+                    FaceRight();
+                    Move();
+                    SwitchElement();
+
+                    time += Time.deltaTime * Time.timeScale;
+                    yield return null;
+                }
+
+                void Fire()
                 {
                     OnFireInput?.Invoke();
-                    yield return null;
                 }
-            }
 
-            StartCoroutine(Facing());
-            IEnumerator Facing()
-            {
-                while (true)
+                void FaceRight()
                 {
                     OnCursorWorldPos((Vector2)transform.position + Vector2.right * 10);
-                    yield return null;
                 }
-            }
 
-            StartCoroutine(Moving());
-            IEnumerator Moving()
-            {
-                bool isSettingNewPos = false;
-                while (true)
+                void Move()
                 {
                     if (!isSettingNewPos && Mathf.Abs(transform.position.y - targetPos.position.y) < 0.25f)
                     {
@@ -106,21 +112,52 @@ namespace Phoenix
                         else
                             OnMoveInput(Vector2.right);
                     }
+                }
 
+                void SwitchElement()
+                {
+                    if(time > switchElementAt && elementSwitcher != null)
+                    {
+                        switchElementAt += switchElementEvery;
+                        elementSwitcher.SwitchToNextElement();
+                    }
+                }
+            }   
+        }
+
+        public override void Exit()
+        {
+            StopAllCoroutines();
+            base.Exit();
+        }
+
+        void EscapeAway()
+        {
+            StopAllCoroutines();
+            corUpdate = this.RestartCoroutine(Update());
+            IEnumerator Update()
+            {
+                while (true)
+                {
+                    FaceRight();
+                    Move();
 
                     yield return null;
-
-
                 }
+
+                void FaceRight()
+                {
+                    OnCursorWorldPos((Vector2)transform.position + Vector2.right * 10);
+                }
+
+                void Move()
+                {
+                    OnMoveInput(Vector2.right);
+                }
+
             }
-
         }
 
-        public void ConnectToHealthBar(HealthController healthController)
-        {
-            if (healthBarUI != null)
-                healthBarUI.Init(healthController);
-        }
 
     }
 }
