@@ -554,7 +554,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: -0.06975647, w: 0.9975641}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8652447370149419793}
   m_RootOrder: 2
@@ -2090,7 +2090,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 0dcf897e630b3af4e9fb9428010ed8dd, type: 3}
     - {fileID: 8300000, guid: 3dab91c579854cc43b881ae300046f7f, type: 3}
-    volume: 0.3
+    volume: 1
     volumeRandomRange: 0
     pitch: 1
     pitchRandomRange: 0.15
@@ -2099,7 +2099,7 @@ MonoBehaviour:
   - packName: drum
     clips:
     - {fileID: 8300000, guid: 513842f8f1503f2409b030d196e05601, type: 3}
-    volume: 0.5
+    volume: 1
     volumeRandomRange: 0
     pitch: 1
     pitchRandomRange: 0.05
@@ -2111,7 +2111,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e68011d3bb1fe6a4aac40de4418ec572, type: 3}
     - {fileID: 8300000, guid: fcd1bcd06ba1f834c9e6b1b177c4ba52, type: 3}
     - {fileID: 8300000, guid: 418324ebaa8f41941a51008c413095da, type: 3}
-    volume: 0.5
+    volume: 1
     volumeRandomRange: 0
     pitch: 1
     pitchRandomRange: 0.15
@@ -2120,7 +2120,7 @@ MonoBehaviour:
   - packName: cheer
     clips:
     - {fileID: 8300000, guid: b3c7ac497fd831b45a564d754f74ae8c, type: 3}
-    volume: 0.5
+    volume: 1
     volumeRandomRange: 0
     pitch: 1
     pitchRandomRange: 0.1

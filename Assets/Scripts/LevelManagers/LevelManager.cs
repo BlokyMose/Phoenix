@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -172,9 +173,9 @@ namespace Phoenix
         bool useVCamInScene = true;
 
         [Header("Gameplay")]
+
         [SerializeField]
-        GameObject timerGO;
-        iTimer timer;
+        Timer timer;
 
         [Header("UI")]
         [SerializeField]
@@ -185,8 +186,8 @@ namespace Phoenix
         PauseMenu pauseMenu;
 
         [SerializeField]
-        GameOverMenu gameOverMenuPrefab;
-        GameOverMenu gameOverMenu;
+        GameOverCanvas gameOverCanvasPrefab;
+        GameOverCanvas gameOverCanvas;
 
         [SerializeField]
         WinCanvas winCanvasPrefab;
@@ -194,6 +195,12 @@ namespace Phoenix
 
         [SerializeField]
         Level mainMenu;
+
+        [Header("Audio")]
+
+        AudioMixer audioMixer;
+        const string BGM_Volume = nameof(BGM_Volume);
+        const string PauseFX_Volume = nameof(PauseFX_Volume);
 
         [Header("Stages")]
         [SerializeField]
@@ -223,16 +230,12 @@ namespace Phoenix
 
         #endregion
 
-
-        #region [Inspector Methods]
-
-        void OnValidate()
-        {
-            if (timerGO != null && timerGO.GetComponent<iTimer>() == null)
-                timerGO = null;
-        }
-
-        #endregion
+        public Action OnPause;
+        public Action OnResume;
+        public Action<float> OnStartQuitting;
+        public Action OnInit;
+        public Action OnShowWinCanvas;
+        public Action OnShowGameOverCanvas;
 
 
         protected virtual void Awake()
@@ -342,15 +345,30 @@ namespace Phoenix
 
             #endregion
 
-            #region [Timer]
+            #region [Level BGM Controller]
 
-            timer ??= timerGO.GetComponent<iTimer>();
-            timer ??= gameObject.AddComponent<Timer>();
+            if(TryGetComponent<LevelBGMController>(out var levelBGMController))
+                levelBGMController.Init(this);
 
             #endregion
 
+            screenMode = ScreenMode.Play;
 
-            StartLevel();
+            #region [Start First Stage]
+
+            for (int i = 0; i < stages.Count; i++)
+            {
+                if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
+                {
+                    currentStageIndex = i;
+                    currentStage.StartStage();
+                    break;
+                }
+            }
+
+            #endregion
+
+            OnInit?.Invoke();
 
             void OnStageCleared()
             {
@@ -368,22 +386,6 @@ namespace Phoenix
                 }
             }
 
-            void StartLevel()
-            {
-                screenMode = ScreenMode.Play;
-
-                for (int i = 0; i < stages.Count; i++)
-                {
-                    if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
-                    {
-                        currentStageIndex = i;
-                        currentStage.StartStage();
-                        break;
-                    }
-                }
-
-
-            }
         }
 
         public virtual void Exit()
@@ -395,11 +397,20 @@ namespace Phoenix
                 pauseMenu.OnQuit -= Quit;
             }
 
-            if (gameOverMenu != null)
+            if (gameOverCanvas != null)
             {
-                gameOverMenu.OnRestart -= Restart;
-                gameOverMenu.OnMainMenu -= Quit;
+                gameOverCanvas.OnRestart -= Restart;
+                gameOverCanvas.OnMainMenu -= Quit;
             }
+
+            if (winCanvas != null)
+            {
+                winCanvas.OnRestart -= Restart;
+                winCanvas.OnMainMenu -= Quit;
+            }
+
+            if (TryGetComponent<LevelBGMController>(out var levelBGMController))
+                levelBGMController.Exit(this);
 
             if (player != null)
             {
@@ -448,12 +459,16 @@ namespace Phoenix
 
             player.DisplayCursorGame();
 
-            gameOverMenu = Instantiate(gameOverMenuPrefab);
-            gameOverMenu.Init();
-            gameOverMenu.OnRestart += Restart;
-            gameOverMenu.OnMainMenu += Quit;
+            if (gameOverCanvasPrefab != null)
+            {
+                gameOverCanvas = Instantiate(gameOverCanvasPrefab);
+                gameOverCanvas.Init();
+                gameOverCanvas.OnRestart += Restart;
+                gameOverCanvas.OnMainMenu += Quit;
+            }
 
             player.DisplayCursorMenu();
+            OnShowGameOverCanvas?.Invoke();
             onGameOver.Invoke();
         }
 
@@ -462,48 +477,60 @@ namespace Phoenix
             if (screenMode == ScreenMode.Win || screenMode == ScreenMode.GameOver) return;
             screenMode = ScreenMode.Win;
 
-            score.timeRemaining = (int) timer.TimeRemaining;
-            score.timeElapsed = (int) timer.TimeElapsed;
+            if (timer != null)
+            {
+                score.timeRemaining = (int) timer.TimeRemaining;
+                score.timeElapsed = (int) timer.TimeElapsed;
+            }
 
             player.DisplayCursorGame();
             
-            winCanvas = Instantiate(winCanvasPrefab);
-            winCanvas.Init(level, gradingRules, score);
-            winCanvas.OnRestart += Restart;
-            winCanvas.OnMainMenu += Quit;
+            if (winCanvasPrefab != null)
+            {
+                winCanvas = Instantiate(winCanvasPrefab);
+                winCanvas.Init(level, gradingRules, score);
+                winCanvas.OnRestart += Restart;
+                winCanvas.OnMainMenu += Quit;
+            }
 
             player.DisplayCursorMenu();
             player.DeactivateJetCollider();
+            OnShowWinCanvas?.Invoke();
             onWin.Invoke();
         }
 
 
         public void Pause()
         {
-            if (pauseMenu == null) return;
-
             screenMode = ScreenMode.Pause;
-            pauseMenu.Show(true);
             Time.timeScale = 0;
+
+            OnPause?.Invoke();
+
             player.DisplayCursorMenu();
 
+            if (pauseMenu != null) 
+                pauseMenu.Show(true);
         }
 
         public void Resume()
         {
-            if (pauseMenu == null) return;
-
             screenMode = ScreenMode.Play;
-            pauseMenu.Show(false);
             Time.timeScale = 1;
+
+            OnResume?.Invoke();
+
             player.DisplayCursorGame();
+
+            if (pauseMenu != null)
+                pauseMenu.Show(false);
         }
 
         public void Restart()
         {
             LoadScene(SceneManager.GetActiveScene().name);
         }
-
+            
         public void Quit()
         {
             LoadScene(mainMenu.SceneName);
@@ -523,8 +550,21 @@ namespace Phoenix
 
             screenMode = ScreenMode.Loading;
             Time.timeScale = 1;
-            var loadingCanvas = Instantiate(loadingCanvasPrefab, null);
-            loadingCanvas.Init(() => { SceneManager.LoadScene(sceneName); });
+
+            var loadingDuration = 2f;
+            if (loadingCanvasPrefab != null)
+            {
+                var loadingCanvas = Instantiate(loadingCanvasPrefab, null);
+                loadingCanvas.Init(() => { SceneManager.LoadScene(sceneName); });
+                loadingDuration = loadingCanvas.InDuration;
+            }
+            else
+            {
+                SceneManager.LoadScene(sceneName);
+            }
+
+            OnStartQuitting?.Invoke(loadingDuration);
+
         }
     }
 }

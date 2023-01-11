@@ -66,6 +66,7 @@ namespace Phoenix
 
         public void Init()
         {
+            gameObject.SetActive(true);
             ResetComponents();
 
             animator = GetComponent<Animator>();

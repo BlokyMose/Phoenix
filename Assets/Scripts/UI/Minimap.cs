@@ -9,7 +9,7 @@ using static Phoenix.Minimap;
 
 namespace Phoenix
 {
-    public class Minimap : MonoBehaviour, iTimer
+    public class Minimap : Timer
     {
         [Serializable]
         public class TimeEvent
@@ -91,35 +91,38 @@ namespace Phoenix
         [SerializeField]
         UnityEvent onEnd;
 
-        bool isPlaying = false;
+        bool isPaused;
         int boo_beeping, boo_arrived, flo_beepingSpeed;
         float time = 0f;
 
-        public float Duration
+        public override bool IsPaused { get => isPaused; protected set => isPaused = value; }
+
+
+        public override float Duration
         {
             get => duration;
             set => duration = value;
         }
 
-        public float TimeElapsed
+        public override float TimeElapsed
         {
             get => time;
             set => time = value;
         }
 
-        public float TimeRemaining
+        public override float TimeRemaining
         {
             get => duration - time;
         }
 
-        public void Init()
+        public override void Init()
         {
             destinationAnimator = destination.GetComponent<Animator>();
             boo_beeping = Animator.StringToHash(nameof(boo_beeping));
             boo_arrived = Animator.StringToHash(nameof(boo_arrived));
             flo_beepingSpeed = Animator.StringToHash(nameof(flo_beepingSpeed));
 
-            isPlaying = true;
+            isPaused = false;
 
             foreach (var timeEvent in timeEvents)
                 timeEvent.Init(this.duration);
@@ -148,7 +151,7 @@ namespace Phoenix
 
                 while (time < this.duration)
                 {
-                    if (isPlaying && UnityEngine.Time.timeScale > 0f)
+                    if (!isPaused && UnityEngine.Time.timeScale > 0f)
                     {
                         movingObject.transform.position = 
                             (destination.transform.position * time / this.duration) + (originPos * (this.duration - time) / this.duration);
@@ -185,14 +188,5 @@ namespace Phoenix
             }
         }
 
-        public void Play()
-        {
-            isPlaying = true;
-        }
-
-        public void Pause()
-        {
-            isPlaying = false;
-        }
     }
 }

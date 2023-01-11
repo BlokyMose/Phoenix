@@ -9,7 +9,7 @@ namespace Phoenix
     [RequireComponent(typeof(CanvasGroup))]
     [RequireComponent(typeof(Animator))]
 
-    public class GameOverMenu : MonoBehaviour
+    public class GameOverCanvas : MonoBehaviour
     {
         #region [Components]
 

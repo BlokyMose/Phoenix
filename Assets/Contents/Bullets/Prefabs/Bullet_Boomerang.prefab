@@ -406,22 +406,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc18757950cd6240a7eae615c5b6be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playProbability: 1
   audioPacks:
-  - clips:
+  - packName: 
+    clips:
     - {fileID: 8300000, guid: 2c391ea3990aae94cbca3838dbd46bbd, type: 3}
     - {fileID: 8300000, guid: 132cce689f5a121449ed36d57894d49e, type: 3}
     volume: 0.5
     volumeRandomRange: 0
     pitch: 1
     pitchRandomRange: 0.15
+    delay: 0
+    delayRandomRange: 0
   audioClip: {fileID: 0}
-  output: {fileID: 0}
+  output: {fileID: -2188104902220533747, guid: 9ac9a19f77df95d4fad1506815ae6c7d, type: 2}
   mute: 0
   bypassEffect: 0
   bypassListenerEffect: 0
   bypassReverbZones: 0
   playOnAwake: 1
+  invokeIn: 0
   loop: 0
+  loopPeriod: 3
   priority: 128
   volume: 1
   pitch: 1

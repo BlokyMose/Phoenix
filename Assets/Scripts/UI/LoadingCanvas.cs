@@ -13,9 +13,11 @@ namespace Phoenix
 
         [SerializeField]
         float inDuration = 1.25f;
+        public float InDuration => inDuration;
 
         [SerializeField]
         float outDuration = 1.25f;
+        public float OutDuration => outDuration;
 
         Coroutine corAnimating;
         int boo_loaded;
@@ -26,10 +28,10 @@ namespace Phoenix
 
             boo_loaded = Animator.StringToHash(nameof(boo_loaded));
 
-            corAnimating = this.RestartCoroutine(Delay(inDuration));
-            IEnumerator Delay(float delay)
+            corAnimating = this.RestartCoroutine(Delay());
+            IEnumerator Delay()
             {
-                yield return new WaitForSeconds(delay);
+                yield return new WaitForSeconds(inDuration);
                 onCovered();
             }
         }
