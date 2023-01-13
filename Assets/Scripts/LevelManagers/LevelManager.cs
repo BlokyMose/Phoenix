@@ -18,7 +18,7 @@ namespace Phoenix
     {
         #region [Classes]
 
-        public enum ScreenMode { Loading, Play, Pause, GameOver, Win }
+        public enum ScreenMode { Loading, Play, Pause, GameOver, GameOverCanvas, Win, WinCanvas }
 
         [Serializable]
         public class StartPoint
@@ -40,7 +40,7 @@ namespace Phoenix
             NextRequirement nextRequirement = NextRequirement.All;
 
             [SerializeField]
-            List<LevelObjectActivator> objectActivators = new List<LevelObjectActivator>();
+            List<LevelObjectActivator> objectActivators = new();
             public List<LevelObjectActivator> ObjectActivators => objectActivators;
 
             LevelManager levelManager;
@@ -69,9 +69,10 @@ namespace Phoenix
             #endregion
 
 
-            public void Init(LevelManager levelManager)
+            public void Init(LevelManager levelManager, ScreenMode activeInScreenMode)
             {
                 this.levelManager = levelManager;
+
                 foreach (var objectActivator in objectActivators)
                 {
                     objectActivator.Init(OnNextStage);
@@ -79,7 +80,7 @@ namespace Phoenix
 
                 void OnNextStage()
                 {
-                    if (levelManager.Screen != ScreenMode.Play) return;
+                    if (levelManager.Screen != activeInScreenMode) return;
 
                     activatedObjectsCount++;
                     if (CanGoToNextStage())
@@ -93,9 +94,7 @@ namespace Phoenix
             public void StartStage()
             {
                 foreach (var objectActivator in objectActivators)
-                {
                     levelManager.StartCoroutine(ActivatingAfter(objectActivator, objectActivator.DelayActivation));
-                }
 
                 IEnumerator ActivatingAfter(LevelObjectActivator activator, float delay)
                 {
@@ -108,13 +107,15 @@ namespace Phoenix
             {
                 foreach (var objectActivator in objectActivators)
                 {
-                    levelManager.StartCoroutine(DectivatingAfter(objectActivator, objectActivator.DelayDeactivation));
+                    levelManager.StartCoroutine(EndingActivatorAfter(objectActivator, objectActivator.DelayDeactivation));
                 }
 
-                IEnumerator DectivatingAfter(LevelObjectActivator activator, float delay)
+                IEnumerator EndingActivatorAfter(LevelObjectActivator activator, float delay)
                 {
                     yield return new WaitForSeconds(delay);
-                    activator.Activate(false);
+
+                    if (activator != null)
+                        activator.EndStage();
                 }
             }
 
@@ -149,6 +150,81 @@ namespace Phoenix
             }
         }
 
+        [Serializable]
+        public class StagesSet
+        {
+            [SerializeField, ListDrawerSettings(Expanded = true)]
+            List<Stage> stages = new();
+
+            [HideInInspector]
+            public Stage currentStage => stages[currentStageIndex];
+            [HideInInspector]
+            public int currentStageIndex;
+            Action OnEnd;
+
+
+            public void Init(LevelManager levelManager, ScreenMode activeInScreenMode, Action onEnd)
+            {
+                this.OnEnd = onEnd;
+                currentStageIndex = 0;
+
+
+                foreach (var stage in stages)
+                {
+                    if (stage.ActiveMode != Stage.StageActiveMode.Inactive)
+                    {
+                        stage.OnStageCleared = OnStageCleared;
+                        stage.Init(levelManager, activeInScreenMode);
+                    }
+                }
+
+                var activeStageIndex = -1;
+                for (int i = 0; i < stages.Count; i++)
+                {
+                    if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
+                    {
+                        activeStageIndex = i;
+                        break;
+                    }
+                }
+
+                if (activeStageIndex != -1)
+                {
+                    currentStageIndex = activeStageIndex;
+                    currentStage.StartStage();
+                }
+                else
+                {
+                    onEnd?.Invoke();
+                }
+
+
+                void OnStageCleared()
+                {
+                    if (currentStageIndex >= stages.Count - 1)
+                        Exit();
+
+                    for (int i = currentStageIndex + 1; i < stages.Count; i++)
+                    {
+                        if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
+                        {
+                            currentStageIndex = i;
+                            currentStage.StartStage();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            public void Exit()
+            {
+                foreach (var stage in stages)
+                    stage.Reset();
+
+                OnEnd?.Invoke();
+            }
+        }
+
         #endregion
 
         #region [Vars: Properties]
@@ -160,6 +236,10 @@ namespace Phoenix
         LevelGradingRules gradingRules;
 
         [Header("Player")]
+        [SerializeField]
+        SaveCache saveCache;
+        public SaveCache SaveCache => saveCache;
+
         [SerializeField]
         bool usePlayerInScene = true;
 
@@ -203,17 +283,15 @@ namespace Phoenix
         const string PauseFX_Volume = nameof(PauseFX_Volume);
 
         [Header("Stages")]
-        [SerializeField]
-        bool isLoopingStages = false;
 
         [SerializeField]
-        List<Stage> stages = new List<Stage>();
+        StagesSet mainStages;
 
-        [Header("Events")]
         [SerializeField]
-        UnityEvent onGameOver;
+        StagesSet gameOverStages;
+
         [SerializeField]
-        UnityEvent onWin;
+        StagesSet winStages;
 
         #endregion
 
@@ -222,8 +300,6 @@ namespace Phoenix
         PlayerBrain player;
         public PlayerBrain Player => player;
         Cinemachine.CinemachineVirtualCamera vCam;
-        Stage currentStage => stages[currentStageIndex];
-        int currentStageIndex;
         LevelGradingRules.Score score = new();
         ScreenMode screenMode = ScreenMode.Play;
         public ScreenMode Screen => screenMode;
@@ -273,7 +349,7 @@ namespace Phoenix
             player.OnQuitInput += TogglePause;
             if (player.TryGetComponent<HealthController>(out var playerHealthController))
             {
-                playerHealthController.OnDie += ShowGameOverMenu;
+                playerHealthController.OnDie += EnterGameOverStages;
                 playerHealthController.OnDamaged += OnPlayerDamaged;
             }
 
@@ -297,19 +373,6 @@ namespace Phoenix
                 vCam = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
                 if (vCam == null)
                     Debug.LogWarning("useVCamInScene is True, but there is no VCam found");
-            }
-
-            #endregion
-
-            #region [Stages]
-
-            foreach (var stage in stages)
-            {
-                if (stage.ActiveMode != Stage.StageActiveMode.Inactive)
-                {
-                    stage.OnStageCleared += OnStageCleared;
-                    stage.Init(this);
-                }
             }
 
             #endregion
@@ -352,41 +415,12 @@ namespace Phoenix
 
             #endregion
 
-            screenMode = ScreenMode.Play;
-
-            #region [Start First Stage]
-
-            for (int i = 0; i < stages.Count; i++)
-            {
-                if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
-                {
-                    currentStageIndex = i;
-                    currentStage.StartStage();
-                    break;
-                }
-            }
-
-            #endregion
+            EnterMainStages();
 
             OnInit?.Invoke();
-
-            void OnStageCleared()
-            {
-                if (isLoopingStages && currentStageIndex + 1 >= stages.Count)
-                    currentStageIndex = -1;
-
-                for (int i = currentStageIndex+1; i < stages.Count; i++)
-                {
-                    if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
-                    {
-                        currentStageIndex = i;
-                        currentStage.StartStage();
-                        break;
-                    }
-                }
-            }
-
         }
+
+
 
         public virtual void Exit()
         {
@@ -417,7 +451,7 @@ namespace Phoenix
                 player.OnQuitInput -= TogglePause;
                 if (player.TryGetComponent<HealthController>(out var playerHealthController))
                 {
-                    playerHealthController.OnDie -= ShowGameOverMenu;
+                    playerHealthController.OnDie -= EnterGameOverStages;
                     playerHealthController.OnDamaged -= OnPlayerDamaged;
                 }
 
@@ -451,13 +485,34 @@ namespace Phoenix
                 Resume();
         }
 
-        public void ShowGameOverMenu()
+        public void EnterMainStages()
         {
-            if (screenMode == ScreenMode.GameOver || screenMode == ScreenMode.Win) return;
+            screenMode = ScreenMode.Play;
+            mainStages.Init(this, ScreenMode.Play, EnterWinStages);
+        }
 
+        public void EnterGameOverStages()
+        {
             screenMode = ScreenMode.GameOver;
+            player.DisplayCursorMenu();
+            player.DeactivateJetCollider();
+            gameOverStages.Init(this, ScreenMode.GameOver, ShowGameOverCanvas);
 
-            player.DisplayCursorGame();
+        }
+
+        public void EnterWinStages()
+        {
+            screenMode = ScreenMode.Win;
+            player.DisplayCursorMenu();
+            player.DeactivateJetCollider();
+            winStages.Init(this, ScreenMode.Win, ShowWinCanvas);
+
+        }
+
+        void ShowGameOverCanvas()
+        {
+            if (screenMode == ScreenMode.GameOverCanvas || screenMode == ScreenMode.WinCanvas) return;
+            screenMode = ScreenMode.GameOverCanvas;
 
             if (gameOverCanvasPrefab != null)
             {
@@ -469,13 +524,13 @@ namespace Phoenix
 
             player.DisplayCursorMenu();
             OnShowGameOverCanvas?.Invoke();
-            onGameOver.Invoke();
         }
 
-        public void ShowWinCanvas()
+
+        void ShowWinCanvas()
         {
-            if (screenMode == ScreenMode.Win || screenMode == ScreenMode.GameOver) return;
-            screenMode = ScreenMode.Win;
+            if (screenMode == ScreenMode.WinCanvas || screenMode == ScreenMode.GameOverCanvas) return;
+            screenMode = ScreenMode.WinCanvas;
 
             if (timer != null)
             {
@@ -483,8 +538,6 @@ namespace Phoenix
                 score.timeElapsed = (int) timer.TimeElapsed;
             }
 
-            player.DisplayCursorGame();
-            
             if (winCanvasPrefab != null)
             {
                 winCanvas = Instantiate(winCanvasPrefab);
@@ -494,9 +547,7 @@ namespace Phoenix
             }
 
             player.DisplayCursorMenu();
-            player.DeactivateJetCollider();
             OnShowWinCanvas?.Invoke();
-            onWin.Invoke();
         }
 
 

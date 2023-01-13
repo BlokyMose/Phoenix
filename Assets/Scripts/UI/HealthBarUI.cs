@@ -75,11 +75,11 @@ namespace Phoenix
 
         public void ReceiveDamage(float damage)
         {
-            int barCount = (int)(damage / hpPerBar);
+            var barCount = Mathf.FloorToInt(damage / hpPerBar);
             for (int i = 0; i < barCount; i++)
                 EmptyOneFullUnit();
 
-            float leftoverDamage = damage % hpPerBar;
+            var leftoverDamage = Mathf.FloorToInt(damage % hpPerBar);
             DecreaseUnit(leftoverDamage);
         }
 
@@ -91,19 +91,20 @@ namespace Phoenix
                 FullOneFillingUnit();
         }
 
-        void DecreaseUnit(float decreaseAmount)
+        void DecreaseUnit(int decreaseAmount)
         {
             if (decreaseAmount <= 0) return;
 
             var _decreaseAmount = decreaseAmount;
+            var currentBarHP = Mathf.FloorToInt(GetHealth() % hpPerBar);
+            if (currentBarHP == 0) currentBarHP = hpPerBar;
+
             for (int i = healthBarUnits.Count - 1; i >= 0; i--)
             {
                 var healthBar = healthBarUnits[i];
                 if (healthBar.Status == HealthBarUIUnit.FillStatus.Decreased ||
                     healthBar.Status == HealthBarUIUnit.FillStatus.Full)
                 {
-                    var currentBarHP = GetHealth() % hpPerBar;
-                    if (currentBarHP == 0) currentBarHP = hpPerBar;
                     currentBarHP -= _decreaseAmount;
 
                     if (currentBarHP == 0)
@@ -114,7 +115,8 @@ namespace Phoenix
                     else if (currentBarHP < 0)
                     {
                         healthBar.Empty();
-                        _decreaseAmount -= (GetHealth() % hpPerBar);
+                        _decreaseAmount = -currentBarHP;
+                        currentBarHP = hpPerBar;
                     }
                     else
                     {

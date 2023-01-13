@@ -40,6 +40,9 @@ namespace Phoenix
         }
 
         [SerializeField]
+        float delay = 1f;
+
+        [SerializeField]
         List<Monologue> dialogue = new();
 
         [SerializeField]
@@ -109,8 +112,8 @@ namespace Phoenix
         {
             if (isShowing) return;
 
-            StartCoroutine(Delay(1f));
-            IEnumerator Delay(float delay)
+            StartCoroutine(BeginAfter(delay));
+            IEnumerator BeginAfter(float delay)
             {
                 yield return new WaitForSeconds(delay);
 
@@ -120,10 +123,12 @@ namespace Phoenix
                 levelManager.Player.DisplayCursorMenu();
                 currentIndex = 0;
                 currentBubble = CreateBubble(currentMonologue);
-                SetCharacterSprite(currentMonologue.Character.Sprite, currentMonologue.CharPos);
+                SetCharacterSprite(currentMonologue.Character, currentMonologue.CharPos);
 
                 isShowing = true;
                 canNext = true;
+
+                animator.SetBool(boo_show, true);
             }
         }
 
@@ -139,7 +144,7 @@ namespace Phoenix
                     currentBubble.HideAndDestroy();
 
                 currentBubble = CreateBubble(currentMonologue);
-                SetCharacterSprite(currentMonologue.Character.Sprite, currentMonologue.CharPos);
+                SetCharacterSprite(currentMonologue.Character, currentMonologue.CharPos);
             }
             else
             {
@@ -150,6 +155,8 @@ namespace Phoenix
         public void Hide()
         {
             if (!isShowing) return;
+            if (corPlayingFramesLeft != null) StopCoroutine(corPlayingFramesLeft);
+            if (corPlayingFramesRight != null) StopCoroutine(corPlayingFramesRight);
 
             isShowing = false;
             canNext = false;
@@ -169,14 +176,33 @@ namespace Phoenix
             return bubble;
         }
 
+        Coroutine corPlayingFramesLeft, corPlayingFramesRight;
+
+        void SetCharacterSprite(Character character, Monologue.CharacterPos characterPos)
+        {
+            switch (characterPos)
+            {
+                case Monologue.CharacterPos.Left:
+                    corPlayingFramesLeft = this.RestartCoroutine(character.PlayFrames(characterPosLeft, character.TalkFrames));
+                    break;
+                case Monologue.CharacterPos.Right:
+                    corPlayingFramesRight = this.RestartCoroutine(character.PlayFrames(characterPosRight, character.TalkFrames));
+                    break;
+                default:
+                    break;
+            }
+        }
+
         void SetCharacterSprite(Sprite sprite, Monologue.CharacterPos characterPos)
         {
             switch (characterPos)
             {
                 case Monologue.CharacterPos.Left:
+                    if(corPlayingFramesLeft != null) StopCoroutine(corPlayingFramesLeft);
                     characterPosLeft.sprite = sprite;
                     break;
                 case Monologue.CharacterPos.Right:
+                    if(corPlayingFramesRight != null) StopCoroutine(corPlayingFramesRight);
                     characterPosRight.sprite = sprite;
                     break;
                 default:

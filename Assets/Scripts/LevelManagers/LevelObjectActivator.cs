@@ -4,14 +4,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 namespace Phoenix
 {
     [InlineEditor]
     public class LevelObjectActivator : MonoBehaviour
     {
+        public enum NextStageMode { Deactivate, AsIs }
+
+        #if UNITY_EDITOR
+        public enum DebugMode { Off, DontActivate }
+        [SerializeField]
+        DebugMode debugMode;
+        #endif
+
         [SerializeField, LabelText("Auto-Deactivate"), Tooltip("Prevent initalization before LevelManager is intialized")]
         bool isDeactivateSelfAtAwake = true;
+
+        [SerializeField]
+        NextStageMode nextStage;
+        
 
         [SerializeField]
         float delayActivation = 0f;
@@ -45,9 +58,25 @@ namespace Phoenix
 
         public void Activate(bool isActive)
         {
+            #if UNITY_EDITOR
+            if (debugMode == DebugMode.DontActivate && isActive) return;
+            #endif
+
             gameObject.SetActive(isActive);
             if (isActive)
                 onActivated.Invoke();
+        }
+
+        public void EndStage()
+        {
+            switch (nextStage)
+            {
+                case NextStageMode.Deactivate:
+                    Activate(false);
+                    break;
+                case NextStageMode.AsIs:
+                    break;
+            }
         }
 
         public void NextStage()

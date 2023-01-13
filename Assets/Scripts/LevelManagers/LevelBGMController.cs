@@ -22,13 +22,16 @@ namespace Phoenix
         [SerializeField]
         string PauseFX_Volume = nameof(PauseFX_Volume);
 
+        SaveCache saveCache;
+
         Coroutine corModifyingBGMVolume;
         Coroutine corModifyingPauseFXVolume;
 
         public void Init(LevelManager levelManager)
         {
+            saveCache = levelManager.SaveCache;
             audioMixer.SetFloatLog(PauseFX_Volume, 0.001f);
-            audioMixer.SetFloatLog(BGM_Volume, 0.001f);
+
             levelManager.OnInit += IncreaseBGMVolume;
             levelManager.OnPause += ApplyPauseFX;
             levelManager.OnResume += RemovePauseFX;
@@ -50,7 +53,7 @@ namespace Phoenix
 
         void IncreaseBGMVolume()
         {
-            corModifyingBGMVolume = this.RestartCoroutine(SetParam(BGM_Volume, bgmFadeDuration, 0.001f, 1f));
+            corModifyingBGMVolume = this.RestartCoroutine(SetParam(BGM_Volume, bgmFadeDuration, 0.001f, saveCache != null ? saveCache.audioData.bgmVolume : 1f));
         }
 
         void ApplyPauseFX()
@@ -58,8 +61,8 @@ namespace Phoenix
             if (corModifyingBGMVolume != null) StopCoroutine(corModifyingBGMVolume);
             if (corModifyingPauseFXVolume != null) StopCoroutine(corModifyingPauseFXVolume);
 
-            audioMixer.SetFloatLog(BGM_Volume, 0.5f);
-            audioMixer.SetFloatLog(PauseFX_Volume, 1f);
+            audioMixer.SetFloatLog(BGM_Volume, saveCache != null ? saveCache.audioData.bgmVolume/2f : 0.5f);
+            audioMixer.SetFloatLog(PauseFX_Volume, saveCache != null ? saveCache.audioData.bgmVolume : 1f);
         }
 
         void RemovePauseFX()
@@ -67,7 +70,7 @@ namespace Phoenix
             if (corModifyingBGMVolume != null) StopCoroutine(corModifyingBGMVolume);
             if (corModifyingPauseFXVolume != null) StopCoroutine(corModifyingPauseFXVolume);
 
-            audioMixer.SetFloatLog(BGM_Volume, 1f);
+            audioMixer.SetFloatLog(BGM_Volume, saveCache != null ? saveCache.audioData.bgmVolume : 1f);
             audioMixer.SetFloatLog(PauseFX_Volume, 0.001f);
         }
 

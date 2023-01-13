@@ -15,7 +15,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 7040888864022611850, guid: 00e55233208377846aa25c5dc7c8dc3e, type: 3}
   bulletMovement: {fileID: 11400000, guid: 99288b97c05646a4a9de62b4597766ff, type: 2}
   element: {fileID: 11400000, guid: 47a3d76f983b4e940a4c5d59daad01f2, type: 2}
-  damage: 100
+  damage: 10
   collisionMode: 0
   lifeCount: 1
   lifeDuration: 4
