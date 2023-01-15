@@ -23,5 +23,15 @@ namespace Encore.Utility
 
             return targetComponent;
         }
+
+        public static GameObject Find(string goName)
+        {
+            var allGOs = GameObject.FindObjectsOfType<GameObject>(true);
+            foreach (var go in allGOs)
+                if (go.name == goName)
+                    return go;
+
+            return null;
+        }
     }
 }

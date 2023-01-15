@@ -30,5 +30,15 @@ namespace Phoenix
         {
             name = SOName;
         }
+
+        public virtual void Setup(string SOName, GameObject prefab, float delay, float period, int count)
+        {
+            this.SOName = SOName;
+            SetSOName();
+            this.Prefab = prefab;
+            this.Delay = delay;
+            this.Period = period;
+            this.Count = count;
+        }
     }
 }

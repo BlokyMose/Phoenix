@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\LevelManagers\Timer.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletControllerTriggerEnter.cs" />
     <Compile Include="Assets\Scripts\Utility\MathUtility.cs" />
+    <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxString.cs" />
     <Compile Include="Assets\Scripts\Brains\ShieldBotBrain.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerShoot.cs" />
     <Compile Include="Assets\Scripts\Utility\ColorUtility.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
     <Compile Include="Assets\Scripts\UI\Minimap.cs" />
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
+    <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxUtility.cs" />
     <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Assets\Scripts\Jets\JetPropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Health.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiFireProjectile.cs" />
+    <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxStringComponent.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AudioSourceRandom.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBG.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthController.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Assets\Scripts\Hiroto\Bullet.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\RotateByVelocity.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFlicker.cs" />
+    <Compile Include="Assets\Scripts\Utility\WaveControllerUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Extensions.cs" />
     <Compile Include="Assets\Scripts\UI\DialogueCanvas.cs" />
     <Compile Include="Assets\Settings\InputActions\PhoenixInput.cs" />
@@ -183,6 +187,7 @@
     <Compile Include="Assets\Scripts\Hiroto\Utils.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFade.cs" />
     <Compile Include="Assets\Scripts\Objects\BombController.cs" />
+    <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxSettings.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiButtonScript.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Rat.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\DestroySelf.cs" />
@@ -204,6 +209,7 @@
     <Compile Include="Assets\Scripts\Hiroto\Movement.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\AsOneInput.cs" />
     <Compile Include="Assets\Scripts\Jets\JetPropertiesStatic.cs" />
+    <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxData.cs" />
     <Compile Include="Assets\Scripts\Characters\Character.cs" />
     <Compile Include="Assets\Scripts\Jets\JetControllerAuto.cs" />
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
@@ -239,6 +245,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\Contents\Waves\DSyntax\Wave_Random.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />

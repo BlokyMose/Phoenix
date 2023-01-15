@@ -66,5 +66,15 @@ namespace Phoenix
             var max = count + countRange / 2;
             return Random.Range(min, max);
         }
+
+        public void Setup(string SOName, GameObject prefab, float delay, float period, int count,
+    List<GameObject> alternatePrefabs, float delayRange, float periodRange, int countRange)
+        {
+            base.Setup(SOName, prefab, delay, period, count);
+            this.AlternatePrefabs = alternatePrefabs;
+            this.DelayRange = delayRange;
+            this.PeriodRange = periodRange;
+            this.CountRange = countRange;
+        }
     }
 }

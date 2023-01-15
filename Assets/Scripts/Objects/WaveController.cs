@@ -3,10 +3,13 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using static Phoenix.WaveController;
 using static Phoenix.WaveController.Spawner;
+using FilePathAttribute = Sirenix.OdinInspector.FilePathAttribute;
 
 namespace Phoenix
 {
@@ -42,8 +45,21 @@ namespace Phoenix
             }
 
             [SerializeField]
-            List<WaveProperties> waves = new List<WaveProperties>();
+            List<WaveProperties> waves = new();
             public List<WaveProperties> Waves => waves;
+
+            public Spawner(bool isActive, Transform position, bool isLoop, List<WaveProperties> waves)
+            {
+                this.isActive = isActive;
+                this.position = position;
+                this.isLoop = isLoop;
+                this.waves = waves;
+            }
+
+            public Spawner()
+            {
+            }
+
 
             /// <summary>
             /// Get which wave should instantiate its prefab based on time and spawnerData;<br></br> 
@@ -268,6 +284,49 @@ namespace Phoenix
                 go.transform.rotation = transform.rotation;
             }
         }
+
+#if UNITY_EDITOR
+        const string FOLDOUT = "Export-Import (DSyntax)";
+        [FoldoutGroup(FOLDOUT, 100)]
+        [SerializeField, InlineButton(nameof(ExportDSyntaxAsTextFile), "Export"), LabelText("File"), LabelWidth(35), PropertyOrder(0)]
+        TextAsset dSyntaxTextFileExport;
+
+        void ExportDSyntaxAsTextFile()
+        {
+            Debug.Log(WaveControllerUtility.ExportDSyntaxAsFile(spawners, out dSyntaxTextFileExport, dSyntaxTextFileExport, gameObject.name));
+        }
+
+        [FoldoutGroup(FOLDOUT)]
+        [SerializeField, InlineButton(nameof(ExportDSyntaxAndCopyToClipboard), "Export"), LabelText("Text"), LabelWidth(35), PropertyOrder(0), Multiline]
+        string dSyntaxExport;
+
+        void ExportDSyntaxAndCopyToClipboard()
+        {
+            dSyntaxExport = WaveControllerUtility.ExportDSyntax(spawners);
+            EditorGUIUtility.systemCopyBuffer = dSyntaxExport;
+            Debug.Log(dSyntaxExport);
+        }
+
+
+        [FoldoutGroup(FOLDOUT), Space(10)]
+        [SerializeField, InlineButton(nameof(ImportDSyntaxFromTextFile), "Import"), LabelText("File"), LabelWidth(35), PropertyOrder(1)]
+        TextAsset dSyntaxTextFileImport;
+
+        void ImportDSyntaxFromTextFile()
+        {
+            if (dSyntaxTextFileImport != null)
+                spawners = WaveControllerUtility.ImportDSyntax(dSyntaxTextFileImport.text, (goName) => ComponentUtility.Find(goName));
+        }
+
+        [FoldoutGroup(FOLDOUT)]
+        [SerializeField, InlineButton(nameof(ImportDSyntaxFromText),"Import"), LabelText("Text"), LabelWidth(35), PropertyOrder(1), Multiline]
+        string dSyntaxImport;
+
+        void ImportDSyntaxFromText()
+        {
+            spawners = WaveControllerUtility.ImportDSyntax(dSyntaxImport, (goName) => ComponentUtility.Find(goName));
+        }
+#endif
 
     }
 }

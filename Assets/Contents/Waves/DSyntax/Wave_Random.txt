@@ -1,0 +1,134 @@
+[SPAWNER] 1
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+ 
+
+[SPAWNER] 2
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[initRandom] E_Red
+  {type: init_random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 2} {count_range: 4} 
+ 
+
+[SPAWNER] 3
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[initRandom] E_Red
+  {type: init_random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 2} {count_range: 4} 
+ 
+
+[SPAWNER] 4
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+ 
+
+[SPAWNER] 5
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[initRandom] E_Red
+  {type: init_random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 2} {count_range: 4} 
+ 
+
+[SPAWNER] 6
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[initRandom] E_Red
+  {type: init_random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 2} {count_range: 4} 
+ 
+
+[SPAWNER] 7
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[initRandom] E_Red
+  {type: init_random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 2} {count_range: 4} 
+ 
+
+[SPAWNER] 8
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[1] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[random] E_Red
+  {type: random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[initRandom] E_Red
+  {type: init_random} {delay: 3} {period: 2} {count: 3} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 2} {count_range: 4} 
+ 
+

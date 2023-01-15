@@ -43,5 +43,7 @@ namespace Phoenix
             LastPeriod = null;
             LastCount = null;
         }
+
+
     }
 }
