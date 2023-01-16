@@ -12,6 +12,7 @@ namespace Encore.Utility
     {
         public static void SetFloatLog(this AudioMixer audioMixer, string paramName, float value, float multiplyBy = 20f)
         {
+            if (value <= 0) value = 0.001f;
             audioMixer.SetFloat(paramName, Mathf.Log(value)*multiplyBy);
         }
 

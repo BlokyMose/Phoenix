@@ -17,10 +17,10 @@ namespace Phoenix
         float bgmFadeDuration = 2f;
 
         [SerializeField]
-        string BGM_Volume = nameof(BGM_Volume);
+        string BGM_VOLUME = "BGM_Volume";
 
         [SerializeField]
-        string PauseFX_Volume = nameof(PauseFX_Volume);
+        string PAUSEFX_VOLUME = "PauseFX_Volume";
 
         SaveCache saveCache;
 
@@ -30,7 +30,7 @@ namespace Phoenix
         public void Init(LevelManager levelManager)
         {
             saveCache = levelManager.SaveCache;
-            audioMixer.SetFloatLog(PauseFX_Volume, 0.001f);
+            audioMixer.SetFloatLog(PAUSEFX_VOLUME, 0);
 
             levelManager.OnInit += IncreaseBGMVolume;
             levelManager.OnPause += ApplyPauseFX;
@@ -53,7 +53,7 @@ namespace Phoenix
 
         void IncreaseBGMVolume()
         {
-            corModifyingBGMVolume = this.RestartCoroutine(SetParam(BGM_Volume, bgmFadeDuration, 0.001f, saveCache != null ? saveCache.audioData.bgmVolume : 1f));
+            corModifyingBGMVolume = this.RestartCoroutine(SetParam(BGM_VOLUME, bgmFadeDuration, 0, saveCache != null ? saveCache.audioData.bgmVolume : 1f));
         }
 
         void ApplyPauseFX()
@@ -61,8 +61,8 @@ namespace Phoenix
             if (corModifyingBGMVolume != null) StopCoroutine(corModifyingBGMVolume);
             if (corModifyingPauseFXVolume != null) StopCoroutine(corModifyingPauseFXVolume);
 
-            audioMixer.SetFloatLog(BGM_Volume, saveCache != null ? saveCache.audioData.bgmVolume/2f : 0.5f);
-            audioMixer.SetFloatLog(PauseFX_Volume, saveCache != null ? saveCache.audioData.bgmVolume : 1f);
+            audioMixer.SetFloatLog(BGM_VOLUME, saveCache != null ? saveCache.audioData.bgmVolume/2f : 0.5f);
+            audioMixer.SetFloatLog(PAUSEFX_VOLUME, saveCache != null ? saveCache.audioData.bgmVolume : 1f);
         }
 
         void RemovePauseFX()
@@ -70,15 +70,15 @@ namespace Phoenix
             if (corModifyingBGMVolume != null) StopCoroutine(corModifyingBGMVolume);
             if (corModifyingPauseFXVolume != null) StopCoroutine(corModifyingPauseFXVolume);
 
-            audioMixer.SetFloatLog(BGM_Volume, saveCache != null ? saveCache.audioData.bgmVolume : 1f);
-            audioMixer.SetFloatLog(PauseFX_Volume, 0.001f);
+            audioMixer.SetFloatLog(BGM_VOLUME, saveCache != null ? saveCache.audioData.bgmVolume : 1f);
+            audioMixer.SetFloatLog(PAUSEFX_VOLUME, 0);
         }
 
         void DecreaseAllSounds(float duration)
         {
             duration -= 0.2f;
-            corModifyingBGMVolume = this.RestartCoroutine(SetParam(BGM_Volume, duration, audioMixer.GetFloatExp(BGM_Volume), 0.001f));
-            corModifyingPauseFXVolume = this.RestartCoroutine(SetParam(PauseFX_Volume, duration, audioMixer.GetFloatExp(PauseFX_Volume), 0.001f));
+            corModifyingBGMVolume = this.RestartCoroutine(SetParam(BGM_VOLUME, duration, audioMixer.GetFloatExp(BGM_VOLUME), 0));
+            corModifyingPauseFXVolume = this.RestartCoroutine(SetParam(PAUSEFX_VOLUME, duration, audioMixer.GetFloatExp(PAUSEFX_VOLUME), 0));
         }
 
         IEnumerator SetParam(string paramName, float duration, float startValue, float endValue)

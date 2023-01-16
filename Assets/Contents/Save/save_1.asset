@@ -15,5 +15,5 @@ MonoBehaviour:
   saveName: save_1
   audioData:
     masterVolume: 1
-    bgmVolume: 1
+    bgmVolume: 0.64098746
     sfxVolume: 1
