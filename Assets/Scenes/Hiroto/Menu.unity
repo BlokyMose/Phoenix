@@ -1269,16 +1269,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26518fa7c0394824487256ec78a741d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: {fileID: 0}
+  gradingRules: {fileID: 0}
+  saveCache: {fileID: 0}
   usePlayerInScene: 1
   playerPrefab: {fileID: 0}
   startPoint:
     point: {fileID: 0}
   useVCamInScene: 1
-  pauseMenu: {fileID: 0}
-  mainMenuScene: {fileID: 0}
-  mainMenuSceneName: 
-  isLoopingStages: 0
-  stages: []
+  timer: {fileID: 0}
+  loadingCanvasPrefab: {fileID: 0}
+  pauseMenuPrefab: {fileID: 0}
+  gameOverCanvasPrefab: {fileID: 0}
+  winCanvasPrefab: {fileID: 0}
+  mainMenu: {fileID: 0}
+  mainStages:
+    stages: []
+    currentStageIndex: 0
+  gameOverStages:
+    stages: []
+    currentStageIndex: 0
+  winStages:
+    stages: []
+    currentStageIndex: 0
 --- !u!4 &1404721095
 Transform:
   m_ObjectHideFlags: 0
