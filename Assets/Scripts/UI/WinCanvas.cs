@@ -30,6 +30,9 @@ namespace Phoenix
 
         [Header("Buttons")]
         [SerializeField]
+        EventTrigger nextLevelBut;
+
+        [SerializeField]
         EventTrigger restartBut;
 
         [SerializeField]
@@ -39,9 +42,14 @@ namespace Phoenix
 
         public Action OnMainMenu;
         public Action OnRestart;
+        public Action OnGoToNextLevel;
 
         void Awake()
         {
+            EventTrigger.Entry nextLevelBut_entry_click = new EventTrigger.Entry();
+            nextLevelBut_entry_click.callback.AddListener((data) => OnGoToNextLevel?.Invoke());
+            nextLevelBut.triggers.Add(nextLevelBut_entry_click);
+
             EventTrigger.Entry restartBut_entry_click = new EventTrigger.Entry();
             restartBut_entry_click.callback.AddListener((data) => OnRestart?.Invoke());
             restartBut.triggers.Add(restartBut_entry_click);
@@ -50,7 +58,7 @@ namespace Phoenix
             mainMenuBut_entry_click.callback.AddListener((data) => OnMainMenu?.Invoke());
             mainMenuBut.triggers.Add(mainMenuBut_entry_click);
 
-            buttons = new() { restartBut, mainMenuBut };
+            buttons = new() { nextLevelBut, restartBut, mainMenuBut };
             foreach (var button in buttons)
             {
                 EventTrigger.Entry entry = new();
@@ -80,7 +88,8 @@ namespace Phoenix
                 "Time left: <pos=35%>"  + timeRemaining     + "<pos=50%><size=24> x"    + gradingRules.LevelScoringRules.timeRemainingPoint + "pt</size>" + "\r\n" +
                 "<size=52>Total: <pos=35%>" + totalPoint+ " pt</size>";
 
-
+            if (OnGoToNextLevel == null)
+                nextLevelBut.gameObject.SetActive(false);
         }
 
         

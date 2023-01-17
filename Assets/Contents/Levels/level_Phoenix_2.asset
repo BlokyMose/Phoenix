@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f92938763230c14fa4077b866bdb6aa, type: 3}
-  m_Name: level_Phoenix
+  m_Name: level_Phoenix_2
   m_EditorClassIdentifier: 
-  levelDisplayName: 'Level 1: Rise of Phoenix'
-  sceneObject: {fileID: 102900000, guid: c5da2ead5e1971e468a0dbf9c4779ec6, type: 3}
-  sceneName: Level_Phoenix_Ray
+  levelDisplayName: 'Level 2: Phoenix Strikes Back'
+  sceneObject: {fileID: 102900000, guid: 60ccc28ad7369ae42b4c0f8cacf2312e, type: 3}
+  sceneName: Level_Phoenix_2_Ray
   seal: {fileID: 21300000, guid: 90005380c26679f42b9c35f31f3145ff, type: 3}
-  color: {r: 0.6509804, g: 0.22352941, b: 0.22352941, a: 1}
+  color: {r: 0.22352941, g: 0.41549847, b: 0.6509804, a: 1}

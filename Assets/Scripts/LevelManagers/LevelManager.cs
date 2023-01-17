@@ -233,6 +233,9 @@ namespace Phoenix
         Level level;
 
         [SerializeField]
+        Level nextLevel;
+
+        [SerializeField]
         LevelGradingRules gradingRules;
 
         [Header("Player")]
@@ -439,6 +442,7 @@ namespace Phoenix
 
             if (winCanvas != null)
             {
+                winCanvas.OnGoToNextLevel -= GoToNextLevel;
                 winCanvas.OnRestart -= Restart;
                 winCanvas.OnMainMenu -= Quit;
             }
@@ -541,9 +545,10 @@ namespace Phoenix
             if (winCanvasPrefab != null)
             {
                 winCanvas = Instantiate(winCanvasPrefab);
-                winCanvas.Init(level, gradingRules, score);
                 winCanvas.OnRestart += Restart;
                 winCanvas.OnMainMenu += Quit;
+                winCanvas.OnGoToNextLevel += GoToNextLevel;
+                winCanvas.Init(level, gradingRules, score);
             }
 
             player.DisplayCursorMenu();
@@ -580,6 +585,11 @@ namespace Phoenix
         public void Restart()
         {
             LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void GoToNextLevel()
+        {
+            LoadScene(nextLevel.SceneName);
         }
             
         public void Quit()
