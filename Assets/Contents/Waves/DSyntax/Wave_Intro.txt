@@ -1,0 +1,88 @@
+[SPAWNER] 1
+[1_intro] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 2} 
+[2] E_Blue
+  {type: static} {delay: 3.5} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 4} {period: 5} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 2
+[none_1] null
+  {type: static} {delay: 3} {period: 3.5} {count: 2} 
+[2] E_Blue
+  {type: static} {delay: 3.5} {period: 4} {count: 2} 
+[none_3] null
+  {type: static} {delay: 5} {period: 4} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 3
+[1_intro2] E_Red
+  {type: static} {delay: 3} {period: 3} {count: 2} 
+[2] E_Blue
+  {type: static} {delay: 3.5} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 4} {period: 5} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 4
+[none_1] null
+  {type: static} {delay: 3} {period: 3.5} {count: 2} 
+[2] E_Blue
+  {type: static} {delay: 3.5} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 4} {period: 5} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 5
+[1_intro] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 2} 
+[2] E_Blue
+  {type: static} {delay: 3.5} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 4} {period: 5} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 6
+[none_1] null
+  {type: static} {delay: 3} {period: 3.5} {count: 2} 
+[none_2] null
+  {type: static} {delay: 3.5} {period: 3.5} {count: 1} 
+[3] E_Green
+  {type: static} {delay: 4} {period: 5} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 7
+[1_intro2] E_Red
+  {type: static} {delay: 3} {period: 3} {count: 2} 
+[none_2] null
+  {type: static} {delay: 3.5} {period: 3.5} {count: 1} 
+[none_3] null
+  {type: static} {delay: 5} {period: 4} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 8
+[none_1] null
+  {type: static} {delay: 3} {period: 3.5} {count: 2} 
+[none_2] null
+  {type: static} {delay: 3.5} {period: 3.5} {count: 1} 
+[3] E_Green
+  {type: static} {delay: 4} {period: 5} {count: 2} 
+[endDelay] null
+  {type: static} {delay: 3.5} {period: 0} {count: 0} 
+ 
+

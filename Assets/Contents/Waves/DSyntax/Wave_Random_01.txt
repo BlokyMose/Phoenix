@@ -1,0 +1,144 @@
+[SPAWNER] 1
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+ 
+
+[SPAWNER] 2
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+ 
+
+[SPAWNER] 3
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+ 
+
+[SPAWNER] 4
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+ 
+
+[SPAWNER] 5
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+ 
+
+[SPAWNER] 6
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+ 
+
+[SPAWNER] 7
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+ 
+
+[SPAWNER] 8
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+[none] null
+  {type: static} {delay: 2.5} {period: 3.5} {count: 1} 
+[random] E_Red
+  {type: random} {delay: 2.5} {period: 3.5} {count: 1} 
+  {alternate_prefabs: E_Blue, E_Green} {delay_range: 0} {period_range: 1} {count_range: 2} 
+ 
+
