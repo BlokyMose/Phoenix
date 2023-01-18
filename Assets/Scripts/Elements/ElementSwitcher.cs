@@ -33,6 +33,8 @@ namespace Phoenix
 
             if (!foundSameElement)
                 currentElementIndex = -1;
+
+            SwitchToNextElement();
         }
 
         void OnDestroy()

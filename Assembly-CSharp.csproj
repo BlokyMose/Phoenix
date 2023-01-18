@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\GameplayUtility\TimerBasic.cs" />
     <Compile Include="Assets\Scripts\Utility\ListUtility.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_EnemyBrain.cs" />
+    <Compile Include="Assets\Scripts\Brains\PhoenixBrain_Level_3.cs" />
     <Compile Include="Assets\Scripts\Hiroto\OptionButtun.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelObjectActivator.cs" />
     <Compile Include="Assets\Scripts\Hiroto\ziguzagu.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Assets\Scripts\Hiroto\UI\LoadStage.cs" />
     <Compile Include="Assets\Scripts\Utility\LoadScene.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAudioController.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHomingGradually.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Restart.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBGUnit.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthBarrierController.cs" />
@@ -223,6 +225,7 @@
     <Compile Include="Assets\Scripts\Hiroto\SpawnEnemy.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\GameplayUtilityClass.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefaultThen.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayerAnimation.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveProperties.cs" />
@@ -232,9 +235,6 @@
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefaultThen.cs" />
-    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHomingGradually.cs" />
-    <Compile Include="Assets\Scripts\Brains\PhoenixBrain_Level_3.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
