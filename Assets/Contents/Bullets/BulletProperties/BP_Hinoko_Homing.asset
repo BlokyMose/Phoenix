@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e48b788bab1d1d43a7b1a1f6b433ce3, type: 3}
+  m_Name: BP_Hinoko_Homing
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6644969288151619517, guid: d6dfe48bebdf1b848b4ca005b5af4de9, type: 3}
+  bulletMovement: {fileID: 11400000, guid: a23d5a745f45d2746845a7700761af11, type: 2}
+  element: {fileID: 11400000, guid: 47a3d76f983b4e940a4c5d59daad01f2, type: 2}
+  damage: 10
+  collisionMode: 0
+  lifeCount: 1
+  lifeDuration: 6
+  speed: 125
+  pushForce: 0.25
+  matchBulletPrefabCollider: 1
+  colliderSize: {x: 0.05, y: 0.5}
+  colliderOffset: {x: 0, y: 0.5}
+  icon: {fileID: 21300000, guid: a152a5e2aee69b145b6e7f4b3638c021, type: 3}
+  damageCanvasController: {fileID: 455179471, guid: a82b8e94831ac7642a1be046b4cb31bf, type: 3}

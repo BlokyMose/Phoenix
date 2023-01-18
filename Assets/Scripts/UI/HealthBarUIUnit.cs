@@ -51,6 +51,11 @@ namespace Phoenix
             images = new List<Image>() { healthBarFill, healthBarBorder, healthBarLight };
         }
 
+        public void Init(Color fillColor)
+        {
+            healthBarFill.color = fillColor;
+        }
+
         public void Decrease(float fillAmount, float fillAmountMax)
         {
             status = FillStatus.Decreased;
@@ -105,8 +110,6 @@ namespace Phoenix
                 healthBarFill.sprite = alternateFirstSpriteFill;
                 healthBarBorder.sprite = alternateFirstSpriteBorder;
                 healthBarLight.sprite = alternateFirstSpriteLight;
-                //foreach (var image in images)
-                //    image.SetNativeSize();
             }
         }
 
@@ -117,6 +120,11 @@ namespace Phoenix
             healthBarLight.sprite = normalSpriteLight;
             foreach (var image in images)
                 image.SetNativeSize();
+        }
+
+        public void SetFillAmount(float amount)
+        {
+            healthBarFill.fillAmount = amount;
         }
     }
 }

@@ -23,11 +23,7 @@ namespace Phoenix
         BulletMovement movementAfterStop;
 
 
-        public override void ModifyBullet(BulletController bullet)
-        {
-        }
-
-        public override void Move(BulletController bullet, Transform target)
+        public override void Move(BulletController bullet, ref System.Object cache)
         {
             var speedRate = 1f;
             var rays = Physics2D.RaycastAll(bullet.transform.position, bullet.transform.up, slowDownDistance);
@@ -50,9 +46,6 @@ namespace Phoenix
                 }
 
             bullet.RigidBody.AddForce((bullet.BulletProperties.Speed * speedRate * Time.deltaTime * (Vector2)bullet.transform.up) - bullet.RigidBody.velocity, ForceMode2D.Impulse);
-
-
-
 
         }
     }

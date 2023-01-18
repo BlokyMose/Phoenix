@@ -23,7 +23,7 @@ namespace Phoenix
         #region [Vars: Properties]
 
         [SerializeField]
-        List<FireMode> fireModes = new List<FireMode>();
+        List<FireMode> fireModes = new();
         public List<FireMode> FireModes {  get { return fireModes; } }
 
         #endregion

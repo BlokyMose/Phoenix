@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77481d540a5198940905007ac05a0e02, type: 3}
-  m_Name: BM_Homing
+  m_Name: BM_Homing_toPlayer
   m_EditorClassIdentifier: 
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
   loseAccuracyDistance: 2.5
   movementAfterReachedTarget: {fileID: 11400000, guid: 99288b97c05646a4a9de62b4597766ff, type: 2}
+  accuracy: 1

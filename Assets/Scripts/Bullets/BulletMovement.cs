@@ -8,7 +8,8 @@ namespace Phoenix
     [InlineEditor]
     public abstract class BulletMovement : ScriptableObject
     {
-        public abstract void ModifyBullet(BulletController bullet);
-        public abstract void Move(BulletController bullet, Transform target);
+        public virtual void ModifyBullet(BulletController bullet, out System.Object cache) => cache = null;
+
+        public abstract void Move(BulletController bullet, ref System.Object cache);
     }
 }

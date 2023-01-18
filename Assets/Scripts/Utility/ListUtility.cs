@@ -19,6 +19,19 @@ namespace Encore.Utility
         }
 
         /// <summary>
+        /// Returns a member of the list by index; if index is not in range of the list's length, returns defaultValue
+        /// </summary>
+        public static T GetAt<T>(this IList<T> list, int index, int defaultIndex = 0) where T : class
+        {
+            if (index < 0)
+                return list[0];
+            else if (list.Count > index)
+                return list[index];
+            else
+                return list[0];
+        }
+
+        /// <summary>
         /// Returns the last item in the list
         /// </summary>
         public static T GetLast<T>(this IList<T> list, int indexFromLast = 0) where T : class
@@ -86,6 +99,13 @@ namespace Encore.Utility
         }
 
         public static void MoveToLast<T>(this IList<T> list, T item)
+        {
+            if (!list.Contains(item)) return;
+            list.Remove(item);
+            list.Add(item);
+        }
+
+        public static void Get<T>(this IList<T> list, T item)
         {
             if (!list.Contains(item)) return;
             list.Remove(item);

@@ -9,26 +9,74 @@ namespace Phoenix
 {
     public class HealthBarUI : MonoBehaviour
     {
-        [SerializeField]
-        HealthBarUIUnit healthBarUnitPrefab;
+        [Serializable]
+
+        public class HealthBarParent
+        {
+            [SerializeField]
+            HealthBarUIUnit healthBarUnitPrefab;
+
+            [SerializeField]
+            Transform transform;
+
+            [HorizontalGroup("Color", width: .5f)]
+            [SerializeField, ToggleLeft]
+            bool isOverrideColor = false;
+
+            [HorizontalGroup("Color", width:.5f)]
+            [SerializeField, EnableIf(nameof(isOverrideColor)), LabelWidth(0.1f)]
+            Color overrideColor;
+
+            public HealthBarUIUnit HealthBarUnitPrefab { get => healthBarUnitPrefab; }
+            public Transform Transform { get => transform; }
+            public bool IsOverrideColor { get => isOverrideColor; }
+            public Color OverrideColor { get => overrideColor; }
+
+
+            public HealthBarUIUnit CreateBar(string name)
+            {
+                var healthBar = Instantiate(healthBarUnitPrefab, transform);
+                healthBar.name = name;
+                if (isOverrideColor)
+                    healthBar.Init(overrideColor);
+
+                return healthBar;
+            }
+        }
 
         [SerializeField]
-        Transform healthBarParent;
+        List<HealthBarParent> healthBarParents = new();
 
-        [SerializeField, LabelText("HP per Bar")]
-        int hpPerBar = 10;
+        [SerializeField]
+        int healthPerBar = 10;
 
-        List<HealthBarUIUnit> healthBarUnits = new List<HealthBarUIUnit>();
+        [SerializeField]
+        int barCountPerParent = 5;
+
+        List<HealthBarUIUnit> healthBarUnits = new();
 
         Func<float> GetHealth;
 
         public void Init(HealthController healthController)
         {
-            int barCount = (int)(healthController.MaxHealth / hpPerBar);
-            SetupHealthBarUnit(barCount);
             GetHealth += () => { return healthController.Health; };
+            int barCount = Mathf.CeilToInt(healthController.MaxHealth / healthPerBar);
+            SetupHealthBarUnit(barCount);
             healthController.OnDamaged += ReceiveDamage;
             healthController.OnRecovery += ReceiveRecovery;
+        }
+
+        public void Init(HealthBarrierController barrierController)
+        {
+            GetHealth += () => barrierController.Health;
+            int barCount = Mathf.CeilToInt(barrierController.MaxHealth / healthPerBar);
+            SetupHealthBarUnit(barCount);
+            barrierController.OnDamaged += ReceiveDamage;
+        }
+
+        public void Init(RecoveryController recoveryController)
+        {
+            recoveryController.OnRecovering += FillUnit;
         }
 
         public void Exit(HealthController healthController)
@@ -38,9 +86,10 @@ namespace Phoenix
             healthController.OnRecovery -= ReceiveRecovery;
         }
 
-        public void Init(RecoveryController recoveryController)
+        public void Exit(HealthBarrierController barrierController)
         {
-            recoveryController.OnRecovering += FillUnit;
+            GetHealth -= () => barrierController.Health;
+            barrierController.OnDamaged -= ReceiveDamage;
         }
 
         public void Exit(RecoveryController recoveryController)
@@ -48,44 +97,39 @@ namespace Phoenix
             recoveryController.OnRecovering -= FillUnit;
         }
 
-        public void Init(HealthBarrierController barrierController)
-        {
-            GetHealth += () => barrierController.Health;
-            int barCount = (int)(barrierController.MaxHealth / hpPerBar);
-            SetupHealthBarUnit(barCount);
-
-            barrierController.OnDamaged += ReceiveDamage;
-        }
-
-
         void SetupHealthBarUnit(int count)
         {
-            for (int i = healthBarParent.childCount - 1; i >= 0; i--)
-                Destroy(healthBarParent.GetChild(i).gameObject);
+            foreach (var parent in healthBarParents)
+                for (int i = parent.Transform.childCount - 1; i >= 0; i--)
+                    Destroy(parent.Transform.GetChild(i).gameObject);
 
-            for (int i = 0; i < count; i++)
-            {
-                var healthBarGO = Instantiate(healthBarUnitPrefab, healthBarParent);
-                healthBarGO.name = i.ToString();
-                healthBarUnits.Add(healthBarGO);
-            }
 
+            if (count == 0)
+                healthBarUnits.Add(healthBarParents[0].CreateBar("0")); 
+            else
+                for (int i = 0; i < count; i++)
+                    healthBarUnits.Add(healthBarParents.GetAt(Mathf.FloorToInt(i / barCountPerParent), 0).CreateBar(i.ToString()));
+
+            var lastBarFillAmount = GetHealth() % healthPerBar / healthPerBar;
+            if (lastBarFillAmount == 0f) lastBarFillAmount = 1f;
+            healthBarUnits.GetLast().SetFillAmount(lastBarFillAmount);
             healthBarUnits[0].UseAlternateFirstSprite();
+
         }
 
         public void ReceiveDamage(float damage)
         {
-            var barCount = Mathf.FloorToInt(damage / hpPerBar);
+            var barCount = Mathf.FloorToInt(damage / healthPerBar);
             for (int i = 0; i < barCount; i++)
                 EmptyOneFullUnit();
 
-            var leftoverDamage = Mathf.FloorToInt(damage % hpPerBar);
+            var leftoverDamage = Mathf.FloorToInt(damage % healthPerBar);
             DecreaseUnit(leftoverDamage);
         }
 
         public void ReceiveRecovery(float recovery)
         {
-            int barCount = (int)(recovery / hpPerBar);
+            int barCount = (int)(recovery / healthPerBar);
 
             for (int i = 0; i < barCount; i++)
                 FullOneFillingUnit();
@@ -96,8 +140,8 @@ namespace Phoenix
             if (decreaseAmount <= 0) return;
 
             var _decreaseAmount = decreaseAmount;
-            var currentBarHP = Mathf.FloorToInt(GetHealth() % hpPerBar);
-            if (currentBarHP == 0) currentBarHP = hpPerBar;
+            var currentBarHP = Mathf.FloorToInt(GetHealth() % healthPerBar);
+            if (currentBarHP == 0) currentBarHP = healthPerBar;
 
             for (int i = healthBarUnits.Count - 1; i >= 0; i--)
             {
@@ -116,11 +160,11 @@ namespace Phoenix
                     {
                         healthBar.Empty();
                         _decreaseAmount = -currentBarHP;
-                        currentBarHP = hpPerBar;
+                        currentBarHP = healthPerBar;
                     }
                     else
                     {
-                        healthBar.Decrease(currentBarHP, hpPerBar);
+                        healthBar.Decrease(currentBarHP, healthPerBar);
                         break;
                     }
                 }
@@ -136,10 +180,11 @@ namespace Phoenix
                 if (healthBarUnits[i].Status == HealthBarUIUnit.FillStatus.Full)
                 {
                     healthBarUnits[i].Empty();
-                    healthBarUnits[i].transform.SetSiblingIndex(healthBarUnits.Count - 1);
-                    var emptiedUnit = healthBarUnits[i];
-                    healthBarUnits.Remove(emptiedUnit);
-                    healthBarUnits.Add(emptiedUnit);
+                    if (i%barCountPerParent != 0)
+                    {
+                        healthBarUnits[i].transform.SetSiblingIndex(healthBarUnits.Count - 1);
+                        healthBarUnits.Move(healthBarUnits[i], barCountPerParent - 1);
+                    }
                     break;
                 }
             }
@@ -159,7 +204,7 @@ namespace Phoenix
 
         void FillUnit(float recovery, float time, float duration)
         {
-            int barCount = (int)(recovery / hpPerBar);
+            int barCount = (int)(recovery / healthPerBar);
 
             for (int i = 0; i < healthBarUnits.Count; i++)
             {

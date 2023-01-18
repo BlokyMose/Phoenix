@@ -442,7 +442,8 @@ namespace Phoenix
 
             if (winCanvas != null)
             {
-                winCanvas.OnGoToNextLevel -= GoToNextLevel;
+                if (nextLevel != null)
+                    winCanvas.OnGoToNextLevel -= GoToNextLevel;
                 winCanvas.OnRestart -= Restart;
                 winCanvas.OnMainMenu -= Quit;
             }
@@ -547,7 +548,8 @@ namespace Phoenix
                 winCanvas = Instantiate(winCanvasPrefab);
                 winCanvas.OnRestart += Restart;
                 winCanvas.OnMainMenu += Quit;
-                winCanvas.OnGoToNextLevel += GoToNextLevel;
+                if (nextLevel != null)
+                    winCanvas.OnGoToNextLevel += GoToNextLevel;
                 winCanvas.Init(level, gradingRules, score);
             }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Phoenix
 {
@@ -18,7 +19,6 @@ namespace Phoenix
         protected bool isActive = false;
         BulletComponents bulletComponents;
         Transform target;
-        public Transform Target { get => target; set { target = value; } }
         BulletMovement bulletMovement;
         public BulletMovement BulletMovement 
         { 
@@ -26,9 +26,10 @@ namespace Phoenix
             set 
             { 
                 bulletMovement = value;
-                bulletMovement.ModifyBullet(this);
+                bulletMovement.ModifyBullet(this, out bulletMovementCache);
             } 
         }
+        Object bulletMovementCache;
 
 
         #endregion
@@ -124,7 +125,7 @@ namespace Phoenix
 
         void FixedUpdate()
         {
-            bulletMovement.Move(this, target);
+            bulletMovement.Move(this, ref bulletMovementCache);
         }
 
         /// <summary>

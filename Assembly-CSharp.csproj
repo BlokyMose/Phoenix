@@ -127,6 +127,7 @@
     <Compile Include="Assets\Scripts\Environments\BorderController.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\DetectCollision.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\EnemySpawner.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\ComingEnemy.cs" />
     <Compile Include="Assets\Scripts\Hiroto\ReportButtun.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Player.cs" />
     <Compile Include="Assets\Scripts\SaveCache\SaveCache.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Assets\Scripts\GameplayUtility\AudioSourceRandom.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBG.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthController.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\UI\LoadStage.cs" />
     <Compile Include="Assets\Scripts\Utility\LoadScene.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAudioController.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Restart.cs" />
@@ -164,8 +166,10 @@
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiRotation.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiProjectileScript.cs" />
     <Compile Include="Assets\Scripts\Misc\Asteroid.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\UI\StageSelect.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Appear.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarrierUI.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\Spawn.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Rat.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\InstantiateVFX.cs" />
@@ -216,6 +220,7 @@
     <Compile Include="Assets\Scripts\Utility\StringUtility.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\Level.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesStatic.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\SpawnEnemy.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MoveModule.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\GameplayUtilityClass.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayerAnimation.cs" />
@@ -227,19 +232,19 @@
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\Hiroto\UI\StageSelect.cs" />
-    <Compile Include="Assets\Scripts\Hiroto\ComingEnemy.cs" />
-    <Compile Include="Assets\Scripts\Hiroto\Spawn.cs" />
-    <Compile Include="Assets\Scripts\Hiroto\SpawnEnemy.cs" />
-    <Compile Include="Assets\Scripts\Hiroto\UI\LoadStage.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefaultThen.cs" />
+    <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHomingGradually.cs" />
+    <Compile Include="Assets\Scripts\Brains\PhoenixBrain_Level_3.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\Contents\UI\Materials\Archived\SpriteOutline.shader" />
+    <None Include="Assets\Contents\Waves\DSyntax\Wave_Random_03.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\Contents\Waves\DSyntax\Wave_Random_01.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -249,9 +254,10 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Contents\Waves\DSyntax\Wave_Intro.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\Contents\Waves\DSyntax\Wave_Random.txt" />
+    <None Include="Assets\Contents\Waves\DSyntax\Wave_Random_02.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />

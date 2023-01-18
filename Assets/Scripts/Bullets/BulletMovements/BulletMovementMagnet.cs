@@ -18,14 +18,16 @@ namespace Phoenix
         [SerializeField, ShowIf("@"+nameof(overrideLayerMask))]
         LayerMask layerMask;
 
-        public override void ModifyBullet(BulletController bullet)
+        public override void ModifyBullet(BulletController bullet, out System.Object cache)
         {
+            cache = null;
+
             if (overrideLayerMask)
                 bullet.gameObject.layer = layerMask.value;
             bullet.RigidBody.mass = Random.Range(massRange.x,massRange.y);
         }
 
-        public override void Move(BulletController bullet, Transform target)
+        public override void Move(BulletController bullet, ref System.Object cache)
         {
             bullet.RigidBody.AddForce((bullet.BulletProperties.Speed * Time.deltaTime * (Vector2)bullet.transform.up), ForceMode2D.Force);
         }

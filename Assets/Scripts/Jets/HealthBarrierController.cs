@@ -60,6 +60,10 @@ namespace Phoenix
             if (TryGetComponent<CameraFXController>(out var cameraFX))
                 cameraFX.Exit(this);
 
+            if (healthBarrierUI != null)
+            {
+                healthBarrierUI.Exit(this);
+            }
         }
 
         float DepleteHealth(float damage)
