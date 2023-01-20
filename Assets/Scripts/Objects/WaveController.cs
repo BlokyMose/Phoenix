@@ -315,7 +315,10 @@ namespace Phoenix
         void ImportDSyntaxFromTextFile()
         {
             if (dSyntaxTextFileImport != null)
+            {
                 spawners = WaveControllerUtility.ImportDSyntax(dSyntaxTextFileImport.text, (goName) => ComponentUtility.Find(goName));
+                Debug.Log("[Text File] Imported");
+            }
         }
 
         [FoldoutGroup(FOLDOUT)]
@@ -325,6 +328,8 @@ namespace Phoenix
         void ImportDSyntaxFromText()
         {
             spawners = WaveControllerUtility.ImportDSyntax(dSyntaxImport, (goName) => ComponentUtility.Find(goName));
+
+            Debug.Log("[DSyntax] Imported");
         }
 #endif
 

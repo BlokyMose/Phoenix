@@ -5,13 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static Phoenix.HealthController;
 
 namespace Phoenix
 {
     [RequireComponent(typeof(Animator))]
     public class DamageCanvas : MonoBehaviour
     {
+        public enum PlayMode { DestroyAfter, Loop }
+
         [Serializable]
         public class DamageLevelUI
         {
@@ -19,11 +20,7 @@ namespace Phoenix
             int healthFrom = 100;
             public int HealthFrom => healthFrom;
 
-            [SerializeField, HorizontalGroup("Color"), LabelText("Match Element")]
-            bool isColorMatchElement = true;
-            public bool IsColorMatchElement => isColorMatchElement;
-
-            [SerializeField, HorizontalGroup("Color"), LabelWidth(0.1f), HideIf(nameof(isColorMatchElement))]
+            [SerializeField, HorizontalGroup("Color")]
             Color color = Color.white;
             public Color Color => color;
 
@@ -42,32 +39,65 @@ namespace Phoenix
         [SerializeField]
         TextMeshProUGUI text;
 
+        [HorizontalGroup("PlayMode"), LabelWidth(0.1f)]
+        [SerializeField]
+        PlayMode playMode;
+
+        [HorizontalGroup("PlayMode"), LabelWidth(0.1f)]
+        [SerializeField, ShowIf("@"+nameof(playMode)+"=="+nameof(PlayMode)+"."+nameof(PlayMode.DestroyAfter)), SuffixLabel("sec",true)]
+        float destroyAfterDuration = 2f;
+
         [SerializeField]
         List<DamageLevelUI> damageLevels = new();
+        public List<DamageLevelUI> DamageLevels { get => damageLevels; }
 
         Animator animator;
-        int int_mode;
+        int int_mode, boo_loop;
 
-        public void Init(float damage, Color? color = null)
+        public void Init(float damage, Color? color = null, int? damageLevelIndex = null, bool isLooping = false)
         {
             ArrangeHealthStagesFromHighest();
             animator = GetComponent<Animator>();
             int_mode = Animator.StringToHash(nameof(int_mode));
-            DamageLevelUI damageLevelUI = damageLevels.GetLast();
-            foreach (var level in damageLevels)
-                if(level.HealthFrom <= damage)
-                {
-                    damageLevelUI = level;
-                    break;
-                }
+            boo_loop = Animator.StringToHash(nameof(boo_loop));
+            playMode = isLooping ? PlayMode.Loop : PlayMode.DestroyAfter;
 
-            text.text = damage.ToString("#");
-            if (damageLevelUI.IsColorMatchElement && color != null)
-                text.color = (Color) color;
+            // Setup Damage Level
+            DamageLevelUI damageLevelUI = damageLevels.GetLast();
+            if (damageLevelIndex == null)
+            {
+                foreach (var level in damageLevels)
+                    if(level.HealthFrom <= damage)
+                    {
+                        damageLevelUI = level;
+                        break;
+                    }
+            }
             else
+            {
+                damageLevelUI = damageLevels.GetAt((int)damageLevelIndex, damageLevelUI);
+            }
+
+            // Setup Text
+            text.text = damage.ToString("#");
+            if (color != null)
+                text.color = (Color) color;
+            else 
                 text.color = damageLevelUI.Color;
 
+            // Setup PlayMode
+            if (playMode == PlayMode.Loop)
+                animator.SetBool(boo_loop, true);
+            else
+                Destroy(gameObject, destroyAfterDuration);
+
             animator.SetInteger(int_mode, damageLevelUI.AnimParam);
+        }
+
+        public void Exit()
+        {
+            animator.SetBool(boo_loop, false);
+            Destroy(gameObject, destroyAfterDuration);
         }
 
         void ArrangeHealthStagesFromHighest()

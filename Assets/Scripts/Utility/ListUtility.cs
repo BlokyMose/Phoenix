@@ -24,11 +24,11 @@ namespace Encore.Utility
         public static T GetAt<T>(this IList<T> list, int index, int defaultIndex = 0) where T : class
         {
             if (index < 0)
-                return list[0];
+                return list[defaultIndex];
             else if (list.Count > index)
                 return list[index];
             else
-                return list[0];
+                return list[defaultIndex];
         }
 
         /// <summary>
@@ -105,11 +105,11 @@ namespace Encore.Utility
             list.Add(item);
         }
 
-        public static void Get<T>(this IList<T> list, T item)
+        public static bool HasIndex<T>(this IList<T> list, int index) 
         {
-            if (!list.Contains(item)) return;
-            list.Remove(item);
-            list.Add(item);
+            if (list.Count == 0) return false;
+            else if (index < 0 || index >= list.Count) return false;
+            return true;
         }
     }
 }

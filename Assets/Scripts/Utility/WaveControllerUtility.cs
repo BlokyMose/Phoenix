@@ -109,20 +109,36 @@ namespace Phoenix
         public static string ExportDSyntaxAsFile(List<Spawner> spawners, out TextAsset exportedTextAsset, TextAsset textAsset = null, string fileName = "wave_dSyntax")
         {
             var dSyntax = ExportDSyntax(spawners);
+            exportedTextAsset = null;
             #if UNITY_EDITOR
 
             string filePath;
             if (textAsset != null && UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(textAsset, out var guid, out long _))
             {
-                filePath = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+                if (UnityEditor.EditorUtility.DisplayDialog("Export", "["+textAsset.name + ".txt] will be overridden \n\nChange GameObject name to export with another name", "Export", "Cancel"))
+                    filePath = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+                else
+                {
+                    exportedTextAsset = textAsset;
+                    return dSyntax;
+                }
             }
             else
             {
                 var parentFolderPath = "Assets/Contents/Waves";
-                var folderPath = parentFolderPath+"/DSyntax";
-                filePath = folderPath+"/"+fileName+".txt";
-                if(!UnityEditor.AssetDatabase.IsValidFolder(folderPath))
-                    UnityEditor.AssetDatabase.CreateFolder(parentFolderPath, "DSyntax");
+                var folderPath = parentFolderPath + "/DSyntax";
+                filePath = folderPath + "/" + fileName + ".txt";
+                var foundTextAsset = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>(filePath);
+                if (foundTextAsset)
+                {
+                    if (!UnityEditor.EditorUtility.DisplayDialog("Existing File", "[" + fileName + ".txt] has already existed \n\nChange GameObject name to export with another name.", "Override", "Cancel"))
+                    {
+                        exportedTextAsset = null;
+                        return dSyntax;
+                    }
+                }
+                else if (!UnityEditor.AssetDatabase.IsValidFolder(folderPath))
+                        UnityEditor.AssetDatabase.CreateFolder(parentFolderPath, "DSyntax");
             }
 
             System.IO.File.WriteAllText(filePath, dSyntax);
@@ -131,6 +147,7 @@ namespace Phoenix
 
             exportedTextAsset = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>(filePath);
             #endif
+
             return dSyntax;
         }
 

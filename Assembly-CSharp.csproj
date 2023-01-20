@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Utility\QuitGame.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelBGMController.cs" />
     <Compile Include="Assets\Scripts\CameraFX\VolumeProperties.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\InTriggerGiveDamage.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoadSceneOnClick.cs" />
     <Compile Include="Assets\Scripts\UI\CursorPack.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHoming.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AM_Rat.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sample.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\InstantiateVFX.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\GOSpreader.cs" />
     <Compile Include="Assets\Scripts\UI\SideDialogueCanvas.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AnimationEventBroadcaster.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveControllerRandom.cs" />
@@ -228,6 +230,7 @@
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefaultThen.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayerAnimation.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
+    <Compile Include="Assets\Scripts\Utility\LayerMaskUtility.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveProperties.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sound\ChangeSoundVolume.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Default.cs" />
@@ -235,6 +238,7 @@
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\Follow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -256,7 +260,9 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Contents\Waves\DSyntax\Wave_Intro.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\Contents\Waves\DSyntax\Wave_Random_Ray.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\Contents\Waves\DSyntax\Wave_Intro_Ray.txt" />
     <None Include="Assets\Contents\Waves\DSyntax\Wave_Random_02.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />

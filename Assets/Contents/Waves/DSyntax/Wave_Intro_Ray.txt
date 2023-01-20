@@ -1,0 +1,88 @@
+[SPAWNER] 1
+[1_intro] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 2
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 3
+[1_intro] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 4
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 5
+[1_intro] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 6
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 7
+[1_intro] E_Red
+  {type: static} {delay: 3} {period: 4} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
+[SPAWNER] 8
+[none] null
+  {type: static} {delay: 3} {period: 2} {count: 3} 
+[2] E_Blue
+  {type: static} {delay: 6} {period: 4} {count: 2} 
+[3] E_Green
+  {type: static} {delay: 5} {period: 4} {count: 3} 
+[endDelay] null
+  {type: static} {delay: 3} {period: 0} {count: 0} 
+ 
+
