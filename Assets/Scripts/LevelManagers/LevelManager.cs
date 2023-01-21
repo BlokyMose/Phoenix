@@ -98,6 +98,7 @@ namespace Phoenix
 
                 IEnumerator ActivatingAfter(LevelObjectActivator activator, float delay)
                 {
+                    if (activator == null){ Debug.Log("Activator is null"); yield break; }
                     yield return new WaitForSeconds(delay);
                     activator.Activate(true);
                 }

@@ -29,11 +29,22 @@ namespace Phoenix
 
         ElementSwitcher shieldElementSwitcher;
 
-        [SerializeField, LabelText("Rotaion Stability")]
+        [SerializeField, LabelText("Rotation Stability")]
         float cursorPosRatio = 100f;
+
+        [SerializeField]
+        bool initializeWithObjectActivator = true;
 
         Vector2 currentPointerPos;
         float switchElementCooldown;
+
+        protected override void Awake()
+        {
+            if (TryGetComponent<LevelObjectActivator>(out var activator))
+                activator.onActivated.AddListener(Init);
+            else
+                base.Awake();
+        }
 
         public override void Init()
         {

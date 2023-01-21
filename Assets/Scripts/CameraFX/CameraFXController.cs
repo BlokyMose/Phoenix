@@ -25,7 +25,7 @@ namespace Phoenix
         [SerializeField, Tooltip("damage value to match the volume's max weight")]
         float maxDamage = 30f;
 
-        GameObject go;
+        GameObject postGO;
         CinemachineImpulseSource impulse;
         Volume volume;
         Coroutine corVolume;
@@ -57,28 +57,42 @@ namespace Phoenix
 
         public void Init()
         {
-            go = new GameObject("Post");
+            postGO = new GameObject("Post");
+            postGO.transform.parent = transform;
+            postGO.layer = (int)Mathf.Log(layer.value, 2);
+
+            impulse = postGO.AddComponent<CinemachineImpulseSource>();
+            volume = postGO.AddComponent<Volume>();
+            volume.weight = 0f;
+            volume.isGlobal = true;
+        }
+
+        public Volume AddVolume(VolumeProperties volumeProperties)
+        {
+            var go = new GameObject("Post_"+volumeProperties.name);
             go.transform.parent = transform;
             go.layer = (int)Mathf.Log(layer.value, 2);
 
-            impulse = go.AddComponent<CinemachineImpulseSource>();
-            volume = go.AddComponent<Volume>();
+            var volume = go.AddComponent<Volume>();
+            volume.profile = volumeProperties.Volume;
             volume.weight = 0f;
             volume.isGlobal = true;
+
+            return volume;
         }
 
         public void DamageFX(float damage)
         {
             var weight = damage / maxDamage;
             Shake(camShakeDamaged, weight); ;
-            corVolume ??= StartCoroutine(ApplyVolume(volumeDamaged, weight));
+            corVolume = this.RestartCoroutine(ApplyVolume(volumeDamaged, weight));
         }
 
         public void DamageBarrierFX(float damage)
         {
             var weight = damage / maxDamage;
             Shake(camShakeDamaged, weight); ;
-            corVolume ??= StartCoroutine(ApplyVolume(volumeDamagedBarrier, weight));
+            corVolume = this.RestartCoroutine(ApplyVolume(volumeDamagedBarrier, weight));
         }
 
         public void Shake(CameraShakeProperties properties, float strength = 0)

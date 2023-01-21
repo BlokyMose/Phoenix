@@ -155,7 +155,7 @@ namespace Phoenix
             }
         }
 
-        protected void DestroySelf()
+        public void DestroySelf()
         {
             if (corDestroyingSelf != null) return;
 
@@ -181,12 +181,12 @@ namespace Phoenix
             var damage = GetProcessedDamage(bulletProperties.Damage, otherElement);
             var otherHealth = otherHealthController.ReceiveDamage(damage);
             if (otherHealth > 0)
-                CreateDamageCanvas(damage, bulletProperties.Element.Color);
+                CreateDamageCanvas(damage, damage > 0 ? bulletProperties.Element.Color : null);
             else
                 OnKill?.Invoke();
         }
 
-        void CreateDamageCanvas(float damage, Color color)
+        void CreateDamageCanvas(float damage, Color? color)
         {
             if (bulletProperties.DamageCanvasController == null) return;
 

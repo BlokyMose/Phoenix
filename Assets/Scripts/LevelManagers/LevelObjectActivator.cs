@@ -34,8 +34,7 @@ namespace Phoenix
         float delayDeactivation = 0f;
         public float DelayDeactivation => delayDeactivation;
 
-        [SerializeField]
-        UnityEvent onActivated;
+        public UnityEvent onActivated;
 
 
         bool isInitialized = false;

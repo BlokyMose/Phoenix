@@ -16,7 +16,7 @@ namespace Phoenix
         Coroutine corDelayingRecovery;
         HealthController healthController;
         public Action OnStartRecovering;
-        /// <summary>(time, cooldown)</summary>
+        /// <summary>(recovery, time, duration)</summary>
         public Action<float, float, float> OnRecovering;
         public Action OnRecovered;
 
@@ -69,8 +69,8 @@ namespace Phoenix
 
             OnStartRecovering?.Invoke();
 
-            corDelayingRecovery = StartCoroutine(Recovering());
-            IEnumerator Recovering()
+            corDelayingRecovery = StartCoroutine(DelayingRecover());
+            IEnumerator DelayingRecover()
             {
                 var _recoverHealth = healthController.Health + recoverHealth > healthController.MaxHealth
                     ? healthController.Health + recoverHealth - healthController.MaxHealth
@@ -80,7 +80,7 @@ namespace Phoenix
                 while (time < recoveryCooldown)
                 {
                     time += Time.deltaTime;
-                    OnRecovering?.Invoke(_recoverHealth, time,recoveryCooldown);
+                    OnRecovering?.Invoke(_recoverHealth, time, recoveryCooldown);
                     yield return null;
                 }
 
@@ -100,6 +100,8 @@ namespace Phoenix
 
         void TryStartRecovering()
         {
+
+            Debug.Log(nameof(healthController.Health) + " : " + healthController.Health);
             if(healthController.Health < healthController.MaxHealth)
                 StartRecovering();
         }

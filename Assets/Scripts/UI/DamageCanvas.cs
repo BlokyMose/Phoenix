@@ -56,6 +56,8 @@ namespace Phoenix
 
         public void Init(float damage, Color? color = null, int? damageLevelIndex = null, bool isLooping = false)
         {
+            transform.SetSiblingIndex(100);
+
             ArrangeHealthStagesFromHighest();
             animator = GetComponent<Animator>();
             int_mode = Animator.StringToHash(nameof(int_mode));

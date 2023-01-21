@@ -105,6 +105,7 @@
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoopScript.cs" />
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
     <Compile Include="Assets\Scripts\UI\Minimap.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\Follow.cs" />
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
     <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxUtility.cs" />
     <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Assets\Scripts\Hiroto\Restart.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBGUnit.cs" />
     <Compile Include="Assets\Scripts\Jets\HealthBarrierController.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\Mover.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\DetectCollisionGiveDamage.cs" />
     <Compile Include="Assets\Scripts\Enemies\ziguzagu.cs" />
     <Compile Include="Assets\Scripts\Misc\IHealth.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="Assets\Scripts\Utility\WaveControllerUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Extensions.cs" />
     <Compile Include="Assets\Scripts\UI\DialogueCanvas.cs" />
+    <Compile Include="Assets\Scripts\GameplayUtility\DestroyBulletTriggerWhenEnter.cs" />
     <Compile Include="Assets\Settings\InputActions\PhoenixInput.cs" />
     <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiPitchRandomizer.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
@@ -238,7 +241,6 @@
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\GameplayUtility\Follow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -1,5 +1,86 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6044637852612928808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1010781602896295202}
+  - component: {fileID: 8607847188688415306}
+  - component: {fileID: 5253951191940877543}
+  m_Layer: 8
+  m_Name: BorderCol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1010781602896295202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044637852612928808}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.669, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8924010724609777702}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &8607847188688415306
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044637852612928808}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -1.7743242, y: 1.6246471}
+      - {x: -1.7065692, y: 1.859865}
+      - {x: -1.093915, y: 2.1178086}
+      - {x: -0.47174597, y: 2.2647493}
+      - {x: 0.034376144, y: 2.343374}
+      - {x: 0.66539145, y: 2.241945}
+      - {x: 1.142479, y: 2.0680344}
+      - {x: 1.2670884, y: 1.9916005}
+      - {x: 1.7632117, y: 1.8936598}
+      - {x: 1.630105, y: 1.5886695}
+      - {x: -0.014275074, y: 2.236104}
+--- !u!114 &5253951191940877543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044637852612928808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f5a2b2421731b43923c6adaf0af19a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7528773263066972804
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +323,7 @@ GameObject:
   - component: {fileID: 8924010724609777699}
   - component: {fileID: 8068946203950466217}
   m_Layer: 6
-  m_Name: Shield
+  m_Name: ShielldRuby_Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,6 +343,7 @@ Transform:
   m_Children:
   - {fileID: 8924010724555618000}
   - {fileID: 1774120732231816956}
+  - {fileID: 1010781602896295202}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

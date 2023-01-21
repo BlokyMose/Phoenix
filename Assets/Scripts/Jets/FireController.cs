@@ -147,6 +147,7 @@ namespace Phoenix
             var currentFireMode = components.FireModes[currentFireModeIndex];
 
             var bulletGO = new GameObject("Bullet");
+            bulletGO.transform.SetSiblingIndex(100);
 
             bulletGO.gameObject.layer = (int)Mathf.Log(bulletLayer.value, 2);
             bulletGO.transform.position = currentFireMode.origins[currentFireOrigin].transform.position;
