@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Phoenix.WaveController;
 using static DialogueSyntax.DSyntaxUtility;
-using static DialogueSyntax.DSyntaxSettings;
-using Encore.Utility;
 using DialogueSyntax;
 using System;
 
@@ -157,6 +155,8 @@ namespace Phoenix
             List<WaveProperties> wavesList = new();
             var settings = LoadDSyntaxSettingsWave();
 
+#if UNITY_EDITOR
+
             var spawners = ReadCommandsByGroups(settings, dSyntax, SPAWNER);
             foreach (var commands in spawners)
             {
@@ -181,7 +181,7 @@ namespace Phoenix
                 UnityEditor.AssetDatabase.Refresh();
 
             }
-
+#endif
 
             return spawnersList;
 
@@ -250,6 +250,8 @@ namespace Phoenix
 
         public static DSyntaxSettings LoadDSyntaxSettingsWave()
         {
+#if UNITY_EDITOR
+
             var settingsGUID = UnityEditor.AssetDatabase.FindAssets("DSyntaxSettings_Wave")[0];
             if (settingsGUID != null)
             {
@@ -257,7 +259,7 @@ namespace Phoenix
                 var settings = UnityEditor.AssetDatabase.LoadAssetAtPath<DSyntaxSettings>(settingsPath);
                 return settings;
             }
-
+#endif
             return null;
         }
     }

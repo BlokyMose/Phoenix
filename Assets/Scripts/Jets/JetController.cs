@@ -268,7 +268,7 @@ namespace Phoenix
 
         public virtual void DeactivateJetCollider()
         {
-            if(jetGO.TryGetComponent<Collider2D>(out var col))
+            if(jetGO != null && jetGO.TryGetComponent<Collider2D>(out var col))
             {
                 col.enabled = false;
             }

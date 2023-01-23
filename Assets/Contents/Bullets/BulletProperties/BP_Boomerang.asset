@@ -20,7 +20,7 @@ MonoBehaviour:
   lifeCount: 100
   lifeDuration: 4
   speed: 750
-  pushForce: 500
+  pushForce: 0
   matchBulletPrefabCollider: 1
   colliderSize: {x: 1, y: 1}
   colliderOffset: {x: 0, y: 0.5}

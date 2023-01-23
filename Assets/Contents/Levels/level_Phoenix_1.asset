@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelDisplayName: 'Level 1: Rise of Phoenix'
   sceneObject: {fileID: 102900000, guid: c5da2ead5e1971e468a0dbf9c4779ec6, type: 3}
-  sceneName: Level_Phoenix_Ray
+  sceneName: Level_Phoenix_1_Ray
   seal: {fileID: 21300000, guid: 90005380c26679f42b9c35f31f3145ff, type: 3}
   color: {r: 0.6509804, g: 0.22352941, b: 0.22352941, a: 1}

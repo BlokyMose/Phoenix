@@ -343,8 +343,8 @@ namespace Phoenix
 
             if (OnDepleteBarrier == null)
             {
-                OnDamaged?.Invoke(damage);
                 health -= damage;
+                OnDamaged?.Invoke(damage);
             }
 
             else
@@ -352,8 +352,8 @@ namespace Phoenix
                 var excessDamage = OnDepleteBarrier(damage);
                 if (excessDamage > 0)
                 {
-                    OnDamaged?.Invoke(excessDamage);
                     health -= damage;
+                    OnDamaged?.Invoke(excessDamage);
                 }
             }
 

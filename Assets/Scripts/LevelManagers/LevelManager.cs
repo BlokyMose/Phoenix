@@ -600,14 +600,6 @@ namespace Phoenix
             LoadScene(mainMenu.SceneName);
         }
 
-        public void LoadScene(Object scene)
-        {
-            if (SceneManager.GetSceneByName(scene.name) != null)
-                LoadScene(scene.name);
-            else
-                Debug.Log(nameof(scene.name) + " is not a scene",this);
-        }
-
         public void LoadScene(string sceneName)
         {
             if (screenMode == ScreenMode.Loading) return;

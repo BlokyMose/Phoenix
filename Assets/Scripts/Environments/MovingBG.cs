@@ -1,7 +1,6 @@
 using Encore.Utility;
-using Sirenix.Utilities;
+using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,11 +37,47 @@ namespace Phoenix
             }
         }
 
-        [SerializeField]
-        List<Sprite> sprites = new List<Sprite>();
+        [Serializable]
+        public class BG
+        {
+            [SerializeField]
+            Sprite sprite;
+            public Sprite Sprite => sprite;
+
+            [SerializeField]
+            int sortingOrder = 0;
+            public int SortingOrder => sortingOrder;
+
+            [HorizontalGroup("Color")]
+            [SerializeField, LabelText("New Color")]
+            bool isOverrideColor = false;
+            public bool IsOverrideColor => isOverrideColor;
+
+            [HorizontalGroup("Color")]
+            [SerializeField, LabelWidth(0.1f), ShowIf(nameof(isOverrideColor))]
+            Color color;
+
+            public Color Color => isOverrideColor ? color : Color.white;
+
+            [HorizontalGroup("RectSize")]
+            [SerializeField, LabelText("New Rect Size")]
+            bool isOverrideSpriteSize = false;
+            public bool IsOverrideSpriteSize => isOverrideSpriteSize;
+
+            [HorizontalGroup("RectSize")]
+            [SerializeField, LabelWidth(0.1f), ShowIf(nameof(isOverrideSpriteSize))]
+            Vector2 spriteSize;
+
+            public Vector2 SpriteSize => isOverrideSpriteSize ? spriteSize : Sprite.bounds.size;
+
+
+        }
+
+        [SerializeField, LabelText("BGs")]
+        List<BG> bgs = new();
 
         [SerializeField]
-        MovementProperties unitProperties = new MovementProperties();
+        MovementProperties unitProperties = new();
 
         [SerializeField]
         Vector2 spawnOffset;
@@ -52,7 +87,8 @@ namespace Phoenix
 
         List<MovingBGUnit> units = new List<MovingBGUnit>();
 
-        int currentSpriteIndex = 0;
+        int currentBGIndex = 0;
+        BG currentBG => bgs[currentBGIndex];
 
         void Awake()
         {
@@ -61,44 +97,56 @@ namespace Phoenix
 
         void Init()
         {
+            var allUnits = new List<MovingBGUnit>();
             for (int i = 0; i < spawnCount; i++)
-                InstantiateUnit();
-        }
-            
-        void InstantiateUnit()
-        {
-            var go = new GameObject(units.Count.ToString());
-            var unit = go.AddComponent<MovingBGUnit>();
-            unit.Init(transform, sprites[currentSpriteIndex], OnUnitPassedDistance);
-            unit.StartMoving(GetStartPos(), unitProperties);
-            units.Add(unit);
-            currentSpriteIndex = (currentSpriteIndex + 1) % sprites.Count;
+            {
+                var newUnit = InstantiateUnit();
+                newUnit.StartMoving(GetStartPos(newUnit), unitProperties, true);
+                units.Add(newUnit);
+                currentBGIndex = (currentBGIndex + 1) % bgs.Count;
+            }
 
-            Vector2 GetStartPos()
+
+            foreach (var unit in units)
+                unit.isPaused = false;
+
+            MovingBGUnit InstantiateUnit()
+            {
+                var go = new GameObject(units.Count.ToString());
+                var unit = go.AddComponent<MovingBGUnit>();
+                unit.Init(transform, currentBG, OnUnitPassedDistance);
+                return unit;
+
+
+                void OnUnitPassedDistance()
+                {
+                    unit.StartMoving(GetStartPos(unit), unitProperties);
+                    units.MoveToLast(unit);
+                }
+            }
+
+            Vector2 GetStartPos(MovingBGUnit unit)
             {
                 if (units.IsEmpty())
                     return Vector2.zero + spawnOffset;
 
                 var previousUnitPos = units.GetLast().transform.position;
-                var previousSpriteSize = units.GetLast().SR.sprite.bounds.size;
-                var currentSpriteSize = unit.SR.bounds.size;
+                var previousSpriteSize = units.GetLast().bg.SpriteSize;
+                var currentSpriteSize = unit.bg.SpriteSize;
+
                 return unitProperties.moveTo switch
                 {
-                    Direction4.Right => new Vector2(previousUnitPos.x - previousSpriteSize.x/2 - currentSpriteSize.x/2, previousUnitPos.y),
-                    Direction4.Left => new Vector2(previousUnitPos.x + previousSpriteSize.x/2 + currentSpriteSize.x/2, previousUnitPos.y),
-                    Direction4.Up => new Vector2(previousUnitPos.x, previousUnitPos.y - previousSpriteSize.y/2 - currentSpriteSize.x/2),
-                    Direction4.Down => new Vector2(previousUnitPos.x, previousUnitPos.y + previousSpriteSize.y/2 + currentSpriteSize.x/2),
+                    Direction4.Right => new Vector2(previousUnitPos.x - previousSpriteSize.x / 2 - currentSpriteSize.x / 2, previousUnitPos.y),
+                    Direction4.Left => new Vector2(previousUnitPos.x + previousSpriteSize.x / 2 + currentSpriteSize.x / 2, previousUnitPos.y),
+                    Direction4.Up => new Vector2(previousUnitPos.x, previousUnitPos.y - previousSpriteSize.y / 2 - currentSpriteSize.x / 2),
+                    Direction4.Down => new Vector2(previousUnitPos.x, previousUnitPos.y + previousSpriteSize.y / 2 + currentSpriteSize.x / 2),
                     _ => Vector2.zero,
                 };
             }
 
-            void OnUnitPassedDistance()
-            {
-                var position = GetStartPos();
-                unit.StartMoving(position, unitProperties);
-                units.MoveToLast(unit);
-            }
         }
+            
+
 
 
 

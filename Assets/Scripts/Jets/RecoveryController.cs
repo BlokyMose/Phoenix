@@ -100,8 +100,6 @@ namespace Phoenix
 
         void TryStartRecovering()
         {
-
-            Debug.Log(nameof(healthController.Health) + " : " + healthController.Health);
             if(healthController.Health < healthController.MaxHealth)
                 StartRecovering();
         }

@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Ray/MainMenu.unity
+    path: Assets/Scenes/Ray/MainMenu_Ray.unity
     guid: 2f53d91117aec4b46bff2b94aad2f191
   - enabled: 1
     path: Assets/Scenes/Ray/Level_Phoenix_1_Ray.unity

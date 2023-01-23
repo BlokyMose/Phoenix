@@ -241,6 +241,7 @@
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\LevelLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
