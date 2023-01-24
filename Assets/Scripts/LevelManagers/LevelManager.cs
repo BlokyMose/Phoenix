@@ -403,6 +403,8 @@ namespace Phoenix
             foreach (var canvas in dialogueCanvases)
             {
                 canvas.Init(this);
+                canvas.OnBeginDialogue += () => { Player.DisplayCursorMenu(); };
+                canvas.OnHide += () => { Player.DisplayCursorGame(); };
             }
 
             #endregion
@@ -452,6 +454,15 @@ namespace Phoenix
 
             if (TryGetComponent<LevelBGMController>(out var levelBGMController))
                 levelBGMController.Exit(this);
+
+            var dialogueCanvases = new List<DialogueCanvas>(FindObjectsOfType<DialogueCanvas>(true));
+            foreach (var canvas in dialogueCanvases)
+            {
+                canvas.Hide();
+                canvas.Exit(this);
+                canvas.OnBeginDialogue -= () => { Player.DisplayCursorMenu(); };
+                canvas.OnHide -= () => { Player.DisplayCursorGame(); };
+            }
 
             if (player != null)
             {

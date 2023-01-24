@@ -64,7 +64,6 @@ namespace Phoenix
 
         Animator animator;
         CanvasGroup canvasGroup;
-        LevelManager levelManager;
         int currentIndex;
         Monologue currentMonologue => dialogue[currentIndex];
         DialogueBubble currentBubble;
@@ -72,6 +71,9 @@ namespace Phoenix
         int boo_show;
         bool isShowing = false;
         bool canNext = false;
+
+        public Action OnBeginDialogue;
+        public Action OnHide;
 
         public void Init(LevelManager levelManager, List<Monologue> dialogue)
         {
@@ -81,7 +83,6 @@ namespace Phoenix
 
         public void Init(LevelManager levelManager)
         {
-            this.levelManager = levelManager;
             levelManager.Player.OnFiring += (isFiring) => { if(isFiring) Next(); };
 
             for (int i = bubblesParent.childCount - 1; i >= 0; i--)
@@ -103,7 +104,7 @@ namespace Phoenix
             }
         }
 
-        void Exit()
+        public void Exit(LevelManager levelManager)
         {
             levelManager.Player.OnFiring -= (isFiring) => { if(isFiring) Next(); };
         }
@@ -120,7 +121,7 @@ namespace Phoenix
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
 
-                levelManager.Player.DisplayCursorMenu();
+                OnBeginDialogue?.Invoke(); 
                 currentIndex = 0;
                 currentBubble = CreateBubble(currentMonologue);
                 SetCharacterSprite(currentMonologue.Character, currentMonologue.CharPos);
@@ -162,10 +163,9 @@ namespace Phoenix
             canNext = false;
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
-            levelManager.Player.DisplayCursorGame();
+            OnHide?.Invoke(); //levelManager.Player.DisplayCursorGame();
             animator.SetBool(boo_show, false);
             onHidden.Invoke();
-            Exit();
         }
 
         DialogueBubble CreateBubble(Monologue monologue)

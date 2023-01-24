@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Jets\JetProperties.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementBoomerang.cs" />
     <Compile Include="Assets\Scripts\Hiroto\SimpleUITransition.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\UI\Stage1.cs" />
     <Compile Include="Assets\Scripts\Jets\RecoveryController.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\InstantiateGO.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sound\AudioChange.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Assets\Scripts\GameplayUtility\Follow.cs" />
     <Compile Include="Assets\Scripts\Utility\InspectorComment.cs" />
     <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxUtility.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\UI\Stage2.cs" />
     <Compile Include="Assets\Scripts\Brains\PhoenixBrain.cs" />
     <Compile Include="Assets\Scripts\UI\GameOverCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementMagnet.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\Enemy.cs" />
     <Compile Include="Assets\Scripts\Environments\BorderController.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\DetectCollision.cs" />
     <Compile Include="Assets\Scripts\Misc\Enemies\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Hiroto\ComingEnemy.cs" />
@@ -192,6 +195,7 @@
     <Compile Include="Assets\Scripts\Elements\ElementSwitcher.cs" />
     <Compile Include="Assets\Scripts\Objects\ShieldController.cs" />
     <Compile Include="Assets\Scripts\Jets\FireComponents.cs" />
+    <Compile Include="Assets\Scripts\Hiroto\UI\Stage3.cs" />
     <Compile Include="Assets\Scripts\CameraFX\CameraFXController.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelMainMenu.cs" />
     <Compile Include="Assets\Scripts\Utility\CoroutineUtility.cs" />
