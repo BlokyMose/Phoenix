@@ -1,6 +1,7 @@
 using Encore.Utility;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,6 +35,32 @@ namespace Phoenix
                 this.moveTo = moveTo;
                 this.speed = speed;
                 this.distance = distance;
+            }
+        }
+
+        [Serializable]
+        public class Unit
+        {
+            Transform Transform { get; set; }
+            public SpriteRenderer SR { get; private set; }
+            public BG BG { get; private set; }
+
+            public Unit(Transform transform, SpriteRenderer sr, BG bg)
+            {
+                this.Transform = transform;
+                this.SR = sr;
+                this.BG = bg;
+            }
+
+            public void DestroySelf()
+            {
+                Destroy(Transform);
+            }
+
+            public Vector2 Pos
+            {
+                get => Transform.position;
+                set => Transform.position = value;
             }
         }
 
@@ -85,10 +112,7 @@ namespace Phoenix
         [SerializeField]
         int spawnCount = 4;
 
-        List<MovingBGUnit> units = new List<MovingBGUnit>();
-
-        int currentBGIndex = 0;
-        BG currentBG => bgs[currentBGIndex];
+        List<Unit> units = new();
 
         void Awake()
         {
@@ -97,42 +121,66 @@ namespace Phoenix
 
         void Init()
         {
-            var allUnits = new List<MovingBGUnit>();
+            foreach (var unit in units)
+                unit.DestroySelf();
+            units.Clear();
+
+            var finishPos = GetFinishPos(unitProperties);
+            var initialUnits = new List<Unit>();
             for (int i = 0; i < spawnCount; i++)
+                initialUnits.Add(InstantiateUnit(i, bgs.GetAt(i, 0)));
+
+            for (int i = 0; i < initialUnits.Count; i++)
             {
-                var newUnit = InstantiateUnit();
-                newUnit.StartMoving(GetStartPos(newUnit), unitProperties, true);
-                units.Add(newUnit);
-                currentBGIndex = (currentBGIndex + 1) % bgs.Count;
+                initialUnits[i].Pos = GetStartPos(units, initialUnits[i]);
+                units.Add(initialUnits[i]);
             }
 
-
-            foreach (var unit in units)
-                unit.isPaused = false;
-
-            MovingBGUnit InstantiateUnit()
+            StartCoroutine(Update());
+            IEnumerator Update()
             {
-                var go = new GameObject(units.Count.ToString());
-                var unit = go.AddComponent<MovingBGUnit>();
-                unit.Init(transform, currentBG, OnUnitPassedDistance);
-                return unit;
-
-
-                void OnUnitPassedDistance()
+                while (true)
                 {
-                    unit.StartMoving(GetStartPos(unit), unitProperties);
-                    units.MoveToLast(unit);
+                    foreach (var unit in units)
+                    {
+                        if (Vector2.Distance(unit.Pos, finishPos) < 1f)
+                        {
+                            unit.Pos = GetStartPos(units, unit);
+                            units.MoveToLast(unit);
+                            break;
+                        }
+
+                        unit.Pos += Time.deltaTime * Time.timeScale * unitProperties.speed * unitProperties.direction ;
+                    }
+
+                    yield return null;
                 }
             }
 
-            Vector2 GetStartPos(MovingBGUnit unit)
+
+            Unit InstantiateUnit(int index, BG bg)
+            {
+                var go = new GameObject(index.ToString());
+                go.transform.parent = transform;
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = bg.Sprite;
+                sr.sortingOrder = bg.SortingOrder;
+                sr.color = bg.Color;
+                sr.sortingLayerName = "BG";
+                var unit = new Unit(go.transform, sr, bg);
+
+                return unit;
+
+            }
+
+            Vector2 GetStartPos(List<Unit> units, Unit unit)
             {
                 if (units.IsEmpty())
                     return Vector2.zero + spawnOffset;
 
-                var previousUnitPos = units.GetLast().transform.position;
-                var previousSpriteSize = units.GetLast().bg.SpriteSize;
-                var currentSpriteSize = unit.bg.SpriteSize;
+                var previousUnitPos = units.GetLast().Pos;
+                var previousSpriteSize = units.GetLast().BG.SpriteSize;
+                var currentSpriteSize = unit.BG.SpriteSize;
 
                 return unitProperties.moveTo switch
                 {
@@ -144,11 +192,19 @@ namespace Phoenix
                 };
             }
 
+            Vector2 GetFinishPos(MovementProperties properties)
+            {
+                return properties.moveTo switch
+                {
+                    Direction4.Right => (Vector2)transform.position + new Vector2(properties.distance, 0),
+                    Direction4.Left => (Vector2)transform.position + new Vector2(-properties.distance, 0),
+                    Direction4.Up => (Vector2)transform.position + new Vector2(0, properties.distance),
+                    Direction4.Down => (Vector2)transform.position + new Vector2(0, -properties.distance),
+                    _ => transform.position,
+                };
+            }
+
         }
             
-
-
-
-
     }
 }

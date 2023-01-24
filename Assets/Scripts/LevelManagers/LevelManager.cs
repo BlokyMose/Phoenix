@@ -157,12 +157,9 @@ namespace Phoenix
             [SerializeField, ListDrawerSettings(Expanded = true)]
             List<Stage> stages = new();
 
-            [HideInInspector]
-            public Stage currentStage => stages[currentStageIndex];
-            [HideInInspector]
-            public int currentStageIndex;
+            Stage currentStage => stages.GetAt(currentStageIndex,null);
+            int currentStageIndex;
             Action OnEnd;
-
 
             public void Init(LevelManager levelManager, ScreenMode activeInScreenMode, Action onEnd)
             {
@@ -200,19 +197,19 @@ namespace Phoenix
                 }
 
 
-                void OnStageCleared()
-                {
-                    if (currentStageIndex >= stages.Count - 1)
-                        Exit();
+            }
+            void OnStageCleared()
+            {
+                if (currentStageIndex >= stages.Count - 1)
+                    Exit();
 
-                    for (int i = currentStageIndex + 1; i < stages.Count; i++)
+                for (int i = currentStageIndex + 1; i < stages.Count; i++)
+                {
+                    if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
                     {
-                        if (stages[i].ActiveMode == Stage.StageActiveMode.Active)
-                        {
-                            currentStageIndex = i;
-                            currentStage.StartStage();
-                            break;
-                        }
+                        currentStageIndex = i;
+                        currentStage.StartStage();
+                        break;
                     }
                 }
             }
@@ -224,13 +221,19 @@ namespace Phoenix
 
                 OnEnd?.Invoke();
             }
+
+            public void ForceToNextStage()
+            {
+                currentStage?.EndStage();
+                OnStageCleared();
+            }
         }
 
-        #endregion
+            #endregion
 
-        #region [Vars: Properties]
+            #region [Vars: Properties]
 
-        [SerializeField]
+            [SerializeField]
         Level level;
 
         [SerializeField]
@@ -424,8 +427,6 @@ namespace Phoenix
             OnInit?.Invoke();
         }
 
-
-
         public virtual void Exit()
         {
             if (pauseMenu != null)
@@ -496,6 +497,8 @@ namespace Phoenix
             screenMode = ScreenMode.Play;
             mainStages.Init(this, ScreenMode.Play, EnterWinStages);
         }
+
+        public void NextStageOnMainStages() => mainStages.ForceToNextStage();
 
         public void EnterGameOverStages()
         {

@@ -112,6 +112,7 @@
     <Compile Include="Assets\Scripts\UI\GameOverCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\WavePropertiesInitialRandom.cs" />
     <Compile Include="Assets\Scripts\UI\DamageCanvas.cs" />
+    <Compile Include="Assets\Scripts\LevelManagers\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovement.cs" />
     <Compile Include="Assets\Scripts\Jets\FireController.cs" />
     <Compile Include="Assets\Scripts\Elements\ElementContainerSR.cs" />
@@ -241,7 +242,6 @@
     <Compile Include="Assets\Scripts\Objects\WavePropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\UI\WinCanvas.cs" />
     <Compile Include="Assets\Scripts\Objects\SRAlphaAnimator.cs" />
-    <Compile Include="Assets\Scripts\LevelManagers\LevelLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
