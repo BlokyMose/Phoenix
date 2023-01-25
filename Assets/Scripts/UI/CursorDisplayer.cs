@@ -19,14 +19,15 @@ namespace Phoenix
         protected CanvasGroup canvasGroup;
         protected bool isShow;
 
-        public virtual void Init(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring, float speed, GameObject cursorPrefab)
+        public virtual void Init(Brain brain, float speed, GameObject cursorPrefab)
         {
+            brain.OnPointerPosInput += SetPointerPos;
+            brain.OnFiring += SetFiring;
+
             canvasGroup = GetComponent<CanvasGroup>();
             rect = GetComponent<RectTransform>(); 
             var canvas = GetComponent<Canvas>();
             canvas.worldCamera = Camera.main;
-            onPointerPos += OnPointerPos;
-            onFiring += OnFiring;
             this.speed = speed;
 
             cursor = Instantiate(cursorPrefab != null ? cursorPrefab : new GameObject(), transform);
@@ -47,19 +48,19 @@ namespace Phoenix
             cursor.transform.position = newPos * rect.localScale;
         }
 
-        public virtual void Exit(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring)
+        public virtual void Exit(Brain brain)
         {
-            onPointerPos -= OnPointerPos;
-            onFiring -= OnFiring;
+            brain.OnPointerPosInput -= SetPointerPos;
+            brain.OnFiring -= SetFiring;
         }
 
 
-        protected virtual void OnPointerPos(Vector2 pos)
+        protected virtual void SetPointerPos(Vector2 pos)
         {
             pointerPos = pos;
         }
 
-        protected virtual void OnFiring(bool isFiring)
+        protected virtual void SetFiring(bool isFiring)
         {
         }
 

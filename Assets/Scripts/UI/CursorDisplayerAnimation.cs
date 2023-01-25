@@ -26,20 +26,20 @@ namespace Phoenix
             fireController.OnNextBullet -= OnNextBullet;
         }
 
-        public void Init(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring, JetPropertiesStatic jetProperties)
+        public void Init(Brain brain, JetPropertiesStatic jetProperties)
         {
-            Init(ref onPointerPos, ref onFiring, jetProperties.CursorSpeed, jetProperties.Cursor);
+            Init(brain, jetProperties.CursorSpeed, jetProperties.Cursor);
         }
 
-        public override void Init(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring,  float speed, GameObject cursorPrefab)
+        public override void Init(Brain brain, float speed, GameObject cursorPrefab)
         {
-            base.Init(ref onPointerPos, ref onFiring, speed, cursorPrefab);
+            base.Init(brain, speed, cursorPrefab);
 
             cursorAnimator = cursor.GetComponent<Animator>();
             int_mode = Animator.StringToHash(nameof(int_mode));
         }
 
-        protected override void OnFiring(bool isFiring)
+        protected override void SetFiring(bool isFiring)
         {
             cursorAnimator.SetInteger(int_mode, isFiring ? 1 : 0);
         }

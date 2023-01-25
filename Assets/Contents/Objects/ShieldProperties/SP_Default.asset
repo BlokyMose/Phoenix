@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f673d5c693ef3743acab2049f95e1cc, type: 3}
   m_Name: SP_Default
   m_EditorClassIdentifier: 
-  maxHealth: 200
+  maxHealth: 150
   element: {fileID: 11400000, guid: 1af67dd9530c1a34b93a2b55eec488a7, type: 2}

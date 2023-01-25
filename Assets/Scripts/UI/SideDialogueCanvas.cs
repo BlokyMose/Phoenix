@@ -74,7 +74,7 @@ namespace Phoenix
             BeginDialogue();
         }
 
-        public void BeginDialogue()
+        void BeginDialogue()
         {
             if (isShowing) return;
             isShowing = true;

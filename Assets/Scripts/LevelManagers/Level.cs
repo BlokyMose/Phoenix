@@ -12,7 +12,7 @@ namespace Phoenix
         string levelDisplayName;
         public string LevelDisplayName => levelDisplayName;
 
-        [SerializeField, OnValueChanged(nameof(ChangeLevelNameByLevelObject))]
+        [SerializeField, OnValueChanged(nameof(ChangeLevelNameByLevelObject)), InlineButton(nameof(ChangeLevelNameByLevelObject), "Update")]
         Object sceneObject;
 
         public Object LevelObject => sceneObject;

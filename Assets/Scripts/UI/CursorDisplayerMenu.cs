@@ -14,14 +14,12 @@ namespace Phoenix
         CursorPack cursorPack;
         Image cursorImage;
 
-        public void Init(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring, float speed, CursorPack cursorPack)
+        public void Init(Brain brain, float speed, CursorPack cursorPack)
         {
             this.cursorPack = cursorPack;
             var emptyGO = new GameObject("Cursor");
-            base.Init(ref onPointerPos, ref onFiring, speed, emptyGO);
-
-            onFiring += PlayClickSFX;
-
+            base.Init(brain, speed, emptyGO);
+            
             cursorImage = cursor.AddComponent<Image>();
             cursorImage.rectTransform.pivot = new Vector2(
                 cursorPack.Normal.pivot.x/cursorPack.Normal.rect.width, 
@@ -31,10 +29,9 @@ namespace Phoenix
             cursorImage.sprite = cursorPack.Normal;
         }
 
-        public override void Exit(ref Action<Vector2> onPointerPos, ref Action<bool> onFiring)
+        public override void Exit(Brain brain)
         {
-            base.Exit(ref onPointerPos, ref onFiring);
-            onFiring -= PlayClickSFX;
+            base.Exit(brain);
         }
 
 
@@ -44,10 +41,11 @@ namespace Phoenix
                 clickAudioSource.Play();
         }
 
-        protected override void OnFiring(bool isFiring)
+        protected override void SetFiring(bool isFiring)
         {
-            base.OnFiring(isFiring);
+            base.SetFiring(isFiring);
             cursorImage.sprite = isFiring ? cursorPack.Click : cursorPack.Normal;
+            PlayClickSFX(isFiring);
         }
     }
 }

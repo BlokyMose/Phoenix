@@ -255,12 +255,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You gotta go faster now!
-
-    There is no time anymore!'
+  m_text: "\u7269\u4F53F\u304B\u3089\u653E\u51FA\u3055\u308C\u3066\u3044\u308B\u706B\u306E\u7C89\u304C\u3001\u304A\u524D\u306B\u5411\u3051\u3066\u7167\u6E96\u3092\u5408\u308F\u305B\u3066\u3044\u308B\u3088\u3046\u3060\u3002\n\u6700\u5F8C\u307E\u3067\u6C17\u3092\u629C\u304F\u306A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a3f1a43dc5183c446b8646912b9be8a1, type: 2}
-  m_sharedMaterial: {fileID: -8949980842189384180, guid: a3f1a43dc5183c446b8646912b9be8a1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e1b6c07eed1c959449f210ae6460e157, type: 2}
+  m_sharedMaterial: {fileID: 1963824675500720033, guid: e1b6c07eed1c959449f210ae6460e157, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -284,8 +282,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 26.4
+  m_fontSizeBase: 26.4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -81,17 +81,20 @@ namespace Phoenix
             var jet = GetComponent<JetController>();
 
             Cursor.visible = false;
-            if (jet != null)
+            if (jet != null && cursorDisplayerPrefab != null)
             {
                 cursorDisplayerGame = Instantiate(cursorDisplayerPrefab);
-                cursorDisplayerGame.Init(ref OnPointerPosInput, ref OnFiring, jet.JetProperties);
+                cursorDisplayerGame.Init(this, jet.JetProperties);
                 cursorDisplayerGame.OnCursorPositionWorld += (pos) => { OnCursorWorldPos?.Invoke(pos); };
+                cursorDisplayerGame.Show(false);
             }
 
-            cursorDisplayerMenu = Instantiate(cursorDisplayerMenuPrefab);
-            cursorDisplayerMenu.Init(ref OnPointerPosInput, ref OnFiring, 1f, cursorPackMenu);
-            cursorDisplayerGame.Show(false);
-            cursorDisplayerMenu.Show(true);
+            if (cursorDisplayerMenuPrefab != null)
+            {
+                cursorDisplayerMenu = Instantiate(cursorDisplayerMenuPrefab);
+                cursorDisplayerMenu.Init(this, 1f, cursorPackMenu);
+                cursorDisplayerMenu.Show(true);
+            }
 
             SetupFireInputMode(fireInputMode);
 
@@ -101,32 +104,45 @@ namespace Phoenix
         public override void Init(LevelManager levelManager)
         {
             Init();
-            cursorDisplayerGame.Show(true);
-            cursorDisplayerMenu.Show(false);
+            if (cursorDisplayerGame!=null)
+                cursorDisplayerGame.Show(true);
+            if (cursorDisplayerMenu!=null)
+                cursorDisplayerMenu.Show(false);
         }
 
         public override void Exit()
         {
-            var jet = GetComponent<JetController>();
-            cursorDisplayerGame.Exit(ref OnPointerPosInput, ref OnFiring);
-            cursorDisplayerGame.OnCursorPositionWorld -= (pos) => { OnCursorWorldPos?.Invoke(pos); };
-            cursorDisplayerMenu.Exit(ref OnPointerPosInput, ref OnFiring);
+            if (cursorDisplayerGame != null)
+            {
+                cursorDisplayerGame.Exit(this);
+                cursorDisplayerGame.OnCursorPositionWorld -= (pos) => { OnCursorWorldPos?.Invoke(pos); };
 
+                Destroy(cursorDisplayerGame);
+            }
+            if (cursorDisplayerMenu != null)
+            {
+                cursorDisplayerMenu.Exit(this);
+                Destroy(cursorDisplayerMenu);
+            }
             base.Exit();
         }
 
         public void DisplayCursorGame(bool activateGameplayComponents = true)
         {
-            cursorDisplayerGame.Show(true);
-            cursorDisplayerMenu.Show(false);
+            if (cursorDisplayerGame != null)
+                cursorDisplayerGame.Show(true);
+            if (cursorDisplayerMenu != null)
+                cursorDisplayerMenu.Show(false);
             if(activateGameplayComponents)
                 ActivateGameplayComponents();
         }
 
         public void DisplayCursorMenu(bool deactivateGameplayComponents = true)
         {
-            cursorDisplayerGame.Show(false);
-            cursorDisplayerMenu.Show(true);
+            if (cursorDisplayerGame != null)
+                cursorDisplayerGame.Show(false);
+            if (cursorDisplayerMenu != null)
+                cursorDisplayerMenu.Show(true);
             if(deactivateGameplayComponents)
                 DeactivateGameplayComponents();
         }

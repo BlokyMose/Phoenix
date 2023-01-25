@@ -85,16 +85,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playProbability: 1
   audioPacks:
-  - clips:
-    - {fileID: 8300000, guid: e9c249c9d073d2647b12578e32521b62, type: 3}
-    - {fileID: 8300000, guid: 70439acf07505b04f9495729bcd8a678, type: 3}
+  - packName: 
+    clips:
+    - {fileID: 8300000, guid: 5d39e930f7e61154898348ce1c52d291, type: 3}
+    - {fileID: 8300000, guid: 9d621ffe0e998534fb49b614cd578ea0, type: 3}
     volume: 0.15
     volumeRandomRange: 0
     pitch: 1
     pitchRandomRange: 0.15
     delay: 0
     delayRandomRange: 0
-  - clips:
+  - packName: 
+    clips:
     - {fileID: 8300000, guid: 5efe8055aad00eb4abfc8d129b1d5050, type: 3}
     - {fileID: 8300000, guid: 4afeff9c916760d49bb9e01cb66d4126, type: 3}
     - {fileID: 8300000, guid: e2aa5654dcd7bcf458e65a2885ce10b4, type: 3}

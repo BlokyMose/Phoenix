@@ -9,7 +9,12 @@ namespace Phoenix
         public override void Init()
         {
             base.Init();
-            Player.DisplayCursorMenu(false);
+        }
+
+        public override void Resume()
+        {
+            base.Resume();
+            Player.DisplayCursorMenu();
         }
     }
 }

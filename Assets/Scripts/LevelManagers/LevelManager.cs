@@ -14,7 +14,7 @@ using Object = UnityEngine.Object;
 namespace Phoenix
 {
     [DisallowMultipleComponent]
-    public abstract class LevelManager: MonoBehaviour
+    public class LevelManager: MonoBehaviour
     {
         #region [Classes]
 
@@ -219,6 +219,7 @@ namespace Phoenix
                 foreach (var stage in stages)
                     stage.Reset();
 
+
                 OnEnd?.Invoke();
             }
 
@@ -231,7 +232,7 @@ namespace Phoenix
 
             #endregion
 
-            #region [Vars: Properties]
+        #region [Vars: Properties]
 
             [SerializeField]
         Level level;
@@ -348,8 +349,11 @@ namespace Phoenix
             else
             {
                 player = Instantiate(playerPrefab);
-                player.transform.position = startPoint.point.position;
-                player.transform.rotation = startPoint.point.rotation;
+                if (startPoint.point != null)
+                {
+                    player.transform.position = startPoint.point.position;
+                    player.transform.rotation = startPoint.point.rotation;
+                }
             }
 
             player.Init(this);
@@ -482,6 +486,8 @@ namespace Phoenix
                 {
                     playerFireController.OnKill -= OnPlayerKills;
                 }
+
+                player.Exit();
             }
         }
 
@@ -573,7 +579,7 @@ namespace Phoenix
         }
 
 
-        public void Pause()
+        public virtual void Pause()
         {
             screenMode = ScreenMode.Pause;
             Time.timeScale = 0;
@@ -586,7 +592,7 @@ namespace Phoenix
                 pauseMenu.Show(true);
         }
 
-        public void Resume()
+        public virtual void Resume()
         {
             screenMode = ScreenMode.Play;
             Time.timeScale = 1;
@@ -614,6 +620,8 @@ namespace Phoenix
             LoadScene(mainMenu.SceneName);
         }
 
+        public void LoadLevel(Level level) => LoadScene(level.SceneName);
+
         public void LoadScene(string sceneName)
         {
             if (screenMode == ScreenMode.Loading) return;
@@ -625,11 +633,16 @@ namespace Phoenix
             if (loadingCanvasPrefab != null)
             {
                 var loadingCanvas = Instantiate(loadingCanvasPrefab, null);
-                loadingCanvas.Init(() => { SceneManager.LoadScene(sceneName); });
+                loadingCanvas.Init(() => 
+                {
+                    Exit();
+                    SceneManager.LoadScene(sceneName); 
+                });
                 loadingDuration = loadingCanvas.InDuration;
             }
             else
             {
+                Exit();
                 SceneManager.LoadScene(sceneName);
             }
 
