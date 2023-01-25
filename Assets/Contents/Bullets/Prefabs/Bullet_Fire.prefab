@@ -410,19 +410,10 @@ MonoBehaviour:
   audioPacks:
   - packName: 
     clips:
-    - {fileID: 8300000, guid: 3b5439631b4cc8b4b81da47b6d89e0bf, type: 3}
-    volume: 0.5
-    volumeRandomRange: 0.05
-    pitch: 1
-    pitchRandomRange: 0.15
-    delay: 0
-    delayRandomRange: 0
-  - packName: 
-    clips:
     - {fileID: 8300000, guid: af6a9685dd23eaa458cdb8199a46bd88, type: 3}
     - {fileID: 8300000, guid: 820416fb00f90e547bb7cbd14c13beab, type: 3}
     - {fileID: 8300000, guid: f96773ac3d6e86b46ba540003d7842ca, type: 3}
-    volume: 0.075
+    volume: 0.25
     volumeRandomRange: 0
     pitch: 0.85
     pitchRandomRange: 0.15

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Phoenix
 {
@@ -11,6 +12,9 @@ namespace Phoenix
     {
         [SerializeField, Range(1, 0)]
         float toNextFireModeWhenHealth = 0.5f;
+
+        [SerializeField]
+        UnityEvent onNextFireMode;
 
         public override void Init()
         {
@@ -26,9 +30,12 @@ namespace Phoenix
                     if (!isCalled && health.Health < health.MaxHealth * toNextFireModeWhenHealth)
                     {
                         isCalled = true;
+                        onNextFireMode.Invoke();
                         OnNextFireModeInput();
                     }
                 }
+
+
             }
 
 
