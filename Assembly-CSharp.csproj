@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\LevelManagers\LevelBGMController.cs" />
     <Compile Include="Assets\Scripts\CameraFX\VolumeProperties.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\InTriggerGiveDamage.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoadSceneOnClick.cs" />
     <Compile Include="Assets\Scripts\UI\CursorPack.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementHoming.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Enemy.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Assets\Scripts\Hiroto\PlayerShoot.cs" />
     <Compile Include="Assets\Scripts\Utility\ColorUtility.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AutoSwitchSprite.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiLoopScript.cs" />
     <Compile Include="Assets\Scripts\Utility\DictionaryUtility.cs" />
     <Compile Include="Assets\Scripts\UI\Minimap.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\Follow.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Assets\Scripts\Jets\JetController.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelGradingRules.cs" />
     <Compile Include="Assets\Scripts\Utility\CalcUtility.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiBeamStatic.cs" />
     <Compile Include="Assets\Scripts\Hiroto\PlayerBulletManager.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveController.cs" />
     <Compile Include="Assets\Scripts\UI\LoadingCanvas.cs" />
@@ -141,6 +144,7 @@
     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
     <Compile Include="Assets\Scripts\Jets\JetPropertiesRandom.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Health.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiFireProjectile.cs" />
     <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxStringComponent.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\AudioSourceRandom.cs" />
     <Compile Include="Assets\Scripts\Environments\MovingBG.cs" />
@@ -158,15 +162,19 @@
     <Compile Include="Assets\Scripts\Misc\IHealth.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Bullet.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\RotateByVelocity.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFlicker.cs" />
     <Compile Include="Assets\Scripts\Utility\WaveControllerUtility.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Extensions.cs" />
     <Compile Include="Assets\Scripts\UI\DialogueCanvas.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\DestroyBulletTriggerWhenEnter.cs" />
     <Compile Include="Assets\Settings\InputActions\PhoenixInput.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiPitchRandomizer.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_PlayerBrain.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
     <Compile Include="Assets\Scripts\UI\BulletIconUIUnit.cs" />
     <Compile Include="Assets\Scripts\Jets\JetAutoMovements\JetAutoMovementWave.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiRotation.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiProjectileScript.cs" />
     <Compile Include="Assets\Scripts\Misc\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Hiroto\UI\StageSelect.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Appear.cs" />
@@ -191,9 +199,12 @@
     <Compile Include="Assets\Scripts\CameraFX\CameraFXController.cs" />
     <Compile Include="Assets\Scripts\LevelManagers\LevelMainMenu.cs" />
     <Compile Include="Assets\Scripts\Utility\CoroutineUtility.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiBeamScript.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Utils.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\Sci-Fi Effects\Scripts\SciFiLightFade.cs" />
     <Compile Include="Assets\Scripts\Objects\BombController.cs" />
     <Compile Include="Assets\Scripts\Utility\DSyntax\DSyntaxSettings.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiButtonScript.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_MM_Rat.cs" />
     <Compile Include="Assets\Scripts\GameplayUtility\DestroySelf.cs" />
     <Compile Include="Assets\OtherAssignments\Assignment_1\Scripts\AsOne_AttackModule.cs" />
@@ -226,6 +237,7 @@
     <Compile Include="Assets\Scripts\GameplayUtility\GameplayUtilityClass.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletMovements\BulletMovementDefaultThen.cs" />
     <Compile Include="Assets\Scripts\UI\CursorDisplayerAnimation.cs" />
+    <Compile Include="Assets\Archanor\Sci-Fi Arsenal\InteractiveDemo\Demo Scripts\SciFiDragMouseOrbit.cs" />
     <Compile Include="Assets\Scripts\Utility\LayerMaskUtility.cs" />
     <Compile Include="Assets\Scripts\Objects\WaveProperties.cs" />
     <Compile Include="Assets\Scripts\Hiroto\Sound\ChangeSoundVolume.cs" />

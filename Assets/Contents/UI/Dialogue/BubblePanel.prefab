@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invokeIn: 0
   delay: 0
-  onInvoke:
+  unityEvent:
     m_PersistentCalls:
       m_Calls: []
   parameters:
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u53F8\u4EE4\u5B98"
+  m_text: Commander
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e1b6c07eed1c959449f210ae6460e157, type: 2}
   m_sharedMaterial: {fileID: 1963824675500720033, guid: e1b6c07eed1c959449f210ae6460e157, type: 2}
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u306F\u3058\u3081\u307E\u3057\u3066"
+  m_text: You have to go there!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e1b6c07eed1c959449f210ae6460e157, type: 2}
   m_sharedMaterial: {fileID: 1963824675500720033, guid: e1b6c07eed1c959449f210ae6460e157, type: 2}

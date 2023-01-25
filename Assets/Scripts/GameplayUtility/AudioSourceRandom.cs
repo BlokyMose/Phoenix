@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Rendering.UI;
 using Random = UnityEngine.Random;
 
 namespace Phoenix
@@ -45,9 +44,6 @@ namespace Phoenix
                 var _delay = Random.Range(delay - delayRandomRange, delay + delayRandomRange);
                 yield return new WaitForSeconds(_delay);
                 audioSource.pitch = Random.Range(pitch - pitchRandomRange, pitch + pitchRandomRange);
-
-                if (clips.GetRandom() == null)
-                    Debug.Log(audioSource.gameObject.name);
                 audioSource.PlayOneShot(clips.GetRandom(), Random.Range(volume - volumeRandomRange, volume + volumeRandomRange));
             }
 
