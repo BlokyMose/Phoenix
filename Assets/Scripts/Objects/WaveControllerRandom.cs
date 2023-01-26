@@ -99,7 +99,7 @@ namespace Phoenix
                     {
                         if (spawnerAndData.data.time < spawnerAndData.data.maxTime)
                         {
-                            spawnerAndData.data.time += Time.fixedDeltaTime;
+                            spawnerAndData.data.time += Time.deltaTime;
                             var instantiableWave = spawnerAndData.spawner.GetInstantiableWaveAt(spawnerAndData.data.time, spawnerAndData.data);
                             if (instantiableWave != null)
                                 InstantiateWavePrefab(instantiableWave, spawnerAndData.spawner.Position);

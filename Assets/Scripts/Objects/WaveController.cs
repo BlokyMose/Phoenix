@@ -265,7 +265,7 @@ namespace Phoenix
                         round++;
                     }
 
-                    time += Time.fixedDeltaTime;
+                    time += Time.deltaTime;
                 }
 
                 yield return null;
