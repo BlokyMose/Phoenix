@@ -8433,7 +8433,6 @@ GameObject:
   - component: {fileID: 2726426614591779273}
   - component: {fileID: 2204090793134247573}
   - component: {fileID: 2130171267769904826}
-  - component: {fileID: 933824539423788504}
   m_Layer: 5
   m_Name: StartBut
   m_TagString: Untagged
@@ -8544,42 +8543,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 933824539423788504}
-        m_TargetAssemblyTypeName: Stage3, Assembly-CSharp
-        m_MethodName: OnClickStartButton
-        m_Mode: 1
+      - m_Target: {fileID: 4480007448036146134}
+        m_TargetAssemblyTypeName: Phoenix.PauseMenu, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: bab38a843a9d7e04b8db20d35786dedc, type: 2}
+          m_ObjectArgumentAssemblyTypeName: Phoenix.Level, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4132333942047863345}
-        m_TargetAssemblyTypeName: Phoenix.LevelManager, Assembly-CSharp
-        m_MethodName: Resume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &933824539423788504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5096532457331301801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c969bf1624d4a064c9f193a681c698e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5149082664855244882
 GameObject:
   m_ObjectHideFlags: 0
@@ -9462,7 +9437,6 @@ GameObject:
   - component: {fileID: 1240753798917784990}
   - component: {fileID: 2586535904289175101}
   - component: {fileID: 4342130304269852770}
-  - component: {fileID: 179250998259676762}
   m_Layer: 5
   m_Name: StartBut
   m_TagString: Untagged
@@ -9573,42 +9547,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 179250998259676762}
-        m_TargetAssemblyTypeName: Stage1, Assembly-CSharp
-        m_MethodName: OnClickStartButton
-        m_Mode: 1
+      - m_Target: {fileID: 4480007448036146134}
+        m_TargetAssemblyTypeName: Phoenix.PauseMenu, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: eafc95cbb69047940b59d4a1e3c9328e, type: 2}
+          m_ObjectArgumentAssemblyTypeName: Phoenix.Level, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4132333942047863345}
-        m_TargetAssemblyTypeName: Phoenix.LevelManager, Assembly-CSharp
-        m_MethodName: Resume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &179250998259676762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5893124583064085813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bec5341c255328241aeb2f537696cea6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5985534338559286181
 GameObject:
   m_ObjectHideFlags: 0
@@ -10100,7 +10050,6 @@ GameObject:
   - component: {fileID: 2704242612768017410}
   - component: {fileID: 80051917558284821}
   - component: {fileID: 7137640480989646156}
-  - component: {fileID: 4992741892878453128}
   m_Layer: 5
   m_Name: StartBut
   m_TagString: Untagged
@@ -10211,42 +10160,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4992741892878453128}
-        m_TargetAssemblyTypeName: Stage2, Assembly-CSharp
-        m_MethodName: OnClickStartButton
-        m_Mode: 1
+      - m_Target: {fileID: 4480007448036146134}
+        m_TargetAssemblyTypeName: Phoenix.PauseMenu, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 034293b377b194a46bba33d89aefcd46, type: 2}
+          m_ObjectArgumentAssemblyTypeName: Phoenix.Level, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4132333942047863345}
-        m_TargetAssemblyTypeName: Phoenix.LevelManager, Assembly-CSharp
-        m_MethodName: Resume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4992741892878453128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6428003442483865481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6809de0ad8ad1944b0a6cbba9319abd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6569064214898530863
 GameObject:
   m_ObjectHideFlags: 0

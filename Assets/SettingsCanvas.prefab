@@ -8727,25 +8727,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 933824539423788504}
-        m_TargetAssemblyTypeName: Stage3, Assembly-CSharp
-        m_MethodName: OnClickStartButton
-        m_Mode: 1
+      - m_Target: {fileID: 4480007448036146134}
+        m_TargetAssemblyTypeName: Phoenix.PauseMenu, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4132333942047863345}
-        m_TargetAssemblyTypeName: Phoenix.LevelManager, Assembly-CSharp
-        m_MethodName: Resume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: bab38a843a9d7e04b8db20d35786dedc, type: 2}
+          m_ObjectArgumentAssemblyTypeName: Phoenix.Level, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9756,25 +9744,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 179250998259676762}
-        m_TargetAssemblyTypeName: Stage1, Assembly-CSharp
-        m_MethodName: OnClickStartButton
-        m_Mode: 1
+      - m_Target: {fileID: 4480007448036146134}
+        m_TargetAssemblyTypeName: Phoenix.PauseMenu, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4132333942047863345}
-        m_TargetAssemblyTypeName: Phoenix.LevelManager, Assembly-CSharp
-        m_MethodName: Resume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: eafc95cbb69047940b59d4a1e3c9328e, type: 2}
+          m_ObjectArgumentAssemblyTypeName: Phoenix.Level, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10529,25 +10505,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4992741892878453128}
-        m_TargetAssemblyTypeName: Stage2, Assembly-CSharp
-        m_MethodName: OnClickStartButton
-        m_Mode: 1
+      - m_Target: {fileID: 4480007448036146134}
+        m_TargetAssemblyTypeName: Phoenix.PauseMenu, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4132333942047863345}
-        m_TargetAssemblyTypeName: Phoenix.LevelManager, Assembly-CSharp
-        m_MethodName: Resume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 034293b377b194a46bba33d89aefcd46, type: 2}
+          m_ObjectArgumentAssemblyTypeName: Phoenix.Level, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

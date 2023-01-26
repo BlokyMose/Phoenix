@@ -46,6 +46,7 @@ namespace Phoenix
         public Action OnResume;
         public Action OnRestart;
         public Action OnQuit;
+        public Action<string> OnLoadScene;
 
         public void Init()
         {
@@ -111,6 +112,17 @@ namespace Phoenix
         public void Quit()
         {
             OnQuit?.Invoke();
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            OnLoadScene?.Invoke(sceneName);
+        }
+
+
+        public void LoadLevel(Level level)
+        {
+            OnLoadScene?.Invoke(level.SceneName);
         }
     }
 }

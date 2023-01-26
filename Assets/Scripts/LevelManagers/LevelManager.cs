@@ -397,6 +397,7 @@ namespace Phoenix
                 pauseMenu.OnResume += Resume;
                 pauseMenu.OnRestart += Restart;
                 pauseMenu.OnQuit += Quit;
+                pauseMenu.OnLoadScene += LoadScene;
             }
 
             #endregion
@@ -440,6 +441,7 @@ namespace Phoenix
                 pauseMenu.OnResume -= Resume;
                 pauseMenu.OnRestart -= Restart;
                 pauseMenu.OnQuit -= Quit;
+                pauseMenu.OnLoadScene -= LoadScene;
             }
 
             if (gameOverCanvas != null)
